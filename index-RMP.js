@@ -77,7 +77,7 @@ const data = [
   // Filtra las filas para obtener solo las de "AUS"
   const FilasAUS = data.filter(row => row.location === 'AUS');
 
-  const mediaTotalSpend = FilasAUS.reduce((sum, row) => sum + row.usd_cap, 0) / FilasAUS.length;
+  const mediaTotalSpend = FilasAUS.reduce((sum, row) => sum + row.total_spend, 0) / FilasAUS.length;
 
   console.log(`La media del gasto total en dolares por pais es: ${mediaTotalSpend}`);
 
