@@ -14,11 +14,16 @@ const data = [
     // Puedes añadir más filas según sea necesario
   ];
 
+
+  function calcularMediaPorProducto(data, pais, producto) {
+    // Filtra las filas para obtener solo las del país especificado
+    const filasPais = data.filter(row => row.Entity === pais); 
+    // Calcula la media del producto en el país especificado
+    const totalProducto = filasPais.reduce((sum, row) => sum + row[producto], 0);   //suma acumulativa de los valores del atributo especificado
+    const mediaProducto = totalProducto / filasPais.length;
   
-  // Filtra las filas para obtener solo las de "Afghanistan"
-const FilasAfghanistan = data.filter(row => row.Entity === 'Afghanistan');
+    console.log(`La media de ${producto} producidos en ${pais} es: ${mediaProducto}`);
+  }
 
-// Calcula la media de tomates producidos en "Afghanistan"                                 0 es el valor inicial de la suma
-const mediaTomatoes = FilasAfghanistan.reduce((sum, row) => sum + row.tomatoes_production, 0) / FilasAfghanistan.length;
+calcularMediaPorProducto(data, "Afghanistan", "tomatoes_production")
 
-console.log(`La media de tomates producidos en Afghanistan es: ${mediaTomatoes}`);
