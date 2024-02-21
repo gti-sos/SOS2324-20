@@ -17,10 +17,11 @@ function media_por_pais(attribute_name, country, datos) {
   const lista_datos_proc = datos_por_pais.map(fila => parseFloat(fila[attribute_name]));
   const suma = lista_datos_proc.reduce((total, numero) => total + numero, 0);
   const media = suma / lista_datos_proc.length;
-  const resultado_hmtl="La media del atributo " + attribute_name + ' para el país ' + country + ' es: ' + media
-  return resultado_hmtl
+  return "La media del atributo " + attribute_name + ' para el país ' + country + ' es: ' + media
+  // const resultado_hmtl="La media del atributo " + attribute_name + ' para el país ' + country + ' es: ' + media
+  // return resultado_hmtl
 }
 
 
-const resultadoDiv = document.getElementById('resultado')
-resultadoDiv.innerHTML = media_por_pais("electric_power_consumption","bahrain",data)
+module.exports.media_por_pais_afo = media_por_pais
+module.exports.data_afo= data

@@ -2,6 +2,8 @@ let cool = require("cool-ascii-faces");
 let express = require("express");
 const path = require("path"); // Módulo para manejar rutas de archivos
 
+const afo=require("./index-AFO");
+
 let app = express();
 const PORT = (process.env.PORT || 10000);
 
@@ -12,7 +14,7 @@ app.get("/cool", (req,res)=>{
 });
 
 app.get("/samples/AFO", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "/index-afo.html"));
+    res.send(afo.media_por_pais_afo("electric_power_consumption","bahrain",afo.data_afo))
   });
 
 app.listen(PORT,()=>{
