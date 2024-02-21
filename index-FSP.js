@@ -22,8 +22,10 @@ const data = [
     const totalProducto = filasPais.reduce((sum, row) => sum + row[producto], 0);   //suma acumulativa de los valores del atributo especificado
     const mediaProducto = totalProducto / filasPais.length;
   
-    console.log(`La media de ${producto} producidos en ${pais} es: ${mediaProducto}`);
+    //const resultado_hmtl=`La media de ${producto} producidos en ${pais} es: ${mediaProducto}`;
+    return  `La media de ${producto} producidos en ${pais} es: ${mediaProducto}`
   }
 
-calcularMediaPorProducto(data, "Afghanistan", "tomatoes_production")
 
+module.exports.media_por_producto_fsp = calcularMediaPorProducto
+module.exports.data_fsp= data
