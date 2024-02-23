@@ -4,6 +4,7 @@
   "description": "- **Team**\r   - [Alejandro Fernández Orozco](https://github.com/Alexfer02)\r   - [Francisco Sáez Pérez](https://github.com/C1sko)\r   - [Rufino Moreno Pacheco](https://github.com/rufmorpac)\r - **Project description**: Nuestro trabajo consiste en estudiar como influye la producción de comida y el uso de fármacos en la esperanza de vida de la población en los diferentes paises del mundo\r - **Repository**: [gti-sos/SOS2324-20](https://github.com/gti-sos/SOS2324-20)\r - **URL**: TBD\r -  **APIs**:\r     - TBD\r     - TBD\r     - TBD",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
