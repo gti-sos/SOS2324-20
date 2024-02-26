@@ -4,6 +4,7 @@ const path = require("path"); // Módulo para manejar rutas de archivos
 
 const afo=require("./index-AFO");
 const fsp=require("./index-FSP");
+const rmp=require("./index-RMP");
 
 let app = express();
 const PORT = (process.env.PORT || 10000);
@@ -20,6 +21,9 @@ app.get("/samples/AFO", (req, res) => {
 
 app.get("/samples/FSP", (req, res) => {
     res.send(fsp.media_por_producto_fsp(fsp.data_fsp, "Afghanistan", "tomatoes_production"))
+  });
+  app.get("/samples/RMP", (req, res) => {
+    res.send(fsp.media_por_pais_gasto_total_rmp(fsp.data_fsp, "AUS"))
   });
 
 app.listen(PORT,()=>{
