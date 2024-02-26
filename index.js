@@ -23,7 +23,7 @@ app.get("/samples/FSP", (req, res) => {
     res.send(fsp.media_por_producto_fsp(fsp.data_fsp, "Afghanistan", "tomatoes_production"))
   });
   app.get("/samples/RMP", (req, res) => {
-    res.send(fsp.media_por_pais_gasto_total_rmp(fsp.data_fsp, "AUS"))
+    res.send(fsp.media_por_pais_gasto_total_rmp(fsp.data_rmp, "AUS"))
   });
 
 app.listen(PORT,()=>{
