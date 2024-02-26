@@ -12,24 +12,22 @@ const data = [
 ];
 
 function mediaPaisGastoTotal(data, pais) {
-    // Filtra las filas para obtener solo las del país especificado
     const filasPais = data.filter(row => row.location === pais);
-    // Calcula la media del producto en el país especificado
-    const totalGasto = filasPais.reduce((sum, row) => sum + row[producto], 0);   //suma acumulativa de los valores del atributo especificado
+    const totalGasto = filasPais.reduce((sum, row) => sum + row.total_spend, 0);
     const mediaGasto = totalGasto / filasPais.length;
-
-    //const resultado_hmtl=`La media de ${producto} producidos en ${pais} es: ${mediaProducto}`;
     return `La media de gastoTotal producidos en ${pais} es: ${mediaGasto}`
 }
 
+
 module.exports.media_por_pais_gasto_total_rmp = mediaPaisGastoTotal
-module.exports.data_rmp= data
+module.exports.data_rmp = data
 /*
+
 // Filtra las filas para obtener solo las de "AUS"
 const FilasAUS = data.filter(row => row.location === 'AUS');
 
 const mediaTotalSpend = FilasAUS.reduce((sum, row) => sum + row.total_spend, 0) / FilasAUS.length;
 
 console.log(`La media del gasto total en dolares por pais es: ${mediaTotalSpend}`);
-
 */
+
