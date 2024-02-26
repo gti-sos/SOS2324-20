@@ -1,0 +1,57 @@
+/* Estilos generales */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+  }
+
+
+  header{
+    text-align: center;
+  }
+  
+  header h1 {
+    font-size: 3em;
+  }
+  .container {
+    max-width: 80%; /* Utilizando porcentaje para hacerlo más adaptable */
+    margin: 2em auto; /* Em para mantener el margen en relación con el tamaño de la fuente */
+    padding: 2em;
+    background-color: #fff;
+    border-radius: 0.8em; /* Em para mantener el radio en relación con el tamaño de la fuente */
+    box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.1); /* Utilizando em para la sombra */
+  }
+  
+  /* Estilos para la lista y sus elementos */
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 1em; /* Em para mantener el margen en relación con el tamaño de la fuente */
+  }
+  
+  /* Estilos para los títulos */
+  h2 {
+    color: #333;
+    border-bottom: 0.2em solid #007bff; /* Em para mantener el tamaño del borde en relación con el tamaño de la fuente */
+    padding-bottom: 0.5em; /* Em para mantener el relleno en relación con el tamaño de la fuente */
+    margin-bottom: 1.5em; /* Em para mantener el margen en relación con el tamaño de la fuente */
+  }
+  
+  li strong {
+    color: #000000;
+  }
+  
+  /* Estilos para los enlaces */
+  a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
