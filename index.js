@@ -9,6 +9,14 @@ const rmp = require("./index-RMP");
 let app = express();
 const PORT = (process.env.PORT || 10000);
 
+/*
+//API Global
+const API_BASE = "/api/v1";
+module.exports = API_BASE;
+const { loadAPI_FSP } = require("./api/index-FSP.js");
+loadAPI_FSP(app);
+*/
+
 app.use("/", express.static("./public"));
 
 app.get("/cool", (req, res) => {
