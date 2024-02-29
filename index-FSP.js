@@ -1,6 +1,6 @@
 
 
-const data = [
+const datos = [
     { Entity: "Afghanistan", Year: 1961, rice_production: 319000, tomatoes_production: 1873812, tea_production: 56315, potatoes_production: 130000, cocoa_beans_production: 835368, meat_chicken_production: 5600, bananas_production: 3139079 },
     { Entity: "Afghanistan", Year: 1962, rice_production: 319000, tomatoes_production: 2044797, tea_production: 61519, potatoes_production: 115000, cocoa_beans_production: 867170, meat_chicken_production: 6000, bananas_production: 3181580 },
     { Entity: "Afghanistan", Year: 1963, rice_production: 319000, tomatoes_production: 2096077, tea_production: 63596, potatoes_production: 122000, cocoa_beans_production: 922621, meat_chicken_production: 6160, bananas_production: 3304256 },
@@ -27,5 +27,5 @@ const data = [
   }
 
 
-module.exports.media_por_producto_fsp = calcularMediaPorProducto
-module.exports.data_fsp= data
+module.exports.media_por_producto_fsp = calcularMediaPorProducto;
+module.exports.datos_fsp= datos;
