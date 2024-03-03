@@ -4,7 +4,7 @@ let express = require("express");
 let app = express();
 
 let bodyParser = require("body-parser");
-app.use(bodyParser.json());
+
 const API_BASE = '/api/v1/food-production';
 
 var datos = [];
@@ -13,7 +13,34 @@ var datos = [];
 
 function API_FSP(app) {
 
+    app.use(bodyParser.json());
+    
     //POST 1
+    app.post(API_BASE + "/", (req, res) => {
+        let data = req.body;
+        
+        // Check if data has the expected properties
+        if (!data || !data.Entity || !data.Year || !data.rice_production || !data.tomatoes_production || !data.tea_production || !data.potatoes_production
+            || !data.cocoa_beans_production || !data.meat_chicken_production || !data.bananas_production) {
+            // If data is missing or does not have expected properties, return 400 Bad Request
+            res.sendStatus(400, "BAD REQUEST");
+            return;
+        }
+    
+        const datosEle = datos.some(j => j.Entity === data.Entity && j.Year === data.Year);
+    
+        if (datosEle) {
+            // No se puede hacer un POST con un recurso que ya existe;
+            // en el caso contrario se debe devolver el código 409
+            res.sendStatus(409, "CONFLICT");
+        } else {
+            // Crea dato
+            datos.push(data);
+            res.sendStatus(201, "CREATED");
+        }
+    });
+    
+    /*
     app.post(API_BASE + "/", (req, res) => {
         let data = req.body;
         const datosEle = datos.some(j => j.Entity === data.Entity && j.Year === data.Year);
@@ -31,7 +58,7 @@ function API_FSP(app) {
             res.sendStatus(201, "CREATED");
         }
     });
-
+    */
     //GET 1
     app.get(API_BASE + "/", (req, res) => {
         //lista con todos los datos
@@ -147,6 +174,10 @@ app.delete(API_BASE + "/:country", (req, res) => {
 
 });
 
+//MANEJAR RUTAS QUE NO EXISTEN
+app.use((req, res, next) => {
+    res.status(404).send('Recurso no encontrado');
+  });
 
 }
 
