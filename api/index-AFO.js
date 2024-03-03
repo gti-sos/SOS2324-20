@@ -141,9 +141,9 @@ app.delete(API_BASE + "/:country", (req, res) => {
 });
 
     //MANEJAR RUTAS QUE NO EXISTEN
-    app.use((req, res, next) => {
-        res.status(404).send('Recurso no encontrado');
-      });
+    // app.use((req, res, next) => {
+    //     res.status(404).send('Recurso no encontrado');
+    //   });
 }
 
 module.exports.afo_v1 = API_AFO;
