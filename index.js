@@ -7,6 +7,7 @@ let data_FSP = require("./index-FSP");
 const rmp = require("./index-RMP");
 
 let api_FSP = require("./api/index-FSP");
+let api_AFO = require("./api/index-AFO");
 
 let app = express();
 
@@ -49,4 +50,13 @@ app.get("/samples/FSP", (req,res) =>{
     let producto = "tomatoes_production"
 
     res.send(data_FSP.media_por_producto_fsp(data_FSP.datos_fsp, pais,producto))
+});
+
+
+api_AFO.afo_v1(app);
+app.get("/samples/AFO", (req,res) =>{
+    let pais ="bahrain"
+    let type = "electric_power_consumption"
+
+    res.send(afo.media_por_pais_afo(type, pais, afo.data_afo))
 });
