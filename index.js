@@ -26,9 +26,12 @@ app.get("/cool", (req, res) => {
   res.send(`<html><body><h1>${cool()}</h1></body></html>`);
 });
 
-app.get("/samples/AFO", (req, res) => {
-  res.send(afo.media_por_pais_afo("electric_power_consumption", "bahrain", afo.data_afo))
-});
+
+//AFO
+
+// app.get("/samples/AFO", (req, res) => {
+//   res.send(afo.media_por_pais_afo("electric_power_consumption", "bahrain", afo.data_afo))
+// });
 
 
 
