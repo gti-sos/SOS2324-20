@@ -29,19 +29,6 @@ console.log(`Server initializing...`);
 
 app.use("/", express.static("./public"));
 
-app.get("/cool", (req, res) => {
-  res.send(`<html><body><h1>${cool()}</h1></body></html>`);
-});
-
-
-//AFO
-
-// app.get("/samples/AFO", (req, res) => {
-//   res.send(afo.media_por_pais_afo("electric_power_consumption", "bahrain", afo.data_afo))
-// });
-
-
-
 //app.get("/samples/RMP", (req, res) => {
 //  res.send(rmp.media_por_pais_gasto_total_rmp(rmp.data_rmp, "AUS"))
 //});

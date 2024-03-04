@@ -14,9 +14,6 @@ var datos = [];
 
 function API_AFO(app) {
 
-    
-
-   
     //GET 1
     app.get(API_BASE + "/", (req, res) => {
         //lista con todos los datos
@@ -27,6 +24,7 @@ function API_AFO(app) {
     //El recurso debe contener una ruta /api/v1/FFFFF/loadInitialData 
     //que al hacer un GET cree 10 o más datos en el array de NodeJS si está vacío.
     app.get(API_BASE + "/loadInitialData", (req, res) => {
+        if(datos.length === 0){
             let csv = [
                 {country: "albania", year: 2000, continet: "europe", life_expectancy: 73.955, population: 3089027, co2_emissions: 1.02621311, electric_power_consumption: 1414.70378, forest_area: 28.0766423, individuals_using_the_internet: 0.114097350, military_expenditure: 1.24636024, people_practicing_open_defecation: 0.88885278, people_using_at_least_basic_drinking_water_ervices: 86.7544706, beer_consumption_per_capita: 1.33431},
                 {country: "albania", year: 2001, continet: "europe", life_expectancy: 74.288, population: 3060173, co2_emissions: 1.05549588, electric_power_consumption: 1449.64741, forest_area: 28.1232482, individuals_using_the_internet: 0.325798380, military_expenditure: 1.30929138, people_practicing_open_defecation: 0.83639705, people_using_at_least_basic_drinking_water_ervices: 86.9040703, beer_consumption_per_capita: 1.48995},
@@ -43,6 +41,10 @@ function API_AFO(app) {
             datos.push(csv[i])
         }
         res.sendStatus(201, "Data created");
+    }else{
+        res.send(JSON.stringify(datos));
+        res.sendStatus(200, "OK");
+    }
     });
 
     //POST 1
@@ -141,10 +143,6 @@ app.delete(API_BASE + "/:country", (req, res) => {
 
 });
 
-    //MANEJAR RUTAS QUE NO EXISTEN
-    // app.use((req, res, next) => {
-    //     res.status(404).send('Recurso no encontrado');
-    //   });
 }
 
 module.exports.afo_v1 = API_AFO;
