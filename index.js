@@ -2,7 +2,11 @@ let cool = require("cool-ascii-faces");
 let express = require("express");
 const path = require("path"); // Módulo para manejar rutas de archivos
 
+// let dataStore = require("nedb");
+// let dbFood = dataStore();
+
 const afo = require("./index-AFO");
+
 let data_FSP = require("./index-FSP");
 const rmp = require("./index-RMP");
 

@@ -62,7 +62,7 @@ function API_FSP(app) {
     //GET 1
     app.get(API_BASE + "/", (req, res) => {
         //lista con todos los datos
-        res.send(JSON.stringify(datos));
+        res.send(JSON.stringify(datos,null,2));
         res.sendStatus(200, "OK");
     });
 
