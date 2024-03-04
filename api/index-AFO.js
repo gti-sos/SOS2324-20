@@ -20,7 +20,8 @@ function API_AFO(app) {
     //GET 1
     app.get(API_BASE + "/", (req, res) => {
         //lista con todos los datos
-        res.status(200).send(JSON.stringify(datos));
+        res.send(JSON.stringify(datos));
+        res.sendStatus(200, "OK");
     });
 
     //El recurso debe contener una ruta /api/v1/FFFFF/loadInitialData 

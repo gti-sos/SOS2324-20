@@ -174,10 +174,10 @@ function API_FSP(app) {
     });
 
 
-    //MANEJAR RUTAS QUE NO EXISTEN
-    app.use((req, res, next) => {
-        res.status(404).send('Recurso no encontrado');
-    });
+    // //MANEJAR RUTAS QUE NO EXISTEN
+    // app.use((req, res, next) => {
+    //     res.status(404).send('Recurso no encontrado');
+    // });
 
 }
 
