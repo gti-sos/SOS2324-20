@@ -9,12 +9,14 @@ const afo = require("./index-AFO");
 
 let data_FSP = require("./index-FSP");
 let rmp = require("./index-RMP");
-
+let bodyParser = require("body-parser");
 let api_FSP = require("./api/index-FSP");
 let api_AFO = require("./api/index-AFO");
 let api_RMP = require("./api/index-RMP");
 
 let app = express();
+
+app.use(bodyParser.json());
 
 const PORT = (process.env.PORT || 10000);
 const API_BASE = '/api/v1';

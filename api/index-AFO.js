@@ -3,7 +3,7 @@ let express = require("express");
 let app = express();
 const afo = require("./index-AFO");
 
-let bodyParser = require("body-parser");
+
 
 const API_BASE = '/api/v1/life-expectancy';
 
@@ -14,7 +14,7 @@ var datos = [];
 
 function API_AFO(app) {
 
-    app.use(bodyParser.json());
+    
 
    
     //GET 1
