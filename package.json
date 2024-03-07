@@ -13,6 +13,7 @@
     "cool-ascii-faces": "^1.3.4",
     "csv-parser": "^3.0.0",
     "csv-reader": "^1.0.12",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "nedb": "^1.8.0"
   }
 }
