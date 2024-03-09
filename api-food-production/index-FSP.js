@@ -27,6 +27,11 @@ function API_FSP(app, dbFood) {
 
     app.use(bodyParser.json());
 
+    app.get(API_BASE+"/docs",(req,res)=> {
+        res.redirect("https://documenter.getpostman.com/view/32976936/2sA2xh2sV9");
+      });
+
+
     //GETs
 
     app.get(API_BASE + "/loadInitialData", (req, res) => {
