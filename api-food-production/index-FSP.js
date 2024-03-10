@@ -21,15 +21,62 @@ var initialData = [
 
 ];
 
+function validarDatos(req, res, next) {
+    const json = req.body;
+
+    const esquema = {
+        'Entity': 'string',
+        'Year': 'number',
+        'rice_production': 'number',
+        'tomatoes_production': 'number',
+        'tea_production': 'number',
+        'potatoes_production': 'number',
+        'cocoa_beans_production': 'number',
+        'meat_chicken_production': 'number',
+        'bananas_production': 'number'
+    };
+
+    const receivedKeys = Object.keys(json);
+    const expectedKeys = Object.keys(esquema);
+    const missingKeys = expectedKeys.filter(key => !receivedKeys.includes(key));
+
+    const extraKeys = receivedKeys.filter(key => !expectedKeys.includes(key));
+    if (extraKeys.length > 0) {
+        console.error(`There are more keys than expected: ${extraKeys.join(', ')}`);
+        return res.sendStatus(400, "Bad request");
+    }
+
+    if (missingKeys.length > 0) {
+        console.error(`There are missing keys: ${missingKeys.join(', ')}`);
+        return res.sendStatus(400, "Bad request");
+    }
+
+    const erroresTipo = [];
+
+    expectedKeys.forEach(key => {
+        const tipoEsperado = esquema[key];
+        const valor = json[key];
+        if (typeof valor !== tipoEsperado) {
+            erroresTipo.push(`El valor de '${key}' debe ser de tipo '${tipoEsperado}'`);
+        }
+    });
+
+    if (erroresTipo.length > 0) {
+        console.error(`Errores de tipo: ${erroresTipo.join(', ')}`);
+        return res.sendStatus(400, "Bad request");
+    }
+    next();
+}
+
 //API 
 
 function API_FSP(app, dbFood) {
 
     app.use(bodyParser.json());
 
-    app.get(API_BASE+"/docs",(req,res)=> {
+    app.get(API_BASE + "/docs", (req, res) => {
         res.redirect("https://documenter.getpostman.com/view/32976936/2sA2xh2sV9");
-      });
+    });
 
 
     //GETs
@@ -183,103 +230,109 @@ function API_FSP(app, dbFood) {
     });
 
 
-    //POST 1
-    app.post(API_BASE + "/", (req, res) => {
-        let data = req.body;
+    //POST 
+    app.post(API_BASE + "/", validarDatos, (req, res) => {
+        let food = req.body;
 
-        // Check if data has the expected properties
-        if (!data || !data.Entity || !data.Year || !data.rice_production || !data.tomatoes_production || !data.tea_production || !data.potatoes_production
-            || !data.cocoa_beans_production || !data.meat_chicken_production || !data.bananas_production) {
-            // If data is missing or does not have expected properties, return 400 Bad Request
-            res.sendStatus(400, "BAD REQUEST");
-            return;
-        }
-
-        const datosEle = datos.some(j => j.Entity === data.Entity && j.Year === data.Year);
-
-        if (datosEle) {
-            // No se puede hacer un POST con un recurso que ya existe;
-            // en el caso contrario se debe devolver el código 409
-            res.sendStatus(409, "CONFLICT");
-        } else {
-            // Crea dato
-            datos.push(data);
-            res.sendStatus(201, "CREATED");
-        }
+        dbFood.findOne({ Entity: food.Entity }, (err, existingFood) => {
+            if (err) {
+                res.sendStatus(500, "Internal Error");
+            } else {
+                if (existingFood) {
+                    res.sendStatus(409, "Food already exists");
+                } else {
+                    dbFood.insert(food, (err, newFood) => {
+                        if (err) {
+                            res.sendStatus(500, "Internal Error");
+                        } else {
+                            res.sendStatus(201, "Ok");
+                        }
+                    });
+                }
+            }
+        });
     });
 
+    app.post(API_BASE + "/:country", (req, res) => {
+        res.sendStatus(405, "Method not allowed");
+    })
 
-    //PUT 1
+
+    //PUT 
+
     app.put(API_BASE + "/", (req, res) => {
-
-        //Si se intenta usar alguno de los métodos no permitidos 
-        //por la tabla azul se debe devolver el código 405
-        let data = req.body;
         res.sendStatus(405, "Method not allowed");
     });
 
-    //DELETE 1
-    app.delete(API_BASE + "/", (req, res) => {
-        // Eliminar todos los datos
-        datos.splice(0, datos.length); // Elimina todos los elementos del array
-        res.sendStatus(200, "Delete all");
-    });
 
 
-    //POST 2
-    app.post(API_BASE + "/:country", (req, res) => {
-        const pais = req.params.country;
-        let data = req.body;
-        res.sendStatus(405, "Method Not Allowed");
-    });
+    app.put(API_BASE + '/country/:country/:year', validarDatos, (req, res) => {
+        let country = req.params.country;
+        let year = parseInt(req.params.year);
+        const newData = req.body;
 
-
-
-    //PUT 2
-    app.put(API_BASE + "/:country", (req, res) => {
-
-        const pais = req.params.country;
-        let data = req.body;
-        let actualizado = false;
-
-        for (let i = 0; i < datos.length; i++) {
-            if (datos[i].Entity === pais) {
-                datos[i] = data;
-                actualizado = true;
-                break;
+        dbFood.findOne({ Entity: country , Year: year}, (err, datos) => {
+            if (err) {
+                res.sendStatus(500, "Internal Server Error");
+            } else {
+                if (datos) {
+                    dbFood.update({ _id: datos._id }, { $set: newData }, (err, numUpdated) => {
+                        if (err) {
+                            res.status(500).send("Error interno del servidor");
+                        } else {
+                            if (numUpdated === 0) {
+                                res.status(404).send("No encontrado");
+                            } else {
+                                res.status(200).send("Actualizado");
+                            }
+                        }
+                    });
+                } else {
+                    res.sendStatus(404, "Not Found");
+                }
             }
         }
-
-        if (!actualizado) {
-            res.sendStatus(404, "Not Found");
-        } else {
-            res.sendStatus(200, "OK");
-        }
+        );
     });
-
-    //DELETE 2
-    app.delete(API_BASE + "/:country", (req, res) => {
-        const pais = req.params.country;
-        const nuevosDatos = datos.filter(entrada => entrada.Entity !== pais);
-
-        if (nuevosDatos.length < datos.length) {
-            //eliminar los datos del filtro
-            datos = nuevosDatos;
-            res.sendStatus(200, "OK");
-        } else {
-            //Si se intenta acceder a un recurso 
-            //inexistente se debe devolver el código 404
-            res.sendStatus(404, "Not Found");
-        }
-
-    });
-
-
-    // //MANEJAR RUTAS QUE NO EXISTEN
-    // app.use((req, res, next) => {
-    //     res.status(404).send('Recurso no encontrado');
-    // });
 
 }
+
+//DELETE 
+
+app.delete(API_BASE + "/", (req, res) => {
+
+    dbFood.remove({}, { multi: true }, (err, numRemoved) => {
+        if (err) {
+            res.sendStatus(500, "Internal Error");
+        } else {
+            if (numRemoved >= 1) {
+                res.sendStatus(200, "All removed");
+            } else {
+                res.sendStatus(404, "Food not found");
+            }
+        }
+    });
+});
+
+app.delete(API_BASE + "/:country", (req, res) => {
+    let foodToDelete = req.params.country;
+
+    dbFood.remove({ "Entity": foodToDelete }, {}, (err, numRemoved) => {
+        if (err) {
+            res.sendStatus(500, "Internal Error");
+        } else {
+            if (numRemoved >= 1) {
+                res.sendStatus(200, "Ok");
+            } else {
+                res.sendStatus(404, "Not found");
+            }
+        }
+    });
+});
+
+
+
+
+
 
 module.exports.fsp_v1 = API_FSP;
