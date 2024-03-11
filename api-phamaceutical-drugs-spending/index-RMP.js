@@ -215,29 +215,35 @@ function API_RMP(app, dbDrugs) {
         let country = req.params.country;
         let year = parseInt(req.params.year);
         const newData = req.body;
+        if (newData.country !== country || newData.year !== year) {
+            res.status(400).send("Bad request");
+        } else {
 
-        dbDrugs.findOne({ location: country, time: year }, (err, datos) => {
-            if (err) {
-                res.sendStatus(500, "Internal Server Error");
-            } else {
-                if (datos) {
-                    dbDrugs.update({ _id: datos._id }, { $set: newData }, (err, numUpdated) => {
-                        if (err) {
-                            res.status(500).send("Error interno del servidor");
-                        } else {
-                            if (numUpdated === 0) {
-                                res.status(404).send("No encontrado");
-                            } else {
-                                res.status(200).send("Actualizado");
-                            }
-                        }
-                    });
+
+
+            dbDrugs.findOne({ location: country, time: year }, (err, datos) => {
+                if (err) {
+                    res.sendStatus(500, "Internal Server Error");
                 } else {
-                    res.sendStatus(404, "Not Found");
+                    if (datos) {
+                        dbDrugs.update({ _id: datos._id }, { $set: newData }, (err, numUpdated) => {
+                            if (err) {
+                                res.status(500).send("Error interno del servidor");
+                            } else {
+                                if (numUpdated === 0) {
+                                    res.status(404).send("No encontrado");
+                                } else {
+                                    res.status(200).send("Actualizado");
+                                }
+                            }
+                        });
+                    } else {
+                        res.sendStatus(404, "Not Found");
+                    }
                 }
             }
+            );
         }
-        );
     });
 
     app.delete(API_BASE + "/", (req, res) => {
