@@ -6,7 +6,7 @@ let dbFood = new dataStore();  // Datos Fran
 let dbLifeExpectancy = new dataStore();  // Datos Alex
 let dbDrugs = new dataStore(); // Datos Rufino
 
-let data_FSP = require("./index-FSP");
+
 let rmp = require("./index-RMP");
 
 let bodyParser = require("body-parser");
