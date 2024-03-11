@@ -78,6 +78,9 @@ function API_AFO(app, dbLifeExpectancy) {
 
     app.use(bodyParser.json());
 
+    const limit = parseInt(req.query.limit, 10) || 10; 
+    const offset = parseInt(req.query.offset, 10) || 0; 
+
     app.get(API_BASE+"/docs",(req,res)=> {
         res.redirect("https://documenter.getpostman.com/view/32925029/2sA2xh3tTs");
       });
@@ -99,10 +102,13 @@ function API_AFO(app, dbLifeExpectancy) {
     });
 
     app.get(API_BASE + "/", (req, res) => {
+
+       
         dbLifeExpectancy.find({}, (err, datos) => {
             if (err) {
                 res.sendStatus(500, "Internal Server Error");
             } else {
+                limit, offset;
                 res.send(JSON.stringify(datos.map((c) => {
                     delete c._id;
                     return c;
@@ -119,6 +125,7 @@ function API_AFO(app, dbLifeExpectancy) {
             if(searchedCountry.length === 0){
                 res.sendStatus(404, "Not Found");
             }else{
+                limit, offset;
                 res.send(JSON.stringify(searchedCountry));
             }
         });
@@ -131,6 +138,7 @@ function API_AFO(app, dbLifeExpectancy) {
                 res.sendStatus(404, "Not Found");
             }
             else{
+                limit, offset;
                 res.send(JSON.stringify(dataYear)); 
             }
         });
@@ -144,6 +152,7 @@ function API_AFO(app, dbLifeExpectancy) {
                 res.sendStatus(404, "Not Found");
             }
             else{
+                limit, offset;
                 res.send(JSON.stringify(continents));
             }
         });
@@ -157,6 +166,7 @@ function API_AFO(app, dbLifeExpectancy) {
                 res.sendStatus(404, "Not Found");
             }
             else{
+                limit, offset;
                 res.send(JSON.stringify(life_expectancies));
             }
         });
@@ -170,6 +180,7 @@ function API_AFO(app, dbLifeExpectancy) {
                 res.sendStatus(404, "Not Found");
             }
             else{
+                limit, offset;
                 res.send(JSON.stringify(dataPopulation));
                 
             }
@@ -184,6 +195,7 @@ function API_AFO(app, dbLifeExpectancy) {
                 res.sendStatus(404, "Not Found");
             }
             else{
+                limit, offset;
                 res.send(JSON.stringify(dataCo2));
             }
         });
@@ -197,6 +209,7 @@ function API_AFO(app, dbLifeExpectancy) {
                 res.sendStatus(404, "Not Found");
             }
             else{
+                limit, offset;
                 res.send(JSON.stringify(dataPower));
             }
         });
@@ -210,6 +223,7 @@ function API_AFO(app, dbLifeExpectancy) {
                 res.sendStatus(404, "Not Found");
             }
             else{
+                limit, offset;
                 res.send(JSON.stringify(dataForest));
             }
         });
@@ -223,6 +237,7 @@ function API_AFO(app, dbLifeExpectancy) {
                 res.sendStatus(404, "Not Found");
             }
             else{
+                limit, offset;
                 res.send(JSON.stringify(dataInternet));
             }
         });
@@ -236,6 +251,7 @@ function API_AFO(app, dbLifeExpectancy) {
                 res.sendStatus(404, "Not Found");
             }
             else{
+                limit, offset;
                 res.send(JSON.stringify(dataMilitary));
             }
         });
@@ -249,6 +265,7 @@ function API_AFO(app, dbLifeExpectancy) {
                 res.sendStatus(404, "Not Found");
             }
             else{
+                limit, offset;
                 res.send(JSON.stringify(dataDefecation));
             }
         });
@@ -262,6 +279,7 @@ function API_AFO(app, dbLifeExpectancy) {
                 res.sendStatus(404, "Not Found");
             }
             else{
+                limit, offset;
                 res.send(JSON.stringify(dataWater));
             }
         });
@@ -275,6 +293,7 @@ function API_AFO(app, dbLifeExpectancy) {
                 res.sendStatus(404, "Not Found");
             }
             else{
+                limit, offset;
                 res.send(JSON.stringify(dataBeer));
             }
         });
