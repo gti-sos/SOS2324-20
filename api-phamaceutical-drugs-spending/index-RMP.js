@@ -128,46 +128,46 @@ function API_RMP(app, dbDrugs) {
     });
 
     app.get(API_BASE + "/pc_healthxp/:pc_healthxp", (req, res) => {
-        let pc_healthxp = req.params.pc_healthxp;
-        dbDrugs.find({ pc_healthxp: pc_healthxp }, (err, pc_healthxp) => {
-            if (pc_healthxp.length === 0) {
+        let param_pc_healthxp =parseFloat( req.params.pc_healthxp);
+        dbDrugs.find({ pc_healthxp: param_pc_healthxp }, (err, dataHealt) => {
+            if (dataHealt.length === 0) {
                 res.sendStatus(404, "Not Found");
             }
             else {
-                res.send(JSON.stringify(pc_healthxp));
+                res.send(JSON.stringify(dataHealt));
             }
         });
     });
     app.get(API_BASE + "/pc_gdp/:pc_gdp", (req, res) => {
-        let pc_gdp = req.params.pc_gdp;
-        dbDrugs.find({ pc_gdp: pc_gdp }, (err, pc_gdp) => {
-            if (pc_gdp.length === 0) {
+        let pc_gdp = parseFloat(req.params.pc_gdp);
+        dbDrugs.find({ pc_gdp: pc_gdp }, (err, dataGdp) => {
+            if (dataGdp.length === 0) {
                 res.sendStatus(404, "Not Found");
             }
             else {
-                res.send(JSON.stringify(pc_gdp));
+                res.send(JSON.stringify(dataGdp));
             }
         });
     });
     app.get(API_BASE + "/usd_cap/:usd_cap", (req, res) => {
-        let usd_cap = req.params.usd_cap;
-        dbDrugs.find({ usd_cap: usd_cap }, (err, usd_cap) => {
-            if (usd_cap.length === 0) {
+        let usd_cap = parseFloat( req.params.usd_cap);
+        dbDrugs.find({ usd_cap: usd_cap }, (err, dataCap) => {
+            if (dataCap.length === 0) {
                 res.sendStatus(404, "Not Found");
             }
             else {
-                res.send(JSON.stringify(usd_cap));
+                res.send(JSON.stringify(dataCap));
             }
         });
     });
     app.get(API_BASE + "/total_spend/:total_spend", (req, res) => {
-        let usd_cap = req.params.total_spend;
-        dbDrugs.find({ total_spend: total_spend }, (err, total_spend) => {
-            if (total_spend.length === 0) {
+        let total_spend = parseFloat(req.params.total_spend);
+        dbDrugs.find({ total_spend: total_spend }, (err, dataTotal) => {
+            if (dataTotal.length === 0) {
                 res.sendStatus(404, "Not Found");
             }
             else {
-                res.send(JSON.stringify(total_spend));
+                res.send(JSON.stringify(dataTotal));
             }
         });
     });
@@ -249,7 +249,7 @@ function API_RMP(app, dbDrugs) {
     app.delete(API_BASE + "/country/:country", (req, res) => {
         let drugToDelete = req.params.country;
     
-        dbDrugs.remove({ "Entity": drugToDelete }, {}, (err, numRemoved) => {
+        dbDrugs.remove({ "location": drugToDelete }, {}, (err, numRemoved) => {
             if (err) {
                 res.sendStatus(500, "Internal Error");
             } else {
