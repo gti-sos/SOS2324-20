@@ -5,7 +5,7 @@ let dataStore = require("nedb");
 let dbFood = new dataStore();  // Datos Fran
 let dbLifeExpectancy = new dataStore();  // Datos Alex
 
-let data_FSP = require("./index-FSP");
+
 let rmp = require("./index-RMP");
 
 let bodyParser = require("body-parser");
@@ -19,9 +19,6 @@ let app = express();
 app.use(bodyParser.json());
 app.use("/", express.static("./public"));
 
-//app.get("/samples/RMP", (req, res) => {
-//  res.send(rmp.media_por_pais_gasto_total_rmp(rmp.data_rmp, "AUS"))
-//});
 
 //FSP
 

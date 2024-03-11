@@ -7,6 +7,8 @@ let bodyParser = require("body-parser");
 
 const API_BASE = '/api/v1/food-production';
 
+app.use(bodyParser.json());
+
 var initialData = [
     { Entity: "Afghanistan", Year: 1961, rice_production: 319000, tomatoes_production: 1873812, tea_production: 56315, potatoes_production: 130000, cocoa_beans_production: 835368, meat_chicken_production: 5600, bananas_production: 3139079 },
     { Entity: "Afghanistan", Year: 1962, rice_production: 319000, tomatoes_production: 2044797, tea_production: 61519, potatoes_production: 115000, cocoa_beans_production: 867170, meat_chicken_production: 6000, bananas_production: 3181580 },
@@ -82,11 +84,11 @@ function API_FSP(app, dbFood) {
     //GETs
 
     app.get(API_BASE + "/loadInitialData", (req, res) => {
-        dbFood.find({}, (err, docs) => {
+        dbFood.find({}, (err, datos) => {
             if (err) {
                 res.sendStatus(500, "Internal Error");
             } else {
-                if (docs.length == 0) {
+                if (datos.length == 0) {
                     dbFood.insert(initialData);
                     res.sendStatus(201, "Created");
                 } else {
@@ -271,7 +273,7 @@ function API_FSP(app, dbFood) {
         let year = parseInt(req.params.year);
         const newData = req.body;
 
-        dbFood.findOne({ Entity: country , Year: year}, (err, datos) => {
+        dbFood.findOne({ Entity: country, Year: year }, (err, datos) => {
             if (err) {
                 res.sendStatus(500, "Internal Server Error");
             } else {
@@ -295,44 +297,27 @@ function API_FSP(app, dbFood) {
         );
     });
 
+
+
+    //DELETE 
+
+    app.delete(API_BASE + "/", (_, res) => {
+        dbFood.remove({}, { multi: true });
+        res.sendStatus(200, "Deleted all data");
+    });
+
+    app.delete(API_BASE + "/:country", (req, res) => {
+        const pais = req.params.country;
+        const nuevosDatos = dbFood.find(j => j.Entity !== pais);
+        if (nuevosDatos) {
+            dbFood.remove({ Entity: pais }, { multi: true });
+            res.sendStatus(200, "Deleted");
+        }
+        else {
+            res.sendStatus(404, "Not Found");
+        }
+    });
+
 }
-
-//DELETE 
-
-app.delete(API_BASE + "/", (req, res) => {
-
-    dbFood.remove({}, { multi: true }, (err, numRemoved) => {
-        if (err) {
-            res.sendStatus(500, "Internal Error");
-        } else {
-            if (numRemoved >= 1) {
-                res.sendStatus(200, "All removed");
-            } else {
-                res.sendStatus(404, "Food not found");
-            }
-        }
-    });
-});
-
-app.delete(API_BASE + "/:country", (req, res) => {
-    let foodToDelete = req.params.country;
-
-    dbFood.remove({ "Entity": foodToDelete }, {}, (err, numRemoved) => {
-        if (err) {
-            res.sendStatus(500, "Internal Error");
-        } else {
-            if (numRemoved >= 1) {
-                res.sendStatus(200, "Ok");
-            } else {
-                res.sendStatus(404, "Not found");
-            }
-        }
-    });
-});
-
-
-
-
-
 
 module.exports.fsp_v1 = API_FSP;
