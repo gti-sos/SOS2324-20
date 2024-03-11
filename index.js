@@ -26,7 +26,7 @@ app.use("/", express.static("./public"));
 
 api_FSP.fsp_v1(app,dbFood);
 
-//api_AFO.afo_v1(app, dbLifeExpectancy);
+api_AFO.afo_v1(app, dbLifeExpectancy);
 
 api_RMP.rmp_v1(app, dbDrugs);
 
