@@ -67,21 +67,29 @@ function API_RMP(app, dbDrugs) {
 
     app.use(bodyParser.json());
 
+
+
     app.get(API_BASE + "/docs", (req, res) => {
         res.redirect("https://documenter.getpostman.com/view/33015692/2sA2xh4DGC");
     });
 
     app.get(API_BASE + "/", (req, res) => {
-        dbDrugs.find({}, (err, list) => {
-            if (err) {
-                res.sendStatus(500, "Internal Error");
-            } else {
-                res.send(JSON.stringify(list.map((p) => {
-                    delete p._id;
-                    return p;
-                })));
-            }
-        });
+        const limit = parseInt(req.query.limit, 10) || 10;
+        const offset = parseInt(req.query.offset, 10) || 0;
+
+        dbDrugs.find({})
+            .skip(offset)
+            .limit(limit)
+            .exec((err, list) => {
+                if (err) {
+                    res.sendStatus(500, "Internal Error");
+                } else {
+                    res.send(JSON.stringify(list.map((p) => {
+                        delete p._id;
+                        return p;
+                    })));
+                }
+            });
     });
 
     //loadData
@@ -90,6 +98,7 @@ function API_RMP(app, dbDrugs) {
             if (err) {
                 res.sendStatus(500, "Internal Error");
             } else {
+
                 if (docs.length == 0) {
                     dbDrugs.insert(initialData);
                     res.sendStatus(201, "Created");
@@ -128,7 +137,7 @@ function API_RMP(app, dbDrugs) {
     });
 
     app.get(API_BASE + "/pc_healthxp/:pc_healthxp", (req, res) => {
-        let param_pc_healthxp =parseFloat( req.params.pc_healthxp);
+        let param_pc_healthxp = parseFloat(req.params.pc_healthxp);
         dbDrugs.find({ pc_healthxp: param_pc_healthxp }, (err, dataHealt) => {
             if (dataHealt.length === 0) {
                 res.sendStatus(404, "Not Found");
@@ -150,7 +159,7 @@ function API_RMP(app, dbDrugs) {
         });
     });
     app.get(API_BASE + "/usd_cap/:usd_cap", (req, res) => {
-        let usd_cap = parseFloat( req.params.usd_cap);
+        let usd_cap = parseFloat(req.params.usd_cap);
         dbDrugs.find({ usd_cap: usd_cap }, (err, dataCap) => {
             if (dataCap.length === 0) {
                 res.sendStatus(404, "Not Found");
@@ -207,7 +216,7 @@ function API_RMP(app, dbDrugs) {
         let year = parseInt(req.params.year);
         const newData = req.body;
 
-        dbDrugs.findOne({ location: country , time: year}, (err, datos) => {
+        dbDrugs.findOne({ location: country, time: year }, (err, datos) => {
             if (err) {
                 res.sendStatus(500, "Internal Server Error");
             } else {
@@ -248,7 +257,7 @@ function API_RMP(app, dbDrugs) {
 
     app.delete(API_BASE + "/country/:country", (req, res) => {
         let drugToDelete = req.params.country;
-    
+
         dbDrugs.remove({ "location": drugToDelete }, {}, (err, numRemoved) => {
             if (err) {
                 res.sendStatus(500, "Internal Error");
@@ -261,7 +270,7 @@ function API_RMP(app, dbDrugs) {
             }
         });
     });
-    
+
 
 
 }
