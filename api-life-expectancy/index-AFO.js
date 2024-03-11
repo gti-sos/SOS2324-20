@@ -78,9 +78,6 @@ function API_AFO(app, dbLifeExpectancy) {
 
     app.use(bodyParser.json());
 
-    const limit = parseInt(req.query.limit, 10) || 10; 
-    const offset = parseInt(req.query.offset, 10) || 0; 
-
     app.get(API_BASE+"/docs",(req,res)=> {
         res.redirect("https://documenter.getpostman.com/view/32925029/2sA2xh3tTs");
       });
@@ -103,16 +100,14 @@ function API_AFO(app, dbLifeExpectancy) {
 
     app.get(API_BASE + "/", (req, res) => {
 
-       
-        dbLifeExpectancy.find({}, (err, datos) => {
+        let limit = parseInt(req.query.limit) || 10;
+        let offset = parseInt(req.query.offset) || 0;
+        dbLifeExpectancy.find({}).skip(offset).limit(limit).exec((err, data) => {
             if (err) {
-                res.sendStatus(500, "Internal Server Error");
-            } else {
-                limit, offset;
-                res.send(JSON.stringify(datos.map((c) => {
-                    delete c._id;
-                    return c;
-                })));
+                res.status(500).send(err);
+            }
+            else {
+                res.send(data);
             }
         }
         );
@@ -121,184 +116,52 @@ function API_AFO(app, dbLifeExpectancy) {
 
     app.get(API_BASE + "/country/:country", (req, res) => {
         let country = req.params.country;
-        dbLifeExpectancy.find({country: country}, (err, searchedCountry) => {
-            if(searchedCountry.length === 0){
-                res.sendStatus(404, "Not Found");
-            }else{
-                limit, offset;
-                res.send(JSON.stringify(searchedCountry));
+        let limit = parseInt(req.query.limit) || 10;
+        let offset = parseInt(req.query.offset) || 0;
+        dbLifeExpectancy.find({country: country} ).skip(offset).limit(limit).exec((err, data) => {
+            if (err) {
+                res.status(500).send(err);
             }
-        });
+            else {
+                res.send(data);
+            }
+        }
+        );
     });
 
     app.get(API_BASE + "/year/:year", (req, res) => {
         let year = parseInt(req.params.year);
-        dbLifeExpectancy.find({ year: year }, (err, dataYear) => {
-            if(dataYear.length === 0){
-                res.sendStatus(404, "Not Found");
+        let limit = parseInt(req.query.limit) || 10;
+        let offset = parseInt(req.query.offset) || 0;
+        dbLifeExpectancy.find({ year: year }).skip(offset).limit(limit).exec((err, data) => {
+            if (err) {
+                res.status(500).send(err);
             }
-            else{
-                limit, offset;
-                res.send(JSON.stringify(dataYear)); 
+            else {
+                res.send(data);
             }
-        });
-    });
-
-    //busqueda por continet 
-    app.get(API_BASE + "/continent/:continent", (req, res) => {
-        let continent = req.params.continent;
-        dbLifeExpectancy.find({ continent: continent }, (err, continents) => {
-            if(continents.length === 0){
-                res.sendStatus(404, "Not Found");
-            }
-            else{
-                limit, offset;
-                res.send(JSON.stringify(continents));
-            }
-        });
+        }
+        );
     });
     
-     // busqueda por life_expectancy
-     app.get(API_BASE + "/life_expectancy/:life_expectancy", (req, res) => {
-        let life_expectancy = parseFloat(req.params.life_expectancy);
-        dbLifeExpectancy.find({ life_expectancy: life_expectancy }, (err, life_expectancies) => {
-            if(life_expectancies.length === 0){
-                res.sendStatus(404, "Not Found");
-            }
-            else{
-                limit, offset;
-                res.send(JSON.stringify(life_expectancies));
-            }
-        });
-    });
+    app.get(API_BASE + "/:parameter", (req, res) => {
+        let parameter = req.params.parameter;
+        let query = {};
+        let limit = parseInt(req.query.limit) || 10;
+        let offset = parseInt(req.query.offset) || 0;
+        query[parameter] = { $exists: true };
 
-    // busqueda por population
-    app.get(API_BASE + "/population/:population", (req, res) => {
-        let population = parseInt(req.params.population);
-        dbLifeExpectancy.find({ population: population }, (err, dataPopulation) => {
-            if(dataPopulation.length === 0){
-                res.sendStatus(404, "Not Found");
+        dbLifeExpectancy.find(query).skip(offset).limit(limit).exec((err, data) => {
+            if (err) {
+                res.status(500).send(err);
             }
-            else{
-                limit, offset;
-                res.send(JSON.stringify(dataPopulation));
-                
+            else {
+                res.send(data);
             }
-        });
+        }
+        );
     });
-
-    // busqueda por co2_emissions
-    app.get(API_BASE + "/co2_emissions/:co2_emissions", (req, res) => {
-        let co2_emissions = parseFloat(req.params.co2_emissions);
-        dbLifeExpectancy.find({ co2_emissions: co2_emissions }, (err, dataCo2) => {
-            if(dataCo2.length === 0){
-                res.sendStatus(404, "Not Found");
-            }
-            else{
-                limit, offset;
-                res.send(JSON.stringify(dataCo2));
-            }
-        });
-    });
-
-    // busqueda por electric_power_consumption
-    app.get(API_BASE + "/electric_power_consumption/:electric_power_consumption", (req, res) => {
-        let electric_power_consumption = parseFloat(req.params.electric_power_consumption);
-        dbLifeExpectancy.find({ electric_power_consumption: electric_power_consumption }, (err, dataPower) => {
-            if(dataPower.length === 0){
-                res.sendStatus(404, "Not Found");
-            }
-            else{
-                limit, offset;
-                res.send(JSON.stringify(dataPower));
-            }
-        });
-    });
-
-    // busqueda por forest_area
-    app.get(API_BASE + "/forest_area/:forest_area", (req, res) => {
-        let forest_area = parseFloat(req.params.forest_area);
-        dbLifeExpectancy.find({ forest_area: forest_area }, (err, dataForest) => {
-            if(dataForest.length === 0){
-                res.sendStatus(404, "Not Found");
-            }
-            else{
-                limit, offset;
-                res.send(JSON.stringify(dataForest));
-            }
-        });
-    });
-
-    // busqueda por individuals_using_the_internet
-    app.get(API_BASE + "/individuals_using_the_internet/:individuals_using_the_internet", (req, res) => {
-        let individuals_using_the_internet = parseFloat(req.params.individuals_using_the_internet);
-        dbLifeExpectancy.find({ individuals_using_the_internet: individuals_using_the_internet }, (err, dataInternet) => {
-            if(dataInternet.length === 0){
-                res.sendStatus(404, "Not Found");
-            }
-            else{
-                limit, offset;
-                res.send(JSON.stringify(dataInternet));
-            }
-        });
-    });
-
-    // busqueda por military_expenditure
-    app.get(API_BASE + "/military_expenditure/:military_expenditure", (req, res) => {
-        let military_expenditure = parseFloat(req.params.military_expenditure);
-        dbLifeExpectancy.find({ military_expenditure: military_expenditure }, (err, dataMilitary) => {
-            if(dataMilitary.length === 0){
-                res.sendStatus(404, "Not Found");
-            }
-            else{
-                limit, offset;
-                res.send(JSON.stringify(dataMilitary));
-            }
-        });
-    });
-
-    // busqueda por people_practicing_open_defecation
-    app.get(API_BASE + "/people_practicing_open_defecation/:people_practicing_open_defecation", (req, res) => {
-        let people_practicing_open_defecation = parseFloat(req.params.people_practicing_open_defecation);
-        dbLifeExpectancy.find({ people_practicing_open_defecation: people_practicing_open_defecation }, (err, dataDefecation) => {
-            if(dataDefecation.length === 0){
-                res.sendStatus(404, "Not Found");
-            }
-            else{
-                limit, offset;
-                res.send(JSON.stringify(dataDefecation));
-            }
-        });
-    });
-
-    // busqueda por people_using_at_least_basic_drinking_water_ervices
-    app.get(API_BASE + "/people_using_at_least_basic_drinking_water_ervices/:people_using_at_least_basic_drinking_water_ervices", (req, res) => {
-        let people_using_at_least_basic_drinking_water_ervices = parseFloat(req.params.people_using_at_least_basic_drinking_water_ervices);
-        dbLifeExpectancy.find({ people_using_at_least_basic_drinking_water_ervices: people_using_at_least_basic_drinking_water_ervices }, (err, dataWater) => {
-            if(dataWater.length === 0){
-                res.sendStatus(404, "Not Found");
-            }
-            else{
-                limit, offset;
-                res.send(JSON.stringify(dataWater));
-            }
-        });
-    });
-
-    // busqueda por beer_consumption_per_capita
-    app.get(API_BASE + "/beer_consumption_per_capita/:beer_consumption_per_capita", (req, res) => {
-        let beer_consumption_per_capita = parseFloat(req.params.beer_consumption_per_capita);
-        dbLifeExpectancy.find({ beer_consumption_per_capita: beer_consumption_per_capita }, (err, dataBeer) => {
-            if(dataBeer.length === 0){
-                res.sendStatus(404, "Not Found");
-            }
-            else{
-                limit, offset;
-                res.send(JSON.stringify(dataBeer));
-            }
-        });
-    });
-
+    
     //POST 1
     app.post(API_BASE + "/",validarDatos, (req, res) => {
         let data = req.body;
@@ -354,7 +217,7 @@ function API_AFO(app, dbLifeExpectancy) {
                             res.status(500).send("Error interno del servidor");
                         } else {
                             if (numUpdated === 0) {
-                                res.status(404).send("No encontrado");
+                                res.status(400).send("No encontrado");
                             } else {
                                 res.status(200).send("Actualizado");
                             }
