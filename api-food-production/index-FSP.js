@@ -121,209 +121,125 @@ function API_FSP(app, dbFood) {
             });
     });
 
-//busqueda por nombre de pais
-app.get(API_BASE + "/:country", (req, res) => {
-    let pais = req.params.country;
+    app.get(API_BASE + "/:field/:value", (req, res) => {
+        let limit = parseInt(req.query.limit, 10) || 10;
+        let offset = parseInt(req.query.offset, 10) || 0;
 
-    dbFood.findOne({ Entity: pais }, (err, searchedFood) => {
-        if (searchedFood) {
-            res.send(JSON.stringify(searchedFood));
-        } else {
-            res.sendStatus(404, "Country not Found");
+        let field = req.params.field;
+        let value = req.params.value;
+
+        // Si el campo es 'Year' o cualquier campo de producción, convertir el valor a un número
+        const numericFields = ['Year', 'rice_production', 'tomatoes_production', 'tea_production', 'potatoes_production', 'cocoa_beans_production', 'meat_chicken_production', 'bananas_production'];
+        if (numericFields.includes(field)) {
+            value = parseInt(value);
         }
-    });
-});
 
-//busqueda por año
-app.get(API_BASE + "/year/:year", (req, res) => {
-    let year = parseInt(req.params.year);
+        // Crear un objeto de consulta
+        let query = {};
+        query[field] = value;
 
-    dbFood.findOne({ Year: year }, (err, searchedFood) => {
-        if (searchedFood) {
-            res.send(JSON.stringify(searchedFood));
-        } else {
-            res.sendStatus(404, "Year not Found");
-        }
-    });
-});
-
-// busqueda por rice_production
-app.get(API_BASE + "/rice_production/:rice_production", (req, res) => {
-    let riceProduction = parseFloat(req.params.rice_production);
-
-    dbFood.findOne({ rice_production: riceProduction }, (err, searchedFood) => {
-        if (searchedFood) {
-            res.send(JSON.stringify(searchedFood));
-        } else {
-            res.sendStatus(404, "Rice production not Found");
-        }
-    });
-});
-
-// busqueda por tomatoes_production
-app.get(API_BASE + "/tomatoes_production/:tomatoes_production", (req, res) => {
-    let tomatoesProduction = parseFloat(req.params.tomatoes_production);
-
-    dbFood.findOne({ tomatoes_production: tomatoesProduction }, (err, searchedFood) => {
-        if (searchedFood) {
-            res.send(JSON.stringify(searchedFood));
-        } else {
-            res.sendStatus(404, "Tomatoes production not Found");
-        }
-    });
-});
-
-// busqueda por tea_production
-app.get(API_BASE + "/tea_production/:tea_production", (req, res) => {
-    let teaProduction = parseFloat(req.params.tea_production);
-
-    dbFood.findOne({ tea_production: teaProduction }, (err, searchedFood) => {
-        if (searchedFood) {
-            res.send(JSON.stringify(searchedFood));
-        } else {
-            res.sendStatus(404, "Tea production not Found");
-        }
-    });
-});
-
-// busqueda por potatoes_production
-app.get(API_BASE + "/potatoes_production/:potatoes_production", (req, res) => {
-    let potatoesProduction = parseFloat(req.params.potatoes_production);
-
-    dbFood.findOne({ potatoes_production: potatoesProduction }, (err, searchedFood) => {
-        if (searchedFood) {
-            res.send(JSON.stringify(searchedFood));
-        } else {
-            res.sendStatus(404, "Potatoes production not Found");
-        }
-    });
-});
-
-// busqueda por cocoa_beans_production
-app.get(API_BASE + "/cocoa_beans_production/:cocoa_beans_production", (req, res) => {
-    let cocoaBeansProduction = parseFloat(req.params.cocoa_beans_production);
-
-    dbFood.findOne({ cocoa_beans_production: cocoaBeansProduction }, (err, searchedFood) => {
-        if (searchedFood) {
-            res.send(JSON.stringify(searchedFood));
-        } else {
-            res.sendStatus(404, "Cocoa beans production not Found");
-        }
-    });
-});
-
-// busqueda por meat_chicken_production
-app.get(API_BASE + "/meat_chicken_production/:meat_chicken_production", (req, res) => {
-    let meatChickenProduction = parseFloat(req.params.meat_chicken_production);
-
-    dbFood.findOne({ meat_chicken_production: meatChickenProduction }, (err, searchedFood) => {
-        if (searchedFood) {
-            res.send(JSON.stringify(searchedFood));
-        } else {
-            res.sendStatus(404, "Meat chicken production not Found");
-        }
-    });
-});
-
-// busqueda por bananas_production
-app.get(API_BASE + "/bananas_production/:bananas_production", (req, res) => {
-    let bananasProduction = parseFloat(req.params.bananas_production);
-
-    dbFood.findOne({ bananas_production: bananasProduction }, (err, searchedFood) => {
-        if (searchedFood) {
-            res.send(JSON.stringify(searchedFood));
-        } else {
-            res.sendStatus(404, "Bananas production not Found");
-        }
-    });
-});
-
-
-//POST 
-app.post(API_BASE + "/", validarDatos, (req, res) => {
-    let food = req.body;
-
-    dbFood.findOne({ Entity: food.Entity }, (err, existingFood) => {
-        if (err) {
-            res.sendStatus(500, "Internal Error");
-        } else {
-            if (existingFood) {
-                res.sendStatus(409, "Food already exists");
-            } else {
-                dbFood.insert(food, (err, newFood) => {
-                    if (err) {
-                        res.sendStatus(500, "Internal Error");
+        dbFood.find(query)
+            .skip(offset)
+            .limit(limit)
+            .exec((err, searchedFood) => {
+                if (err) {
+                    res.sendStatus(500, "Internal Server Error");
+                } else {
+                    if (searchedFood) {
+                        res.send(searchedFood);
                     } else {
-                        res.sendStatus(201, "Ok");
+                        res.sendStatus(404, "Not Found");
                     }
-                });
-            }
-        }
+                }
+            });
     });
-});
-
-app.post(API_BASE + "/:country", (req, res) => {
-    res.sendStatus(405, "Method not allowed");
-})
 
 
-//PUT 
+    //POST 
+    app.post(API_BASE + "/", validarDatos, (req, res) => {
+        let food = req.body;
 
-app.put(API_BASE + "/", (req, res) => {
-    res.sendStatus(405, "Method not allowed");
-});
-
-
-
-app.put(API_BASE + '/country/:country/:year', validarDatos, (req, res) => {
-    let country = req.params.country;
-    let year = parseInt(req.params.year);
-    const newData = req.body;
-
-    dbFood.findOne({ Entity: country, Year: year }, (err, datos) => {
-        if (err) {
-            res.sendStatus(500, "Internal Server Error");
-        } else {
-            if (datos) {
-                dbFood.update({ _id: datos._id }, { $set: newData }, (err, numUpdated) => {
-                    if (err) {
-                        res.status(500).send("Error interno del servidor");
-                    } else {
-                        if (numUpdated === 0) {
-                            res.status(404).send("No encontrado");
+        dbFood.findOne({ Entity: food.Entity }, (err, existingFood) => {
+            if (err) {
+                res.sendStatus(500, "Internal Error");
+            } else {
+                if (existingFood) {
+                    res.sendStatus(409, "Food already exists");
+                } else {
+                    dbFood.insert(food, (err, newFood) => {
+                        if (err) {
+                            res.sendStatus(500, "Internal Error");
                         } else {
-                            res.status(200).send("Actualizado");
+                            res.sendStatus(201, "Ok");
                         }
-                    }
-                });
+                    });
+                }
+            }
+        });
+    });
+
+    app.post(API_BASE + "/:country", (req, res) => {
+        res.sendStatus(405, "Method not allowed");
+    })
+
+
+    //PUT 
+
+    app.put(API_BASE + "/", (req, res) => {
+        res.sendStatus(405, "Method not allowed");
+    });
+
+
+
+    app.put(API_BASE + '/country/:country/:year', validarDatos, (req, res) => {
+        let country = req.params.country;
+        let year = parseInt(req.params.year);
+        const newData = req.body;
+
+        dbFood.findOne({ Entity: country, Year: year }, (err, datos) => {
+            if (err) {
+                res.sendStatus(500, "Internal Server Error");
             } else {
-                res.sendStatus(404, "Not Found");
+                if (datos) {
+                    dbFood.update({ _id: datos._id }, { $set: newData }, (err, numUpdated) => {
+                        if (err) {
+                            res.status(500).send("Error interno del servidor");
+                        } else {
+                            if (numUpdated === 0) {
+                                res.status(404).send("No encontrado");
+                            } else {
+                                res.status(200).send("Actualizado");
+                            }
+                        }
+                    });
+                } else {
+                    res.sendStatus(404, "Not Found");
+                }
             }
         }
-    }
-    );
-});
+        );
+    });
 
 
 
-//DELETE 
+    //DELETE 
 
-app.delete(API_BASE + "/", (_, res) => {
-    dbFood.remove({}, { multi: true });
-    res.sendStatus(200, "Deleted all data");
-});
+    app.delete(API_BASE + "/", (_, res) => {
+        dbFood.remove({}, { multi: true });
+        res.sendStatus(200, "Deleted all data");
+    });
 
-app.delete(API_BASE + "/:country", (req, res) => {
-    const pais = req.params.country;
-    const nuevosDatos = dbFood.find(j => j.Entity !== pais);
-    if (nuevosDatos) {
-        dbFood.remove({ Entity: pais }, { multi: true });
-        res.sendStatus(200, "Deleted");
-    }
-    else {
-        res.sendStatus(404, "Not Found");
-    }
-});
+    app.delete(API_BASE + "/:country", (req, res) => {
+        const pais = req.params.country;
+        const nuevosDatos = dbFood.find(j => j.Entity !== pais);
+        if (nuevosDatos) {
+            dbFood.remove({ Entity: pais }, { multi: true });
+            res.sendStatus(200, "Deleted");
+        }
+        else {
+            res.sendStatus(404, "Not Found");
+        }
+    });
 
 
 
