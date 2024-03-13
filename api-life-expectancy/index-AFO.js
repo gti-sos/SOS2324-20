@@ -255,48 +255,6 @@ function API_AFO(app, dbLifeExpectancy) {
       });
   });
 
-  app.get(API_BASE + "/country/:country", (req, res) => {
-    let country = req.params.country;
-    let limit = parseInt(req.query.limit) || 10;
-    let offset = parseInt(req.query.offset) || 0;
-    dbLifeExpectancy
-      .find({ country: country })
-      .skip(offset)
-      .limit(limit)
-      .exec((err, data) => {
-        if (err) {
-          res.status(500).send(err);
-        } else {
-          if (data.length === 0) {
-            res.status(404).send("Not Found");
-          } else {
-            res.send(data);
-          }
-        }
-      });
-  });
-
-  app.get(API_BASE + "/year/:year", (req, res) => {
-    let year = parseInt(req.params.year);
-    let limit = parseInt(req.query.limit) || 10;
-    let offset = parseInt(req.query.offset) || 0;
-    dbLifeExpectancy
-      .find({ year: year })
-      .skip(offset)
-      .limit(limit)
-      .exec((err, data) => {
-        if (err) {
-          res.status(500).send(err);
-        } else {
-          if (data.length === 0) {
-            res.status(404).send("Not Found");
-          } else {
-            res.send(data);
-          }
-        }
-      });
-  });
-
   // Define una ruta GET que toma dos parámetros de la URL: campo y valor
   app.get(API_BASE + "/:campo/:valor", (req, res) => {
     let limit = parseInt(req.query.limit) || 10;
