@@ -138,17 +138,21 @@ function API_FSP(app, dbFood) {
         let query = {};
         query[field] = value;
 
-        dbFood.find(query)
+        dbFood
+            .find(query)
             .skip(offset)
             .limit(limit)
-            .exec((err, searchedFood) => {
+            .exec((err, data) => {
                 if (err) {
-                    res.sendStatus(500, "Internal Server Error");
+                    res.status(500).send(err);
                 } else {
-                    if (searchedFood) {
-                        res.send(searchedFood);
+                    if (data.length === 0) {
+                        res.status(404).send("Not Found");
                     } else {
-                        res.sendStatus(404, "Not Found");
+                        res.send(data.map((i) => {
+                            delete i._id;
+                            return i;
+                        }));
                     }
                 }
             });
