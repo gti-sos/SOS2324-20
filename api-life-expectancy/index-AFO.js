@@ -293,9 +293,8 @@ function API_AFO(app, dbLifeExpectancy) {
         } else {
           if (data.length === 0) {
             res.status(404).send("Not Found");
-          }
-          else {
-          res.send(data);
+          } else {
+            res.send(data);
           }
         }
       });

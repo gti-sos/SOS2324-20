@@ -1,0 +1,456 @@
+{
+	"info": {
+		"_postman_id": "ef37c41a-8b16-4711-8955-8b5058b9e7ba",
+		"name": "API V1 Gcloud",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32925029"
+	},
+	"item": [
+		{
+			"name": "Get datos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/life-expectancy",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"life-expectancy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cargar Datos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/life-expectancy/loadInitialData",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"life-expectancy",
+						"loadInitialData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get datos after charge",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/life-expectancy",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"life-expectancy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Añadir datos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"country\": \"PaisImaginario\",\r\n    \"year\": 5003,\r\n    \"continent\": \"pangea\",\r\n    \"life_expectancy\": 230,\r\n    \"population\": 7239452345,\r\n    \"co2_emissions\": 1.02621311,\r\n    \"electric_power_consumption\": 1414.70378,\r\n    \"forest_area\": 28.0766423,\r\n    \"individuals_using_the_internet\": 0.114097350,\r\n    \"military_expenditure\": 1.24636024,\r\n    \"people_practicing_open_defecation\": 0.88885278,\r\n    \"people_using_at_least_basic_drinking_water_services\": 86.7544706,\r\n    \"beer_consumption_per_capita\": 1.33431\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v1/life-expectancy/",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"life-expectancy",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete all",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/life-expectancy/",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"life-expectancy",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "put",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"country\": \"albania\",\r\n    \"year\": 2000,\r\n    \"continet\": \"paco\",\r\n    \"life_expectancy\": 73.955,\r\n    \"population\": 3089027,\r\n    \"co2_emissions\": 1.02621311,\r\n    \"electric_power_consumption\": 1414.70378,\r\n    \"forest_area\": 28.0766423,\r\n    \"individuals_using_the_internet\": 0.11409735,\r\n    \"military_expenditure\": 1.24636024,\r\n    \"people_practicing_open_defecation\": 0.88885278,\r\n    \"people_using_at_least_basic_drinking_water_services\": 86.7544706,\r\n    \"beer_consumption_per_capita\": 1.33431\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v1/life-expectancy",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"life-expectancy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cargar Datos 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/life-expectancy/loadInitialData",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"life-expectancy",
+						"loadInitialData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get datos albania",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/life-expectancy/country/albania",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"life-expectancy",
+						"country",
+						"albania"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get not found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/life-expectancy/murcia",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"life-expectancy",
+						"murcia"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Añadir datos albania",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"country\": \"albania\",\r\n    \"year\": 2023,\r\n    \"continet\": \"europe\",\r\n    \"life_expectancy\": 83.955,\r\n    \"population\": 48085361,\r\n    \"co2_emissions\": 1.02621311,\r\n    \"electric_power_consumption\": 1414.70378,\r\n    \"forest_area\": 28.0766423,\r\n    \"individuals_using_the_internet\": 0.91409735,\r\n    \"military_expenditure\": 1.24636024,\r\n    \"people_practicing_open_defecation\": 0.03,\r\n    \"people_using_at_least_basic_drinking_water_services\": 86.7544706,\r\n    \"beer_consumption_per_capita\": 1.33431\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v1/life-expectancy/country/albania",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"life-expectancy",
+						"country",
+						"albania"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put albania 2000",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"country\": \"albania\",\r\n    \"year\": 2000,\r\n    \"continent\": \"europe\",\r\n    \"life_expectancy\": 73,\r\n    \"population\": 3000000,\r\n    \"co2_emissions\": 5000,\r\n    \"electric_power_consumption\": 6000000,\r\n    \"forest_area\": 20000,\r\n    \"individuals_using_the_internet\": 1500000,\r\n    \"military_expenditure\": 300000,\r\n    \"people_practicing_open_defecation\": 5000,\r\n    \"people_using_at_least_basic_drinking_water_services\": 2500000,\r\n    \"beer_consumption_per_capita\": 60\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v1/life-expectancy/country/albania/2000",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"life-expectancy",
+						"country",
+						"albania",
+						"2000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete albania",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/life-expectancy/country/albania",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"life-expectancy",
+						"country",
+						"albania"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
