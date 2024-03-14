@@ -249,7 +249,10 @@ function API_AFO(app, dbLifeExpectancy) {
           if (data.length === 0) {
             res.status(404).send("Empty Database");
           } else {
-            res.send(data);
+            res.send(data.map((i) => {
+              delete i._id;
+              return i;
+            }));
           }
         }
       });
@@ -294,7 +297,10 @@ function API_AFO(app, dbLifeExpectancy) {
           if (data.length === 0) {
             res.status(404).send("Not Found");
           } else {
-            res.send(data);
+            res.send(data.map((i) => {
+              delete i._id;
+              return i;
+            }));
           }
         }
       });
