@@ -142,7 +142,7 @@ function API_FSP(app, dbFood) {
     // Crear un objeto de consulta
     let query = {};
     query[field] = value;
-
+   
     dbFood
       .find(query)
       .skip(offset)
