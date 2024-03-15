@@ -7,7 +7,7 @@
     "start": "node index.js",
     "test": "npm run test-life-expectancy",
     "testF": "npm run test-food-production",
-    "test-life-expectancy": "newman run ./tests/api-life-expectation/api-life-expectation-test.json -e ./tests/api-life-expectation/enviroment/local.json",
+    "test-life-expectancy": "newman run ./tests/api-life-expectation/api-life-expectation-test.json -e ./tests/api-life-expectation/environment/local.json",
     "test-food-production": "newman run ./tests/api-food-production/api-food-production-test.json -e ./tests/api-food-production/environment/local.json"
 
   },
