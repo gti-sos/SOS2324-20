@@ -183,13 +183,13 @@ function validarDatos(req, res, next) {
 
   const extraKeys = receivedKeys.filter((key) => !expectedKeys.includes(key));
   if (extraKeys.length > 0) {
-    console.error(`Hay más claves de las esperadas: ${extraKeys.join(", ")}`);
-    return res.status(400).send("Solicitud incorrecta");
+    console.error(`There are more keys than expected: ${extraKeys.join(", ")}`);
+    return res.sendStatus(400, "Bad request");
   }
 
   if (missingKeys.length > 0) {
-    console.error(`Faltan claves: ${missingKeys.join(", ")}`);
-    return res.status(400).send("Solicitud incorrecta");
+    console.error(`Keys are missing: ${missingKeys.join(", ")}`);
+    return res.sendStatus(400, "Bad request");
   }
 
   const erroresTipo = [];
@@ -198,15 +198,13 @@ function validarDatos(req, res, next) {
     const tipoEsperado = esquema[key];
     const valor = json[key];
     if (typeof valor !== tipoEsperado) {
-      erroresTipo.push(
-        `El valor de '${key}' debe ser de tipo '${tipoEsperado}'`
-      );
+      erroresTipo.push(`The value of '${key}' must be '${tipoEsperado}'`);
     }
   });
 
   if (erroresTipo.length > 0) {
-    console.error(`Errores de tipo: ${erroresTipo.join(", ")}`);
-    return res.status(400).send("Solicitud incorrecta");
+    console.error(`Type errors: ${erroresTipo.join(", ")}`);
+    return res.sendStatus(400, "Bad request");
   }
   next();
 }
@@ -238,72 +236,65 @@ function API_AFO(app, dbLifeExpectancy) {
   app.get(API_BASE + "/", (req, res) => {
     let limit = parseInt(req.query.limit) || 10;
     let offset = parseInt(req.query.offset) || 0;
-    dbLifeExpectancy
-      .find({})
-      .skip(offset)
-      .limit(limit)
-      .exec((err, data) => {
-        if (err) {
-          res.status(500).send(err);
-        } else {
-          if (data.length === 0) {
-            res.status(404).send("Empty Database");
-          } else {
-            res.send(data.map((i) => {
-              delete i._id;
-              return i;
-            }));
-          }
+    let query = req.query;
+    for (let key in query) {
+      if (query.hasOwnProperty(key)) {
+        if (key === "year") {
+          query[key] = parseInt(query[key]);
+        } else if (
+          key === "life_expectancy" ||
+          key === "population" ||
+          key === "co2_emissions" ||
+          key === "electric_power_consumption" ||
+          key === "forest_area" ||
+          key === "individuals_using_the_internet" ||
+          key === "military_expenditure" ||
+          key === "people_practicing_open_defecation" ||
+          key === "people_using_at_least_basic_drinking_water_services" ||
+          key === "beer_consumption_per_capita"
+        ) {
+          query[key] = parseFloat(query[key]);
+        } else if (key === "country" || key === "continent") {
+          query[key] = String(query[key]);
         }
-      });
-  });
-
-  // Define una ruta GET que toma dos parámetros de la URL: campo y valor
-  app.get(API_BASE + "/:campo/:valor", (req, res) => {
-    let limit = parseInt(req.query.limit) || 10;
-    let offset = parseInt(req.query.offset) || 0;
-
-    let field = req.params.campo;
-    let value = req.params.valor;
-
-    if (field === "year") {
-      value = parseInt(value);
-    } else if (
-      field === "life_expectancy" ||
-      field === "population" ||
-      field === "co2_emissions" ||
-      field === "electric_power_consumption" ||
-      field === "forest_area" ||
-      field === "individuals_using_the_internet" ||
-      field === "military_expenditure" ||
-      field === "people_practicing_open_defecation" ||
-      field === "people_using_at_least_basic_drinking_water_services" ||
-      field === "beer_consumption_per_capita"
-    ) {
-      value = parseFloat(value);
-    } else if (field === "country" || field === "continent") {
-      value = String(value);
+      }
     }
-    let query = {};
-    query[field] = value;
-    dbLifeExpectancy
-      .find(query)
-      .skip(offset)
-      .limit(limit)
-      .exec((err, data) => {
+
+    if (query.country && query.year) {
+      dbLifeExpectancy.findOne(query).exec((err, data) => {
         if (err) {
-          res.status(500).send(err);
+          res.sendStatus(500, err);
         } else {
-          if (data.length === 0) {
-            res.status(404).send("Not Found");
+          if (data) {
+            delete data._id;
+            res.send(data);
           } else {
-            res.send(data.map((i) => {
-              delete i._id;
-              return i;
-            }));
+            res.sendStatus(404, "Not Found");
           }
         }
       });
+    } else {
+      dbLifeExpectancy
+        .find(query)
+        .skip(offset)
+        .limit(limit)
+        .exec((err, data) => {
+          if (err) {
+            res.sendStatus(500, err);
+          } else {
+            if (data.length === 0) {
+              res.sendStatus(404, "Not Found");
+            } else {
+              res.send(
+                data.map((i) => {
+                  delete i._id;
+                  return i;
+                })
+              );
+            }
+          }
+        });
+    }
   });
 
   //POST 1
@@ -331,6 +322,7 @@ function API_AFO(app, dbLifeExpectancy) {
     );
   });
 
+
   //PUT 1
   app.put(API_BASE + "/", (_, res) => {
     res.sendStatus(405, "Method Not Allowed");
@@ -343,7 +335,7 @@ function API_AFO(app, dbLifeExpectancy) {
   });
 
   //post 2
-  app.post(API_BASE + "/country/:country", (_, res) => {
+  app.post(API_BASE + "/:field/:value", (_, res) => {
     res.sendStatus(405, "Method Not Allowed");
   });
 
@@ -363,12 +355,12 @@ function API_AFO(app, dbLifeExpectancy) {
             { $set: newData },
             (err, numUpdated) => {
               if (err) {
-                res.status(500).send("Error interno del servidor");
+                res.sendStatus(500, err);
               } else {
                 if (numUpdated === 0) {
-                  res.status(400).send("No encontrado");
+                  res.sendStatus(400, "Bad request");
                 } else {
-                  res.status(200).send("Actualizado");
+                  res.sendStatus(200, "Updated");
                 }
               }
             }
@@ -381,16 +373,33 @@ function API_AFO(app, dbLifeExpectancy) {
   });
 
   //delete 2
-  app.delete(API_BASE + "/country/:country", (req, res) => {
+  app.delete(API_BASE + "/country/:country/:year?", (req, res) => {
     const pais = req.params.country;
-    const nuevosDatos = dbLifeExpectancy.find((j) => j.country !== pais);
-    if (nuevosDatos) {
-      dbLifeExpectancy.remove({ country: pais }, { multi: true });
-      res.sendStatus(200, "Deleted");
-    } else {
-      res.sendStatus(404, "Not Found");
-    }
-  });
-}
+    const year = req.params.year ? parseInt(req.params.year) : null;
 
+    let query = { country: pais };
+    if (year) {
+      query.year = year;
+    }
+
+    dbLifeExpectancy.find(query, (err, data) => {
+      if (err) {
+        res.sendStatus(500, err);
+      } else {
+        if (data.length > 0) {
+          dbLifeExpectancy.remove(query, { multi: true }, (err, numRemoved) => {
+            if (err) {
+              res.sendStatus(500, err);
+            } else {
+              res.sendStatus(200, "Deleted");
+            }
+          });
+        } else {
+          res.sendStatus(404, "Not Found");
+        }
+      }
+    });
+  });
+
+}
 module.exports.afo_v1 = API_AFO;

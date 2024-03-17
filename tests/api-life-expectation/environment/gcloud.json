@@ -4,12 +4,12 @@
 	"values": [
 		{
 			"key": "SERVER",
-			"value": "https://sos2324-20-415018.ew.r.appspot.com/",
+			"value": "https://sos2324-20-415018.ew.r.appspot.com",
 			"type": "default",
 			"enabled": true
 		}
 	],
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2024-03-14T10:56:42.276Z",
-	"_postman_exported_using": "Postman/10.24.2-240311-2034"
+	"_postman_exported_at": "2024-03-17T20:28:01.984Z",
+	"_postman_exported_using": "Postman/10.24.3-240314-0648"
 }

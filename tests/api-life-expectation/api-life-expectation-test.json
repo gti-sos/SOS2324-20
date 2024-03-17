@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "ef37c41a-8b16-4711-8955-8b5058b9e7ba",
-		"name": "API V1 Gcloud",
+		"name": "API V1 life-expectancy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "32925029"
 	},
@@ -48,6 +48,40 @@
 						"exec": [
 							"pm.test(\"Status code is 201\", function () {\r",
 							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/life-expectancy/loadInitialData",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"life-expectancy",
+						"loadInitialData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cargar Datos Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 409\", function () {\r",
+							"    pm.response.to.have.status(409);\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -279,7 +313,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v1/life-expectancy/country/albania",
+					"raw": "{{SERVER}}/api/v1/life-expectancy/?country=albania",
 					"host": [
 						"{{SERVER}}"
 					],
@@ -287,8 +321,57 @@
 						"api",
 						"v1",
 						"life-expectancy",
-						"country",
-						"albania"
+						""
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "albania"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get datos albania 2002",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/life-expectancy/?country=albania&year=2002",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"life-expectancy",
+						""
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "albania"
+						},
+						{
+							"key": "year",
+							"value": "2002"
+						}
 					]
 				}
 			},
@@ -314,7 +397,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v1/life-expectancy/murcia",
+					"raw": "{{SERVER}}/api/v1/life-expectancy/?country=murcia",
 					"host": [
 						"{{SERVER}}"
 					],
@@ -322,7 +405,13 @@
 						"api",
 						"v1",
 						"life-expectancy",
-						"murcia"
+						""
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "murcia"
+						}
 					]
 				}
 			},
@@ -447,6 +536,40 @@
 						"life-expectancy",
 						"country",
 						"albania"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete all",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/life-expectancy/",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"life-expectancy",
+						""
 					]
 				}
 			},
