@@ -8,17 +8,116 @@ const API_BASE = "/api/v1/food-production";
 app.use(bodyParser.json());
 
 var initialData = [
-    { Entity: "Afghanistan", Year: 1961, rice_production: 319000, tomatoes_production: 1873812, tea_production: 56315, potatoes_production: 130000, cocoa_beans_production: 835368, meat_chicken_production: 5600, bananas_production: 3139079 },
-    { Entity: "Afghanistan", Year: 1962, rice_production: 319000, tomatoes_production: 2044797, tea_production: 61519, potatoes_production: 115000, cocoa_beans_production: 867170, meat_chicken_production: 6000, bananas_production: 3181580 },
-    { Entity: "Afghanistan", Year: 1963, rice_production: 319000, tomatoes_production: 2096077, tea_production: 63596, potatoes_production: 122000, cocoa_beans_production: 922621, meat_chicken_production: 6160, bananas_production: 3304256 },
-    { Entity: "Afghanistan", Year: 1964, rice_production: 380000, tomatoes_production: 2388264, tea_production: 66604, potatoes_production: 129000, cocoa_beans_production: 1190061, meat_chicken_production: 6400, bananas_production: 3392527 },
-    { Entity: "Afghanistan", Year: 1965, rice_production: 380000, tomatoes_production: 2559608, tea_production: 72418, potatoes_production: 132000, cocoa_beans_production: 874245, meat_chicken_production: 6800, bananas_production: 3450849 },
-    { Entity: "Afghanistan", Year: 1966, rice_production: 337000, tomatoes_production: 2690984, tea_production: 90272, potatoes_production: 136000, cocoa_beans_production: 969648, meat_chicken_production: 7200, bananas_production: 3563461 },
-    { Entity: "Afghanistan", Year: 1967, rice_production: 396000, tomatoes_production: 2580187, tea_production: 86111, potatoes_production: 147000, cocoa_beans_production: 982906, meat_chicken_production: 7600, bananas_production: 3603535 },
-    { Entity: "Afghanistan", Year: 1968, rice_production: 402000, tomatoes_production: 2799236, tea_production: 100736, potatoes_production: 150000, cocoa_beans_production: 855617, meat_chicken_production: 8000, bananas_production: 3732902 },
-    { Entity: "Afghanistan", Year: 1969, rice_production: 407000, tomatoes_production: 3001560, tea_production: 114363, potatoes_production: 154000, cocoa_beans_production: 1004663, meat_chicken_production: 9600, bananas_production: 3914729 },
-    { Entity: "Afghanistan", Year: 1970, rice_production: 366000, tomatoes_production: 3111482, tea_production: 121398, potatoes_production: 144000, cocoa_beans_production: 1120835, meat_chicken_production: 9600, bananas_production: 4076156 }
-
+  {
+    Entity: "Afghanistan",
+    Year: 1961,
+    rice_production: 319000,
+    tomatoes_production: 1873812,
+    tea_production: 56315,
+    potatoes_production: 130000,
+    cocoa_beans_production: 835368,
+    meat_chicken_production: 5600,
+    bananas_production: 3139079,
+  },
+  {
+    Entity: "Afghanistan",
+    Year: 1962,
+    rice_production: 319000,
+    tomatoes_production: 2044797,
+    tea_production: 61519,
+    potatoes_production: 115000,
+    cocoa_beans_production: 867170,
+    meat_chicken_production: 6000,
+    bananas_production: 3181580,
+  },
+  {
+    Entity: "Afghanistan",
+    Year: 1963,
+    rice_production: 319000,
+    tomatoes_production: 2096077,
+    tea_production: 63596,
+    potatoes_production: 122000,
+    cocoa_beans_production: 922621,
+    meat_chicken_production: 6160,
+    bananas_production: 3304256,
+  },
+  {
+    Entity: "Afghanistan",
+    Year: 1964,
+    rice_production: 380000,
+    tomatoes_production: 2388264,
+    tea_production: 66604,
+    potatoes_production: 129000,
+    cocoa_beans_production: 1190061,
+    meat_chicken_production: 6400,
+    bananas_production: 3392527,
+  },
+  {
+    Entity: "Afghanistan",
+    Year: 1965,
+    rice_production: 380000,
+    tomatoes_production: 2559608,
+    tea_production: 72418,
+    potatoes_production: 132000,
+    cocoa_beans_production: 874245,
+    meat_chicken_production: 6800,
+    bananas_production: 3450849,
+  },
+  {
+    Entity: "Afghanistan",
+    Year: 1966,
+    rice_production: 337000,
+    tomatoes_production: 2690984,
+    tea_production: 90272,
+    potatoes_production: 136000,
+    cocoa_beans_production: 969648,
+    meat_chicken_production: 7200,
+    bananas_production: 3563461,
+  },
+  {
+    Entity: "Afghanistan",
+    Year: 1967,
+    rice_production: 396000,
+    tomatoes_production: 2580187,
+    tea_production: 86111,
+    potatoes_production: 147000,
+    cocoa_beans_production: 982906,
+    meat_chicken_production: 7600,
+    bananas_production: 3603535,
+  },
+  {
+    Entity: "Afghanistan",
+    Year: 1968,
+    rice_production: 402000,
+    tomatoes_production: 2799236,
+    tea_production: 100736,
+    potatoes_production: 150000,
+    cocoa_beans_production: 855617,
+    meat_chicken_production: 8000,
+    bananas_production: 3732902,
+  },
+  {
+    Entity: "Afghanistan",
+    Year: 1969,
+    rice_production: 407000,
+    tomatoes_production: 3001560,
+    tea_production: 114363,
+    potatoes_production: 154000,
+    cocoa_beans_production: 1004663,
+    meat_chicken_production: 9600,
+    bananas_production: 3914729,
+  },
+  {
+    Entity: "Afghanistan",
+    Year: 1970,
+    rice_production: 366000,
+    tomatoes_production: 3111482,
+    tea_production: 121398,
+    potatoes_production: 144000,
+    cocoa_beans_production: 1120835,
+    meat_chicken_production: 9600,
+    bananas_production: 4076156,
+  },
 ];
 
 function validarDatos(req, res, next) {
@@ -97,72 +196,62 @@ function API_FSP(app, dbFood) {
   });
 
   app.get(API_BASE + "/", (req, res) => {
-    let limit = parseInt(req.query.limit, 10) || 10;
-    let offset = parseInt(req.query.offset, 10) || 0;
-    dbFood
-      .find({})
-      .skip(offset)
-      .limit(limit)
-      .exec((err, list) => {
-        if (err) {
-          res.sendStatus(500, "Internal Error");
-        } else {
-          res.send(
-            list.map((p) => {
-              delete p._id;
-              return p;
-            })
-          );
+    let limit = parseInt(req.query.limit) || 10;
+    let offset = parseInt(req.query.offset) || 0;
+    let query = req.query;
+    for (let key in query) {
+      if (query.hasOwnProperty(key)) {
+        if (key === "Year") {
+          query[key] = parseInt(query[key]);
+        } else if (
+          key === "rice_production" ||
+          key === "tomatoes_production" ||
+          key === "tea_production" ||
+          key === "potatoes_production" ||
+          key === "cocoa_beans_production" ||
+          key === "meat_chicken_production" ||
+          key === "bananas_production"
+        ) {
+          query[key] = parseInt(query[key]);
+        } else if (key === "Entity") {
+          query[key] = String(query[key]);
         }
-      });
-  });
-
-  app.get(API_BASE + "/:field/:value", (req, res) => {
-    let limit = parseInt(req.query.limit, 10) || 10;
-    let offset = parseInt(req.query.offset, 10) || 0;
-
-    let field = req.params.field;
-    let value = req.params.value;
-
-    // Si el campo es 'Year' o cualquier campo de producción, convertir el valor a un número
-    const numericFields = [
-      "Year",
-      "rice_production",
-      "tomatoes_production",
-      "tea_production",
-      "potatoes_production",
-      "cocoa_beans_production",
-      "meat_chicken_production",
-      "bananas_production",
-    ];
-    if (numericFields.includes(field)) {
-      value = parseInt(value);
+      }
     }
 
-    // Crear un objeto de consulta
-    let query = {};
-    query[field] = value;
-   
-    dbFood
-      .find(query)
-      .skip(offset)
-      .limit(limit)
-      .exec((err, data) => {
+    if (query.Entity && query.Year) {
+      dbFood.findOne(query, (err, data) => {
         if (err) {
-          res.status(500).send(err);
+          res.sendStatus(500, err);
         } else {
-          if (data.length === 0) {
-            res.status(404).send("Not Found");
+          if (data) {
+            delete data._id;
+            res.send(JSON.stringify(data, null, 2));
           } else {
-            res.send(
-              data.map((i) => {
-                delete i._id;
-                return i;
-              })
-            );
+            res.sendStatus(404, "Not Found");
           }
         }
       });
+    } else {
+      dbFood
+        .find(query)
+        .skip(offset)
+        .limit(limit)
+        .exec((err, data) => {
+          if (err) {
+            res.sendStatus(500, err);
+          } else {
+            if (data.length === 0) {
+              res.sendStatus(404, "Not Found");
+            } else {
+              data.map((i) => {
+                delete i._id;
+              });
+              res.send(JSON.stringify(data, null, 2));
+            }
+          }
+        });
+    }
   });
 
   //POST
@@ -240,9 +329,11 @@ function API_FSP(app, dbFood) {
   app.delete(API_BASE + "/:country/:year", (req, res) => {
     const pais = req.params.country;
     const year = parseInt(req.params.year);
-    
-    const nuevosDatos = dbFood.find((j) => j.Entity !== pais && j.Year !== year);
-    
+
+    const nuevosDatos = dbFood.find(
+      (j) => j.Entity !== pais && j.Year !== year
+    );
+
     if (nuevosDatos) {
       dbFood.remove({ Entity: pais, Year: year }, { multi: true });
       res.sendStatus(200, "Deleted");
