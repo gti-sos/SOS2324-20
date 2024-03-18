@@ -542,6 +542,42 @@
 			"response": []
 		},
 		{
+			"name": "Delete bahrein 2010",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER}}/api/v1/life-expectancy/country/bahrain/2010",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"life-expectancy",
+						"country",
+						"bahrain",
+						"2010"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Delete all",
 			"event": [
 				{
