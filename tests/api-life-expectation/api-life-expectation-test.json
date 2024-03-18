@@ -507,6 +507,51 @@
 			"response": []
 		},
 		{
+			"name": "Put albania 2000 400",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"country\": \"albania\",\r\n    \"year\": 2000,\r\n    \"continent\": \"europe\",\r\n    \"population\": 3000000,\r\n    \"co2_emissions\": 5000,\r\n    \"electric_power_consumption\": 6000000,\r\n    \"forest_area\": 20000,\r\n    \"individuals_using_the_internet\": 1500000,\r\n    \"military_expenditure\": 300000,\r\n    \"people_practicing_open_defecation\": 5000,\r\n    \"people_using_at_least_basic_drinking_water_services\": 2500000,\r\n    \"beer_consumption_per_capita\": 60\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{SERVER}}/api/v1/life-expectancy/country/albania/2000",
+					"host": [
+						"{{SERVER}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"life-expectancy",
+						"country",
+						"albania",
+						"2000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Delete albania",
 			"event": [
 				{
