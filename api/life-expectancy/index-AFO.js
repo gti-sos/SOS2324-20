@@ -11,7 +11,7 @@ var initialData = [
   {
     country: "albania",
     year: 2000,
-    continet: "europe",
+    continent: "europe",
     life_expectancy: 73.955,
     population: 3089027,
     co2_emissions: 1.02621311,
@@ -26,7 +26,7 @@ var initialData = [
   {
     country: "albania",
     year: 2001,
-    continet: "europe",
+    continent: "europe",
     life_expectancy: 74.288,
     population: 3060173,
     co2_emissions: 1.05549588,
@@ -41,7 +41,7 @@ var initialData = [
   {
     country: "albania",
     year: 2002,
-    continet: "europe",
+    continent: "europe",
     life_expectancy: 74.579,
     population: 3051010,
     co2_emissions: 1.23237878,
@@ -56,7 +56,7 @@ var initialData = [
   {
     country: "albania",
     year: 2003,
-    continet: "europe",
+    continent: "europe",
     life_expectancy: 74.828,
     population: 3039616,
     co2_emissions: 1.33898498,
@@ -71,7 +71,7 @@ var initialData = [
   {
     country: "bahrain",
     year: 2000,
-    continet: "asia",
+    continent: "asia",
     life_expectancy: 74.44,
     population: 664610,
     co2_emissions: 2.38937121,
@@ -86,7 +86,7 @@ var initialData = [
   {
     country: "bahrain",
     year: 2001,
-    continet: "asia",
+    continent: "asia",
     life_expectancy: 74.635,
     population: 697550,
     co2_emissions: 2.34965236,
@@ -101,7 +101,7 @@ var initialData = [
   {
     country: "bahrain",
     year: 2002,
-    continet: "asia",
+    continent: "asia",
     life_expectancy: 74.822,
     population: 735140,
     co2_emissions: 2.34241088,
@@ -116,7 +116,7 @@ var initialData = [
   {
     country: "bahrain",
     year: 2003,
-    continet: "asia",
+    continent: "asia",
     life_expectancy: 74.999,
     population: 778708,
     co2_emissions: 2.30381613,
@@ -131,7 +131,7 @@ var initialData = [
   {
     country: "bahrain",
     year: 2004,
-    continet: "asia",
+    continent: "asia",
     life_expectancy: 75.167,
     population: 829846,
     co2_emissions: 2.16064189,
@@ -146,7 +146,7 @@ var initialData = [
   {
     country: "bahrain",
     year: 2010,
-    continet: "asia",
+    continent: "asia",
     life_expectancy: 76.057,
     population: 1240864,
     co2_emissions: 2.09289651,
