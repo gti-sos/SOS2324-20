@@ -561,7 +561,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/Afghanistan/1968",
+					"raw": "https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/country/Afghanistan/1968",
 					"protocol": "https",
 					"host": [
 						"sos2324-20-415018",
@@ -574,6 +574,7 @@
 						"api",
 						"v1",
 						"food-production",
+						"country",
 						"Afghanistan",
 						"1968"
 					]
