@@ -237,11 +237,14 @@ function API_FSP(app, dbFood) {
     res.sendStatus(200, "Deleted all data");
   });
 
-  app.delete(API_BASE + "/:country", (req, res) => {
+  app.delete(API_BASE + "/:country/:year", (req, res) => {
     const pais = req.params.country;
-    const nuevosDatos = dbFood.find((j) => j.Entity !== pais);
+    const year = parseInt(req.params.year);
+    
+    const nuevosDatos = dbFood.find((j) => j.Entity !== pais && j.Year !== year);
+    
     if (nuevosDatos) {
-      dbFood.remove({ Entity: pais }, { multi: true });
+      dbFood.remove({ Entity: pais, Year: year }, { multi: true });
       res.sendStatus(200, "Deleted");
     } else {
       res.sendStatus(404, "Not Found");
