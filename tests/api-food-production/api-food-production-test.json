@@ -86,7 +86,7 @@
 			"response": []
 		},
 		{
-			"name": "Get data Field",
+			"name": "Get data Array",
 			"event": [
 				{
 					"listen": "test",
@@ -105,7 +105,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://sos2324-20-415018.ew.r.appspot.com//api/v1/food-production/rice_production/319000",
+					"raw": "https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/?Entity=Afghanistan&rice_production=380000",
 					"protocol": "https",
 					"host": [
 						"sos2324-20-415018",
@@ -119,8 +119,68 @@
 						"api",
 						"v1",
 						"food-production",
-						"rice_production",
-						"319000"
+						""
+					],
+					"query": [
+						{
+							"key": "Entity",
+							"value": "Afghanistan"
+						},
+						{
+							"key": "rice_production",
+							"value": "380000"
+						}
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "Get data Object",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/?Entity=Afghanistan&Year=1964",
+					"protocol": "https",
+					"host": [
+						"sos2324-20-415018",
+						"ew",
+						"r",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"",
+						"api",
+						"v1",
+						"food-production",
+						""
+					],
+					"query": [
+						{
+							"key": "Entity",
+							"value": "Afghanistan"
+						},
+						{
+							"key": "Year",
+							"value": "1964"
+						}
 					]
 				},
 				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
@@ -147,7 +207,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://sos2324-20-415018.ew.r.appspot.com//api/v1/food-production/rice_production/777",
+					"raw": "https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/?rice_production=777",
 					"protocol": "https",
 					"host": [
 						"sos2324-20-415018",
@@ -161,8 +221,13 @@
 						"api",
 						"v1",
 						"food-production",
-						"rice_production",
-						"777"
+						""
+					],
+					"query": [
+						{
+							"key": "rice_production",
+							"value": "777"
+						}
 					]
 				},
 				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
@@ -241,6 +306,55 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n        \"Entity\": \"Afghanistan\",\n        \"Year\": 1968,\n        \"rice_production\": 402000,\n        \"tomatoes_production\": 2799236,\n        \"tea_production\": 100736,\n        \"potatoes_production\": 150000,\n        \"cocoa_beans_production\": 855617,\n        \"meat_chicken_production\": 8000,\n        \"bananas_production\": 3732902\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production",
+					"protocol": "https",
+					"host": [
+						"sos2324-20-415018",
+						"ew",
+						"r",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"food-production"
+					]
+				},
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "Post Error (400)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"Entity\": \"Afghanistan\",\n        \"rice_production\": 402000,\n        \"tomatoes_production\": 2799236,\n        \"tea_production\": 100736,\n        \"potatoes_production\": 150000,\n        \"cocoa_beans_production\": 855617,\n        \"meat_chicken_production\": 8000,\n        \"bananas_production\": 3732902\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -447,7 +561,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/Greece",
+					"raw": "https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/Afghanistan/1968",
 					"protocol": "https",
 					"host": [
 						"sos2324-20-415018",
@@ -460,7 +574,8 @@
 						"api",
 						"v1",
 						"food-production",
-						"Greece"
+						"Afghanistan",
+						"1968"
 					]
 				},
 				"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
