@@ -286,12 +286,10 @@ function API_AFO(app, dbLifeExpectancy) {
             if (data.length === 0) {
               res.sendStatus(404, "Not Found");
             } else {
-              res.send(
-                data.map((i) => {
-                  delete i._id;
-                  return JSON.stringify(i, null, 2);
-                })
-              );
+              data.map((i) => {
+                delete i._id;
+              });
+              res.send(JSON.stringify(data, null, 2));
             }
           }
         });
