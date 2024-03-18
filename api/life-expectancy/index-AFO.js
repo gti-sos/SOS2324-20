@@ -268,7 +268,7 @@ function API_AFO(app, dbLifeExpectancy) {
         } else {
           if (data) {
             delete data._id;
-            res.send(JSON.stringify(data));
+            res.send(JSON.stringify(data, null, 2));
           } else {
             res.sendStatus(404, "Not Found");
           }
@@ -289,7 +289,7 @@ function API_AFO(app, dbLifeExpectancy) {
               res.send(
                 data.map((i) => {
                   delete i._id;
-                  return JSON.stringify(i);
+                  return JSON.stringify(i, null, 2);
                 })
               );
             }
@@ -322,7 +322,6 @@ function API_AFO(app, dbLifeExpectancy) {
       }
     );
   });
-
 
   //PUT 1
   app.put(API_BASE + "/", (_, res) => {
