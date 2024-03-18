@@ -159,6 +159,7 @@ var initialData = [
     beer_consumption_per_capita: 4.7,
   },
 ];
+
 function validarDatos(req, res, next) {
   const json = req.body;
   const esquema = {
@@ -267,7 +268,7 @@ function API_AFO(app, dbLifeExpectancy) {
         } else {
           if (data) {
             delete data._id;
-            res.send(data);
+            res.send(JSON.stringify(data));
           } else {
             res.sendStatus(404, "Not Found");
           }
@@ -288,7 +289,7 @@ function API_AFO(app, dbLifeExpectancy) {
               res.send(
                 data.map((i) => {
                   delete i._id;
-                  return i;
+                  return JSON.stringify(i);
                 })
               );
             }
@@ -400,6 +401,6 @@ function API_AFO(app, dbLifeExpectancy) {
       }
     });
   });
-
 }
+
 module.exports.afo_v1 = API_AFO;
