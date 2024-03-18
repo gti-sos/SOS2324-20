@@ -326,20 +326,32 @@ function API_FSP(app, dbFood) {
     res.sendStatus(200, "Deleted all data");
   });
 
-  app.delete(API_BASE + "/:country/:year", (req, res) => {
+  app.delete(API_BASE + "/country/:country/:year?", (req, res) => {
     const pais = req.params.country;
-    const year = parseInt(req.params.year);
+    const year = req.params.year ? parseInt(req.params.year) : null;
 
-    const nuevosDatos = dbFood.find(
-      (j) => j.Entity !== pais && j.Year !== year
-    );
-
-    if (nuevosDatos) {
-      dbFood.remove({ Entity: pais, Year: year }, { multi: true });
-      res.sendStatus(200, "Deleted");
-    } else {
-      res.sendStatus(404, "Not Found");
+    let query = { Entity: pais };
+    if (year) {
+      query.Year = year;
     }
+
+    dbFood.find(query, (err, data) => {
+      if (err) {
+        res.sendStatus(500, err);
+      } else {
+        if (data.length > 0) {
+          dbFood.remove(query, { multi: true }, (err, numRemoved) => {
+            if (err) {
+              res.sendStatus(500, err);
+            } else {
+              res.sendStatus(200, "Deleted");
+            }
+          });
+        } else {
+          res.sendStatus(404, "Not Found");
+        }
+      }
+    });
   });
 }
 
