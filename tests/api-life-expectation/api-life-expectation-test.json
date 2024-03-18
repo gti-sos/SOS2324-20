@@ -238,7 +238,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"country\": \"albania\",\r\n    \"year\": 2000,\r\n    \"continet\": \"paco\",\r\n    \"life_expectancy\": 73.955,\r\n    \"population\": 3089027,\r\n    \"co2_emissions\": 1.02621311,\r\n    \"electric_power_consumption\": 1414.70378,\r\n    \"forest_area\": 28.0766423,\r\n    \"individuals_using_the_internet\": 0.11409735,\r\n    \"military_expenditure\": 1.24636024,\r\n    \"people_practicing_open_defecation\": 0.88885278,\r\n    \"people_using_at_least_basic_drinking_water_services\": 86.7544706,\r\n    \"beer_consumption_per_capita\": 1.33431\r\n}",
+					"raw": "{\r\n    \"country\": \"albania\",\r\n    \"year\": 2000,\r\n    \"continent\": \"paco\",\r\n    \"life_expectancy\": 73.955,\r\n    \"population\": 3089027,\r\n    \"co2_emissions\": 1.02621311,\r\n    \"electric_power_consumption\": 1414.70378,\r\n    \"forest_area\": 28.0766423,\r\n    \"individuals_using_the_internet\": 0.11409735,\r\n    \"military_expenditure\": 1.24636024,\r\n    \"people_practicing_open_defecation\": 0.88885278,\r\n    \"people_using_at_least_basic_drinking_water_services\": 86.7544706,\r\n    \"beer_consumption_per_capita\": 1.33431\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
