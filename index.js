@@ -1,22 +1,26 @@
-let express = require("express");
-let app = express();
+import express  from "express";
+
 const PORT = (process.env.PORT || 10000);
 
-let dataStore = require("nedb");
+let app = express();
+import dataStore from "nedb";
+import {handler} from "./front/build/handler.js";
+
 let dbFood = new dataStore();  // Datos Fran
 let dbLifeExpectancy = new dataStore();  // Datos Alex
 let dbDrugs = new dataStore(); // Datos Rufino
 
-let bodyParser = require("body-parser");
+import bodyParser from "body-parser";
 
-let api_FSP = require("./api/food-production/index-FSP");
-let api_AFO = require("./api/life-expectancy/index-AFO");
-let api_RMP = require("./api/pharmaceutical-drugs-spending/index-RMP");
+import {API_FSP}  from "./api/food-production/index-FSP.js";
+//let api_AFO = require("./api/life-expectancy/index-AFO");
+//let api_RMP = require("./api/pharmaceutical-drugs-spending/index-RMP");
 
 app.use(bodyParser.json());
 app.use("/", express.static("./public"));
+app.use(handler);
 
-api_FSP.fsp_v1(app,dbFood);
+API_FSP(app,dbFood);
 
 api_AFO.afo_v1(app, dbLifeExpectancy);
 

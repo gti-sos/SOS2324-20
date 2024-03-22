@@ -355,4 +355,4 @@ function API_FSP(app, dbFood) {
   });
 }
 
-module.exports.fsp_v1 = API_FSP;
+export { API_FSP};
