@@ -1,7 +1,7 @@
-let express = require("express");
+import express from "express";
 let app = express();
 
-let bodyParser = require("body-parser");
+import bodyParser from "body-parser";
 
 const API_BASE = "/api/v1/food-production";
 

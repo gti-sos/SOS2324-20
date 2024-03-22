@@ -18,14 +18,17 @@ import {API_FSP}  from "./api/food-production/index-FSP.js";
 
 app.use(bodyParser.json());
 app.use("/", express.static("./public"));
-app.use(handler);
 
 API_FSP(app,dbFood);
 
-api_AFO.afo_v1(app, dbLifeExpectancy);
 
-api_RMP.rmp_v1(app, dbDrugs);
 
+
+//api_AFO.afo_v1(app, dbLifeExpectancy);
+
+//api_RMP.rmp_v1(app, dbDrugs);
+
+app.use(handler);
 
 app.listen(PORT, () => {
   console.log(`Servidor Express iniciado en http://localhost:${PORT}`);
