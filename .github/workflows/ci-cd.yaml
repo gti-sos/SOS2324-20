@@ -28,6 +28,9 @@ jobs:
 
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
+
+      - run: cd front; npm install; cd ..
+      - run: cd front; npm run build; cd ..
     
       - name: Deploy
         run: gcloud app deploy
