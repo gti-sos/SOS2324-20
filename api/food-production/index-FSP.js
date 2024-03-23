@@ -241,14 +241,10 @@ function API_FSP(app, dbFood) {
           if (err) {
             res.sendStatus(500, err);
           } else {
-            if (data.length === 0) {
-              res.sendStatus(404, "Not Found");
-            } else {
-              data.map((i) => {
-                delete i._id;
-              });
-              res.send(JSON.stringify(data, null, 2));
-            }
+            data.map((i) => {
+              delete i._id;
+            });
+            res.send(JSON.stringify(data, null, 2));
           }
         });
     }
@@ -257,7 +253,7 @@ function API_FSP(app, dbFood) {
   //POST
   app.post(API_BASE + "/", validarDatos, (req, res) => {
     let food = req.body;
-
+    console.log("NEW POST WITH BODY: ", JSON.stringify(req.body,null ,2));
     dbFood.findOne({ Entity: food.Entity }, (err, existingFood) => {
       if (err) {
         res.sendStatus(500, "Internal Error");
@@ -269,7 +265,7 @@ function API_FSP(app, dbFood) {
             if (err) {
               res.sendStatus(500, "Internal Error");
             } else {
-              res.sendStatus(201, "Ok");
+              res.sendStatus(201, "Created");
             }
           });
         }
@@ -355,4 +351,4 @@ function API_FSP(app, dbFood) {
   });
 }
 
-export { API_FSP};
+export { API_FSP };

@@ -5,6 +5,7 @@ const PORT = (process.env.PORT || 10000);
 let app = express();
 import dataStore from "nedb";
 import {handler} from "./front/build/handler.js";
+import cors from "cors";
 
 let dbFood = new dataStore();  // Datos Fran
 let dbLifeExpectancy = new dataStore();  // Datos Alex
@@ -16,6 +17,7 @@ import {API_FSP}  from "./api/food-production/index-FSP.js";
 //let api_AFO = require("./api/life-expectancy/index-AFO");
 //let api_RMP = require("./api/pharmaceutical-drugs-spending/index-RMP");
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use("/", express.static("./public"));
 

@@ -9,12 +9,12 @@
     "test-life-expectancy": "newman run ./tests/api-life-expectation/api-life-expectation-test.json -e ./tests/api-life-expectation/environment/local.json",
     "test-food-production": "newman run ./tests/api-food-production/api-food-production-test.json -e ./tests/api-food-production/environment/local.json",
     "test-phamaceutical-drugs-spending": "newman run ./tests/api-pharmaceutical-drugs-spending/api-pharmaceutical-drugs-spending.json -e ./tests/api-pharmaceutical-drugs-spending/environment/local.json"
-
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cool-ascii-faces": "^1.3.4",
+    "cors": "^2.8.5",
     "csv-parser": "^3.0.0",
     "csv-reader": "^1.0.12",
     "express": "^4.18.2",
