@@ -254,7 +254,7 @@ function API_FSP(app, dbFood) {
   app.post(API_BASE + "/", validarDatos, (req, res) => {
     let food = req.body;
     console.log("NEW POST WITH BODY: ", JSON.stringify(req.body,null ,2));
-    dbFood.findOne({ Entity: food.Entity }, (err, existingFood) => {
+    dbFood.findOne({ Entity: food.Entity, Year: food.Year }, (err, existingFood) => {
       if (err) {
         res.sendStatus(500, "Internal Error");
       } else {

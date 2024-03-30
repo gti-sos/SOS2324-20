@@ -22,6 +22,42 @@
 		bananas_production: 0
 	};
 
+	function handleEntityChange(event) {
+		newFood.Entity = event.target.value;
+	}
+
+	function handleYearChange(event) {
+		newFood.Year = Number(event.target.value);
+	}
+
+	function handleRiceProductionChange(event) {
+		newFood.rice_production = Number(event.target.value);
+	}
+
+	function handleTomatoesProductionChange(event) {
+		newFood.tomatoes_production = Number(event.target.value);
+	}
+
+	function handleTeaProductionChange(event) {
+		newFood.tea_production = Number(event.target.value);
+	}
+
+	function handlePotatoesProductionChange(event) {
+		newFood.potatoes_production = Number(event.target.value);
+	}
+
+	function handleCocoaBeansProductionChange(event) {
+		newFood.cocoa_beans_production = Number(event.target.value);
+	}
+
+	function handleMeatChickenProductionChange(event) {
+		newFood.meat_chicken_production = Number(event.target.value);
+	}
+
+	function handleBananasProductionChange(event) {
+		newFood.bananas_production = Number(event.target.value);
+	}
+
 	onMount(() => {
 		getFood();
 	});
@@ -35,20 +71,23 @@
 	}
 
 	async function deleteFood(entity, year) {
-		console.log(`Deleting ${entity}`);
+		console.log(`Deleting ${entity} for year ${year}`);
 
 		try {
-			let response = await fetch(`${API}/?Entity=${entity}/?Year=${year}`, {
-				method: 'DELETE'
-			});
+			let response = await fetch(
+				`${API}/country/${encodeURIComponent(entity)}/${encodeURIComponent(year)}`,
+				{
+					method: 'DELETE'
+				}
+			);
 
 			if (response.status === 200) {
-				getFood();
+				console.log('Food deleted');
 			} else {
-				errorMsg = 'code: ' + response.status;
+				console.log('Error: ' + response.status);
 			}
 		} catch (e) {
-			errorMsg = e;
+			console.log('Error: ' + e);
 		}
 	}
 
@@ -107,15 +146,57 @@
 	</thead>
 	<tbody>
 		<tr>
-			<td><input bind:value={newFood.Entity} /></td>
-			<td><input bind:value={newFood.Year} /></td>
-			<td><input bind:value={newFood.rice_production} /></td>
-			<td><input bind:value={newFood.tomatoes_production} /></td>
-			<td><input bind:value={newFood.tea_production} /></td>
-			<td><input bind:value={newFood.potatoes_production} /></td>
-			<td><input bind:value={newFood.cocoa_beans_production} /></td>
-			<td><input bind:value={newFood.meat_chicken_production} /></td>
-			<td><input bind:value={newFood.bananas_production} /></td>
+			<td><input bind:value={newFood.Entity} on:input={handleEntityChange} /></td>
+			<td><input type="text" bind:value={newFood.Year} on:input={handleYearChange} /></td>
+			<td
+				><input
+					type="text"
+					bind:value={newFood.rice_production}
+					on:input={handleRiceProductionChange}
+				/></td
+			>
+			<td
+				><input
+					type="text"
+					bind:value={newFood.tomatoes_production}
+					on:input={handleTomatoesProductionChange}
+				/></td
+			>
+			<td
+				><input
+					type="text"
+					bind:value={newFood.tea_production}
+					on:input={handleTeaProductionChange}
+				/></td
+			>
+			<td
+				><input
+					type="text"
+					bind:value={newFood.potatoes_production}
+					on:input={handlePotatoesProductionChange}
+				/></td
+			>
+			<td
+				><input
+					type="text"
+					bind:value={newFood.cocoa_beans_production}
+					on:input={handleCocoaBeansProductionChange}
+				/></td
+			>
+			<td
+				><input
+					type="text"
+					bind:value={newFood.meat_chicken_production}
+					on:input={handleMeatChickenProductionChange}
+				/></td
+			>
+			<td
+				><input
+					type="text"
+					bind:value={newFood.bananas_production}
+					on:input={handleBananasProductionChange}
+				/></td
+			>
 		</tr>
 	</tbody>
 </table>
