@@ -4,7 +4,7 @@ const PORT = (process.env.PORT || 10000);
 
 let app = express();
 import dataStore from "nedb";
-import {handler} from "./front/build/handler.js";
+// import {handler} from "./front/build/handler.js";
 import cors from "cors";
 
 let dbFood = new dataStore();  // Datos Fran
@@ -27,7 +27,7 @@ API_AFO(app,dbLifeExpectancy);
 API_RMP(app,dbDrugs);
 
 
-app.use(handler);
+// app.use(handler);
 
 app.listen(PORT, () => {
   console.log(`Servidor Express iniciado en http://localhost:${PORT}`);
