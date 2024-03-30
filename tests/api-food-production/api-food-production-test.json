@@ -27,13 +27,9 @@
 				"header": [],
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production/loadInitialData",
-					"protocol": "https",
+					
 					"host": [
-						"sos2324-20-415018",
-						"ew",
-						"r",
-						"appspot",
-						"com"
+						"{{SERVER}}"
 					],
 					"path": [
 						"api",
@@ -67,13 +63,9 @@
 				"header": [],
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production",
-					"protocol": "https",
+					
 					"host": [
-						"sos2324-20-415018",
-						"ew",
-						"r",
-						"appspot",
-						"com"
+						"{{SERVER}}"
 					],
 					"path": [
 						"api",
@@ -106,13 +98,9 @@
 				"header": [],
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production/?Entity=Afghanistan&rice_production=380000",
-					"protocol": "https",
+					
 					"host": [
-						"sos2324-20-415018",
-						"ew",
-						"r",
-						"appspot",
-						"com"
+						"{{SERVER}}"
 					],
 					"path": [
 						"",
@@ -157,13 +145,9 @@
 				"header": [],
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production/?Entity=Afghanistan&Year=1964",
-					"protocol": "https",
+					
 					"host": [
-						"sos2324-20-415018",
-						"ew",
-						"r",
-						"appspot",
-						"com"
+						"{{SERVER}}"
 					],
 					"path": [
 						"",
@@ -208,13 +192,9 @@
 				"header": [],
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production/?rice_production=777",
-					"protocol": "https",
+					
 					"host": [
-						"sos2324-20-415018",
-						"ew",
-						"r",
-						"appspot",
-						"com"
+						"{{SERVER}}"
 					],
 					"path": [
 						"",
@@ -265,13 +245,9 @@
 				},
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production",
-					"protocol": "https",
+					
 					"host": [
-						"sos2324-20-415018",
-						"ew",
-						"r",
-						"appspot",
-						"com"
+						"{{SERVER}}"
 					],
 					"path": [
 						"api",
@@ -314,13 +290,9 @@
 				},
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production",
-					"protocol": "https",
+					
 					"host": [
-						"sos2324-20-415018",
-						"ew",
-						"r",
-						"appspot",
-						"com"
+						"{{SERVER}}"
 					],
 					"path": [
 						"api",
@@ -363,13 +335,8 @@
 				},
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production",
-					"protocol": "https",
 					"host": [
-						"sos2324-20-415018",
-						"ew",
-						"r",
-						"appspot",
-						"com"
+						"{{SERVER}}"
 					],
 					"path": [
 						"api",
@@ -411,13 +378,9 @@
 				},
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production/Afghanistan",
-					"protocol": "https",
+					
 					"host": [
-						"sos2324-20-415018",
-						"ew",
-						"r",
-						"appspot",
-						"com"
+						"{{SERVER}}"
 					],
 					"path": [
 						"api",
@@ -461,13 +424,9 @@
 				},
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production",
-					"protocol": "https",
+					
 					"host": [
-						"sos2324-20-415018",
-						"ew",
-						"r",
-						"appspot",
-						"com"
+						"{{SERVER}}"
 					],
 					"path": [
 						"api",
@@ -510,13 +469,9 @@
 				},
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production/country/Afghanistan/1961",
-					"protocol": "https",
+					
 					"host": [
-						"sos2324-20-415018",
-						"ew",
-						"r",
-						"appspot",
-						"com"
+						"{{SERVER}}"
 					],
 					"path": [
 						"api",
@@ -562,13 +517,9 @@
 				},
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production/country/Afghanistan/1968",
-					"protocol": "https",
+					
 					"host": [
-						"sos2324-20-415018",
-						"ew",
-						"r",
-						"appspot",
-						"com"
+						"{{SERVER}}"
 					],
 					"path": [
 						"api",
@@ -614,13 +565,9 @@
 				},
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production",
-					"protocol": "https",
+					
 					"host": [
-						"sos2324-20-415018",
-						"ew",
-						"r",
-						"appspot",
-						"com"
+						"{{SERVER}}"
 					],
 					"path": [
 						"api",
