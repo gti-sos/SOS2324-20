@@ -14,6 +14,7 @@ let dbDrugs = new dataStore(); // Datos Rufino
 import bodyParser from "body-parser";
 
 import {API_FSP}  from "./api/food-production/index-FSP.js";
+import { API_AFO } from "./api/life-expectancy/index-AFO.js";
 //let api_AFO = require("./api/life-expectancy/index-AFO");
 //let api_RMP = require("./api/pharmaceutical-drugs-spending/index-RMP");
 
@@ -22,11 +23,8 @@ app.use(bodyParser.json());
 app.use("/", express.static("./public"));
 
 API_FSP(app,dbFood);
+API_AFO(app,dbLifeExpectancy);
 
-
-
-
-//api_AFO.afo_v1(app, dbLifeExpectancy);
 
 //api_RMP.rmp_v1(app, dbDrugs);
 

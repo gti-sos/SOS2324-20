@@ -1,7 +1,7 @@
-let express = require("express");
+import express from "express";
 let app = express();
 
-let bodyParser = require("body-parser");
+import bodyParser from "body-parser";
 
 const API_BASE = "/api/v1/life-expectancy";
 
@@ -400,4 +400,4 @@ function API_AFO(app, dbLifeExpectancy) {
   });
 }
 
-module.exports.afo_v1 = API_AFO;
+export { API_AFO };
