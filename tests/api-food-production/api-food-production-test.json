@@ -27,7 +27,6 @@
 				"header": [],
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production/loadInitialData",
-					
 					"host": [
 						"{{SERVER}}"
 					],
@@ -63,7 +62,6 @@
 				"header": [],
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production",
-					
 					"host": [
 						"{{SERVER}}"
 					],
@@ -98,12 +96,10 @@
 				"header": [],
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production/?Entity=Afghanistan&rice_production=380000",
-					
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
-						"",
 						"api",
 						"v1",
 						"food-production",
@@ -145,12 +141,10 @@
 				"header": [],
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production/?Entity=Afghanistan&Year=1964",
-					
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
-						"",
 						"api",
 						"v1",
 						"food-production",
@@ -192,12 +186,10 @@
 				"header": [],
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production/?rice_production=777",
-					
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
-						"",
 						"api",
 						"v1",
 						"food-production",
@@ -245,7 +237,6 @@
 				},
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production",
-					
 					"host": [
 						"{{SERVER}}"
 					],
@@ -290,7 +281,6 @@
 				},
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production",
-					
 					"host": [
 						"{{SERVER}}"
 					],
@@ -378,7 +368,6 @@
 				},
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production/Afghanistan",
-					
 					"host": [
 						"{{SERVER}}"
 					],
@@ -424,7 +413,6 @@
 				},
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production",
-					
 					"host": [
 						"{{SERVER}}"
 					],
@@ -469,7 +457,6 @@
 				},
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production/country/Afghanistan/1961",
-					
 					"host": [
 						"{{SERVER}}"
 					],
@@ -517,7 +504,6 @@
 				},
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production/country/Afghanistan/1968",
-					
 					"host": [
 						"{{SERVER}}"
 					],
@@ -565,7 +551,6 @@
 				},
 				"url": {
 					"raw": "{{SERVER}}/api/v1/food-production",
-					
 					"host": [
 						"{{SERVER}}"
 					],
