@@ -15,8 +15,8 @@ import bodyParser from "body-parser";
 
 import {API_FSP}  from "./api/food-production/index-FSP.js";
 import { API_AFO } from "./api/life-expectancy/index-AFO.js";
-//let api_AFO = require("./api/life-expectancy/index-AFO");
-//let api_RMP = require("./api/pharmaceutical-drugs-spending/index-RMP");
+import { API_RMP } from "./api/pharmaceutical-drugs-spending/index-RMP.js";
+
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -24,9 +24,8 @@ app.use("/", express.static("./public"));
 
 API_FSP(app,dbFood);
 API_AFO(app,dbLifeExpectancy);
+API_RMP(app,dbDrugs);
 
-
-//api_RMP.rmp_v1(app, dbDrugs);
 
 app.use(handler);
 

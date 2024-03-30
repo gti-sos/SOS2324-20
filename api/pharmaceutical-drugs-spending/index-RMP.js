@@ -241,4 +241,4 @@ function API_RMP(app, dbDrugs) {
 
 
 
-module.exports.rmp_v1 = API_RMP;
+export { API_RMP };
