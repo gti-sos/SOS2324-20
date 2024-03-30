@@ -1,9 +1,11 @@
-let express = require("express");
+import express from "express";
 let app = express();
 
-let bodyParser = require("body-parser");
+import bodyParser from "body-parser";
 
 const API_BASE = '/api/v1/phamaceutical-drugs-spending';
+
+app.use(bodyParser.json());
 
 var initialData = [
     { location: "AUS", time: 1971, pc_healthxp: 15.992, pc_gdp: 0.727, usd_cap: 35.72, total_spend: 462.11 },
