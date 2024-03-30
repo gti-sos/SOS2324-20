@@ -3,7 +3,7 @@
 	"name": "Gcloud",
 	"values": [
 		{
-			"key": "Gcloud",
+			"key": "SERVER",
 			"value": "https://sos2324-20-415018.ew.r.appspot.com",
 			"type": "default",
 			"enabled": true
