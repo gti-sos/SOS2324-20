@@ -12,7 +12,7 @@ function readCSVFile(filePath) {
     return new Promise((resolve, reject) => {
         fs.createReadStream(filePath)
             .pipe(csv())
-            .on('data', (data) => results.push(data))
+            .on('data', (data) => results.push(parseardato(data)))
             .on('end', () => {
                 initialData = results;
                 resolve();
@@ -21,6 +21,30 @@ function readCSVFile(filePath) {
                 reject(error);
             });
     });
+}
+
+function parseardato(dato) {
+  for (let key in dato) {
+    if (key === "year") {
+      dato[key] = parseInt(dato[key]);
+    } else if (
+      key === "life_expectancy" ||
+      key === "population" ||
+      key === "co2_emissions" ||
+      key === "electric_power_consumption" ||
+      key === "forest_area" ||
+      key === "individuals_using_the_internet" ||
+      key === "military_expenditure" ||
+      key === "people_practicing_open_defecation" ||
+      key === "people_using_at_least_basic_drinking_water_services" ||
+      key === "beer_consumption_per_capita"
+    ) {
+      dato[key] = parseFloat(dato[key]);
+    } else if (key === "country" || key === "continent") {
+      dato[key] = String(dato[key]);
+    }
+  }
+  return dato;
 }
 
 function validarDatos(req, res, next) {
