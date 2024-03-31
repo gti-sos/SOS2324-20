@@ -96,11 +96,12 @@
 		console.log(`Deleting ${country} for year ${year}`);
 
 		try {
-			let response = await fetch(`${API}/country/${encodeURIComponent(country)}/${encodeURIComponent(year)}`,
-                {
-                     method: 'DELETE' 
-                }
-            );
+			let response = await fetch(
+				`${API}/country/${encodeURIComponent(country)}/${encodeURIComponent(year)}`,
+				{
+					method: 'DELETE'
+				}
+			);
 
 			if (response.status === 200) {
 				console.log('Life deleted');
@@ -135,10 +136,10 @@
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify(newLifeExpectancy,null, 2)
+				body: JSON.stringify(newLifeExpectancy, null, 2)
 			});
-            let status = await response.status;
-            console.log(`Creation response: ${status}`)
+			let status = await response.status;
+			console.log(`Creation response: ${status}`);
 			if (status === 201) {
 				getLifeExpectancy();
 			} else {
@@ -280,3 +281,64 @@
 	<hr />
 	ERROR: {errorMsg}
 {/if}
+
+<style>
+	table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	th,
+	td {
+		border: 0.0625em solid #ddd;
+		padding: 0.5em;
+		text-align: left;
+	}
+
+	th {
+		background-color: #f2f2f2;
+		color: black;
+	}
+
+	tr:nth-child(even) {
+		background-color: #f2f2f2;
+	}
+
+	button {
+		background-color: #4caf50;
+		color: white;
+		padding: 0.625em 1.5em;
+		margin: 0.5em 0;
+		border: none;
+		cursor: pointer;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 1em;
+	}
+
+	button:hover {
+		background-color: #45a049;
+	}
+
+	ul {
+		list-style-type: none;
+		padding: 0;
+	}
+
+	li {
+		padding: 0.625em;
+		margin-bottom: 0.3125em;
+		background-color: #f2f2f2;
+	}
+
+	input[type='text'],
+	input[type='number'] {
+		width: 100%;
+		padding: 0.375em 0.75em;
+		margin: 0.3125em 0;
+		display: inline-block;
+		border: 0.0625em solid #ccc;
+		box-sizing: border-box;
+	}
+</style>
