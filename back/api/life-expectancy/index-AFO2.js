@@ -75,7 +75,7 @@ function validarDatos(req, res, next) {
 function API_AFO_V2(app, dbLifeExpectancy) {
   app.use(bodyParser.json());
 
-  readCSVFile('csvS/life_expectancy.csv')
+  readCSVFile('back/csvS/life_expectancy.csv')
     .then(() => {})
     .catch(error => console.error(error));
 
