@@ -22,7 +22,6 @@ import { API_AFO_V2 } from "./api/life-expectancy/index-AFO2.js";
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use("/", express.static("./public"));
 
 API_FSP(app,dbFood);
 API_AFO(app,dbLifeExpectancy);
