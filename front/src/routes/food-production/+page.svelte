@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { dev } from '$app/environment';
+	import Error from '../+error.svelte';
 
 	//Muestra si está en desarrollo
 	let API = '/api/v1/food-production';
@@ -10,6 +11,7 @@
 
 	let food = [];
 	let errorMsg = '';
+	let successMsg = '';
 	let newFood = {
 		Entity: 'EntityName',
 		Year: 2024,
@@ -81,33 +83,50 @@
 				}
 			);
 
-			if (response.status === 200) {
-				console.log('Food deleted');
+			let status = await response.status;
+			console.log(`Deletion response status: ${status}`);
+
+			if (status === 200) {
+				console.log('País borrado exitosamente');
+				getFood();
 			} else {
-				console.log('Error: ' + response.status);
+				console.log(`Error eliminando el pais, no existe, status code: ${status}`);
 			}
 		} catch (e) {
-			console.log('Error: ' + e);
+			console.log(`No se pudo eliminar el pais: ${e}`);
 		}
 	}
 
 	async function deleteAllFood() {
-		console.log(`Deleting all`);
+		console.log(`Eliminando todos los alimentos`);
 
 		try {
-			let response = await fetch(API + '/', { method: 'DELETE' });
+			let response = await fetch(API, {
+				method: 'DELETE'
+			});
 
-			if (response.status === 200) {
-				getFood();
+			let status = await response.status;
+			console.log(`Estado de la respuesta de eliminación: ${status}`);
+
+			if (status === 200) {
+				console.log('Todos los alimentos han sido eliminados exitosamente');
+				location.reload();
 			} else {
-				errorMsg = 'code: ' + response.status;
+				console.log(`Error eliminando todos los alimentos, código de estado: ${status}`);
 			}
 		} catch (e) {
-			errorMsg = e;
+			console.log(`Error eliminando todos los alimentos: ${e}`);
+		}
+	}
+	function confirmDelete() {
+		if (confirm('¿Estás seguro de que quieres eliminar todos los reportes?')) {
+			deleteAllFood();
 		}
 	}
 
 	async function createFood() {
+		console.log(`Creating new food`);
+
 		try {
 			let response = await fetch(API, {
 				method: 'POST',
@@ -118,14 +137,19 @@
 			});
 
 			let status = await response.status;
-			console.log(`Creation response status ${status}`);
+			console.log(`Creation response status: ${status}`);
+
 			if (status === 201) {
 				getFood();
+				console.log('País creado exitosamente');
+				successMsg = 'País creado exitosamente';
 			} else {
-				errorMsg = 'code: ' + status;
+				errorMsg = `Error creando nueva entrada, el país ya existe, código: ${status}`;
+				console.log(errorMsg);
 			}
 		} catch (e) {
-			errorMsg = e;
+			errorMsg = `Error creando nueva entrada: ${e}`;
+			console.log(e);
 		}
 	}
 </script>
@@ -211,9 +235,8 @@
 	<br />
 	<br />
 	<button on:click={createFood}>Crear Pais</button>
-	<button on:click={deleteAllFood}>Borrar lista</button>
+	<button on:click={confirmDelete}>Borrar todos los datos</button>
 </ul>
-{#if errorMsg != ''}
-	<hr />
-	ERROR: {errorMsg}
+{#if errorMsg}
+    <p>{errorMsg}</p>
 {/if}
