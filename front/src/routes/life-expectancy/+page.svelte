@@ -196,7 +196,7 @@
 		border-color: #007BFF;
 	}
 
-	.create-button, .delete-button {
+	.create-button, .delete-button , .edit-button{
 		padding: 10px 20px;
 		background-color: #007BFF;
 		color: white;
@@ -206,7 +206,7 @@
 		transition: background-color 0.3s ease;
 	}
 
-	.create-button:hover, .delete-button:hover {
+	.create-button:hover, .delete-button:hover, .edit-button:hover {
 		background-color: #0056b3;
 	}
 
@@ -235,19 +235,20 @@
 
 <div class="container">
 	<div class="column">
+		<h2>Lista de datos</h2>
 		<ul>
 			{#each lifeExpectancy as life}
 				<li class="list-item">
-					<a href="/life-expectancy/{life.country}/{life.year}">{life.country} - {life.year} - {life.life_expectancy}</a>
+					<a href="/life-expectancy/{life.country}/{life.year}">{life.country} - {life.year}</a>
 					<a href="/life-expectancy/{life.country}/{life.year}/edit">
-					<button>
+					<button class="edit-button">
 						Editar
 					</button>
 					</a>
 					<button class="delete-button" on:click={() => deleteLifeExpectancy(life.country, life.year)}>Delete</button>
 				</li>
 			{/each}
-			<button on:click={deleteAllLifeExpectancy}>Borrar lista</button>
+			<button class="delete-button" on:click={deleteAllLifeExpectancy}>Borrar lista</button>
 		</ul>
 	</div>
 	<div class="column">

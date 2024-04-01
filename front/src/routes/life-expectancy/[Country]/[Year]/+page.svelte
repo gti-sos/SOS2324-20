@@ -47,7 +47,45 @@
 		}
 	}
 </script>
-
+<style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    
+    .column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+    
+    table {
+        border-collapse: collapse;
+        margin: 0 auto; /* Centra la tabla horizontalmente */
+    }
+    
+    table, th, td {
+        border: 1px solid black;
+        padding: 10px;
+        text-align: center; /* Centra el texto en las celdas */
+    }
+    
+    th {
+        background-color: #f2f2f2;
+    }
+    
+    button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+    </style>
+    
 <div class="container">
 	<div class="column">
 		<h1>Esperanza de vida de {country} en {year}</h1>
