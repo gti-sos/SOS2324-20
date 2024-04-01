@@ -104,7 +104,7 @@ function API_AFO_V2(app, dbLifeExpectancy) {
     .catch(error => console.error(error));
 
   app.get(API_BASE + "/docs", (_req, res) => {
-    res.redirect("https://documenter.getpostman.com/view/32925029/2sA2xh3tTs");
+    res.redirect("https://documenter.getpostman.com/view/32925029/2sA35HXM1w");
   });
 
   app.get(API_BASE + "/loadCSVData",(_req, res) => {
@@ -173,7 +173,7 @@ function API_AFO_V2(app, dbLifeExpectancy) {
                     res.sendStatus(500, err);
                 } else {
                     if (data.length === 0) {
-                        res.sendStatus(404, "Not Found");
+                        res.send([]);
                     } else {
                         data.map((i) => {
                             delete i._id;
@@ -184,6 +184,25 @@ function API_AFO_V2(app, dbLifeExpectancy) {
             });
     }
 });
+
+app.get(API_BASE + "/:country/:year", (req, res) => {
+  let country = req.params.country;
+  let year = parseInt(req.params.year);
+
+  dbLifeExpectancy.findOne({ country: country, year: year }, (err, data) => {
+    if (err) {
+      res.sendStatus(500, err);
+    } else {
+      if (data) {
+        delete data._id;
+        res.send(JSON.stringify(data, null, 2));
+      } else {
+        res.sendStatus(404, "Not Found");
+      }
+    }
+  });
+});
+
 
   //POST 1
   app.post(API_BASE + "/", validarDatos, (req, res) => {
@@ -210,6 +229,7 @@ function API_AFO_V2(app, dbLifeExpectancy) {
     );
   });
 
+  
   //PUT 1
   app.put(API_BASE + "/", (_, res) => {
     res.sendStatus(405, "Method Not Allowed");
