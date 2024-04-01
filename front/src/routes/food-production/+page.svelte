@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { dev } from '$app/environment';
 	import Error from '../+error.svelte';
+	import { Button, Col, Row } from '@sveltestrap/sveltestrap';
 
 	//Muestra si está en desarrollo
 	let API = '/api/v1/food-production';
@@ -70,10 +71,13 @@
 				method: 'GET'
 			});
 			let data = await response.json();
-			reports = data;
-			console.log(data);
+			if (data!=null) {
+				reports = data;
+			} else {
+				reports = [];
+			}
 		} catch (e) {
-			errorMsg = e;
+				reports = [];
 		}
 	}
 
@@ -87,18 +91,16 @@
 					method: 'DELETE'
 				}
 			);
+			console.log(`Deletion response status: ${response.status}`);
 
-			let status = await response.status;
-			console.log(`Deletion response status: ${status}`);
-
-			if (status == 200) {
+			if (response.status == 200) {
 				console.log('País borrado exitosamente');
 				getFood();
 			} else {
-				console.log(`Error eliminando el pais, no existe, status code: ${status}`);
+				console.log(`Error eliminando el pais, no existe, status code: ${response.status}`);
 			}
 		} catch (e) {
-			console.log(`No se pudo eliminar el pais: ${e}`);
+			console.log(e);
 		}
 	}
 
@@ -114,7 +116,7 @@
 			console.log(`Estado de la respuesta de eliminación: ${status}`);
 
 			if (response.status == 200) {
-				reports = []
+				reports = [];
 			} else {
 				errorMsg = 'Error borrando todos los reportes, código: ' + response.status;
 			}
@@ -158,89 +160,209 @@
 	}
 </script>
 
-<table>
-	<thead>
-		<tr>
-			<th>Entity</th>
-			<th>Year</th>
-			<th>Rice Production</th>
-			<th>Tomatoes Production</th>
-			<th>Tea Production</th>
-			<th>Potatoes Production</th>
-			<th>Cocoa Beans Production</th>
-			<th>Meat Chicken Production</th>
-			<th>Bananas Production</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td><input bind:value={newFood.Entity} on:input={handleEntityChange} /></td>
-			<td><input type="text" bind:value={newFood.Year} on:input={handleYearChange} /></td>
-			<td
-				><input
-					type="text"
-					bind:value={newFood.rice_production}
-					on:input={handleRiceProductionChange}
-				/></td
-			>
-			<td
-				><input
-					type="text"
-					bind:value={newFood.tomatoes_production}
-					on:input={handleTomatoesProductionChange}
-				/></td
-			>
-			<td
-				><input
-					type="text"
-					bind:value={newFood.tea_production}
-					on:input={handleTeaProductionChange}
-				/></td
-			>
-			<td
-				><input
-					type="text"
-					bind:value={newFood.potatoes_production}
-					on:input={handlePotatoesProductionChange}
-				/></td
-			>
-			<td
-				><input
-					type="text"
-					bind:value={newFood.cocoa_beans_production}
-					on:input={handleCocoaBeansProductionChange}
-				/></td
-			>
-			<td
-				><input
-					type="text"
-					bind:value={newFood.meat_chicken_production}
-					on:input={handleMeatChickenProductionChange}
-				/></td
-			>
-			<td
-				><input
-					type="text"
-					bind:value={newFood.bananas_production}
-					on:input={handleBananasProductionChange}
-				/></td
-			>
-		</tr>
-	</tbody>
-</table>
+<div class="container">
+	<div class="column">
+		<ul>
+			{#each reports as f}
+				<li class="list-item">
+					<a href="/food-production/{f.Entity}/{f.Year}">{f.Entity} - {f.Year}</a>
+					<a href="/food-production/{f.Entity}/{f.Year}/edit">
+						<button> Editar </button>
+					</a>
+					<button class="delete-button" on:click={() => deleteFood(f.Entity, f.Year)}
+						>Eliminar</button
+					>
+				</li>
+			{/each}
+			<button on:click={confirmDelete}>Borrar todos los datos</button>
+		</ul>
+	</div>
+	<div class="column">
+		<div class="form-section">
+			<div class="cabecera">
+				<h2>Crear un nuevo dato</h2>
+				<button on:click={createFood} class="create-button">Crear Dato</button>
+			</div>
 
-<ul>
-	{#each reports as foodItem}
-		<li>
-			{foodItem.Entity} - {foodItem.Year}
-			<button on:click={() => deleteFood(foodItem.Entity, foodItem.Year)}>Delete</button>
-		</li>
-	{/each}
-	<br />
-	<br />
-	<button on:click={createFood}>Crear Pais</button>
-	<button on:click={confirmDelete}>Borrar todos los datos</button>
-</ul>
-{#if errorMsg}
-    <p>{errorMsg}</p>
+			<table>
+				<tbody>
+					<tr>
+						<th>Entity</th>
+						<td
+							><input
+								type="text"
+								bind:value={newFood.Entity}
+								on:input={handleEntityChange}
+								class="input-field"
+							/></td
+						>
+					</tr>
+					<tr>
+						<th>Year</th>
+						<td
+							><input
+								type="text"
+								bind:value={newFood.Year}
+								on:input={handleYearChange}
+								class="input-field"
+							/></td
+						>
+					</tr>
+					<tr>
+						<th>Rice Production</th>
+						<td
+							><input
+								type="text"
+								bind:value={newFood.rice_production}
+								on:input={handleRiceProductionChange}
+								class="input-field"
+							/></td
+						>
+					</tr>
+					<tr>
+						<th>Tomatoes Production</th>
+						<td
+							><input
+								type="text"
+								bind:value={newFood.tomatoes_production}
+								on:input={handleTomatoesProductionChange}
+								class="input-field"
+							/></td
+						>
+					</tr><tr>
+						<th>Tea Production</th>
+						<td>
+							<input
+								type="text"
+								bind:value={newFood.tea_production}
+								on:input={handleTeaProductionChange}
+								class="input-field"
+							/>
+						</td>
+					</tr>
+					<tr>
+						<th>Potatoes Production</th>
+						<td>
+							<input
+								type="text"
+								bind:value={newFood.potatoes_production}
+								on:input={handlePotatoesProductionChange}
+								class="input-field"
+							/>
+						</td>
+					</tr>
+					<tr>
+						<th>Cocoa Beans Production</th>
+						<td>
+							<input
+								type="text"
+								bind:value={newFood.cocoa_beans_production}
+								on:input={handleCocoaBeansProductionChange}
+								class="input-field"
+							/>
+						</td>
+					</tr>
+					<tr>
+						<th>Meat Chicken Production</th>
+						<td>
+							<input
+								type="text"
+								bind:value={newFood.meat_chicken_production}
+								on:input={handleMeatChickenProductionChange}
+								class="input-field"
+							/>
+						</td>
+					</tr>
+					<tr>
+						<th>Bananas Production</th>
+						<td>
+							<input
+								type="text"
+								bind:value={newFood.bananas_production}
+								on:input={handleBananasProductionChange}
+								class="input-field"
+							/>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{#if errorMsg != ''}
+	<hr />
+	<p class="error-msg">ERROR: {errorMsg}</p>
 {/if}
+
+<style>
+	.container {
+		display: flex;
+		justify-content: space-between;
+		padding: 20px;
+		background-color: #f4f4f4;
+	}
+
+	.column {
+		flex: 1;
+		margin: 10px;
+		padding: 20px;
+		background-color: white;
+		border-radius: 10px;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	}
+
+	.form-section {
+		margin-top: 20px;
+	}
+
+	.input-field {
+		width: 100%;
+		padding: 10px;
+		margin-bottom: 10px;
+		border: 1px solid #ddd;
+		border-radius: 5px;
+		box-sizing: border-box;
+		transition: border-color 0.3s ease;
+	}
+
+	.input-field:focus {
+		border-color: #007bff;
+	}
+
+	.create-button,
+	.delete-button {
+		padding: 10px 20px;
+		background-color: #007bff;
+		color: white;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+
+	.create-button:hover,
+	.delete-button:hover {
+		background-color: #0056b3;
+	}
+
+	.error-msg {
+		color: red;
+		margin-top: 10px;
+	}
+
+	.list-item {
+		margin-bottom: 10px;
+		padding: 10px;
+		border: 1px solid #ddd;
+		border-radius: 5px;
+	}
+
+	.delete-button {
+		margin-left: 10px;
+	}
+	.cabecera {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+</style>
