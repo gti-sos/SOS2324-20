@@ -53,6 +53,8 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+		background-color: #ffffff;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
         padding: 20px;
     }
     
@@ -76,13 +78,22 @@
     }
     
     th {
-        background-color: #f2f2f2;
+        background-color: #dddddd;
+        color: #333333;
     }
     
     button {
         margin-top: 20px;
         padding: 10px 20px;
         font-size: 16px;
+		background-color: #cccccc;
+        color: #333333;
+    }
+	button:hover {
+        background-color: #bbbbbb;
+    }
+	h1 {
+        color: #333333;
     }
     </style>
     

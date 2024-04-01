@@ -115,7 +115,7 @@
 				console.log('País borrado exitosamente');
 				getLifeExpectancy();
 			} else {
-				console.log(`Error eliminando el pais, no existe, status code: ${status}`);
+				console.log(`Error eliminando el pais, no existe, status code: ${response.status}`);
 			}
 		} catch (e) {
 			console.log('Error: ' + e);
@@ -245,7 +245,7 @@
 						Editar
 					</button>
 					</a>
-					<button class="delete-button" on:click={() => deleteLifeExpectancy(life.country, life.year)}>Delete</button>
+					<button class="delete-button" on:click={() => deleteLifeExpectancy(life.country, life.year)}>Borrar</button>
 				</li>
 			{/each}
 			<button class="delete-button" on:click={deleteAllLifeExpectancy}>Borrar lista</button>
