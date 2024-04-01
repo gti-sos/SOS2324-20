@@ -47,56 +47,7 @@
 		}
 	}
 </script>
-<style>
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-		background-color: #ffffff;
-        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
-        padding: 20px;
-    }
-    
-    .column {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-    }
-    
-    table {
-        border-collapse: collapse;
-        margin: 0 auto; /* Centra la tabla horizontalmente */
-    }
-    
-    table, th, td {
-        border: 1px solid black;
-        padding: 10px;
-        text-align: center; /* Centra el texto en las celdas */
-    }
-    
-    th {
-        background-color: #dddddd;
-        color: #333333;
-    }
-    
-    button {
-        margin-top: 20px;
-        padding: 10px 20px;
-        font-size: 16px;
-		background-color: #cccccc;
-        color: #333333;
-    }
-	button:hover {
-        background-color: #bbbbbb;
-    }
-	h1 {
-        color: #333333;
-    }
-    </style>
-    
+
 <div class="container">
 	<div class="column">
 		<h1>Esperanza de vida de {country} en {year}</h1>
@@ -157,6 +108,58 @@
 			</tbody>
 		</table>
 	</div>
-    <button><a href="/life-expectancy/{country}/{year}/edit">Editar</a></button>
-    <button><a href="/life-expectancy"> Volver atrás</a></button>
+	<button><a href="/life-expectancy/{country}/{year}/edit">Editar</a></button>
+	<button><a href="/life-expectancy"> Volver atrás</a></button>
 </div>
+
+<style>
+	.container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		background-color: #ffffff;
+		box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+		padding: 20px;
+	}
+
+	.column {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+	}
+
+	table {
+		border-collapse: collapse;
+		margin: 0 auto; /* Centra la tabla horizontalmente */
+	}
+
+	table,
+	th,
+	td {
+		border: 1px solid black;
+		padding: 10px;
+		text-align: center; /* Centra el texto en las celdas */
+	}
+
+	th {
+		background-color: #dddddd;
+		color: #333333;
+	}
+
+	button {
+		margin-top: 20px;
+		padding: 10px 20px;
+		font-size: 16px;
+		background-color: #cccccc;
+		color: #333333;
+	}
+	button:hover {
+		background-color: #bbbbbb;
+	}
+	h1 {
+		color: #333333;
+	}
+</style>

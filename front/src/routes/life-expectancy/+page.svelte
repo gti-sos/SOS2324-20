@@ -84,18 +84,17 @@
 		getLifeExpectancy();
 	});
 
-
 	async function getLifeExpectancy() {
 		try {
 			let response = await fetch(API, { method: 'GET' });
 			let data = await response.json();
-			if (data!=null) {
+			if (data != null) {
 				lifeExpectancy = data;
 			} else {
 				lifeExpectancy = [];
 			}
 		} catch (e) {
-				lifeExpectancy = [];
+			lifeExpectancy = [];
 		}
 	}
 
@@ -159,7 +158,229 @@
 			errorMsg = e;
 		}
 	}
+
+	async function loadinitial() {
+		try {
+			let response = await fetch(API + '/loadInitialData', { method: 'GET' });
+			let status = await response.status;
+			console.log(`Creation response: ${status}`);
+			if (status == 201) {
+				getLifeExpectancy();
+			
+			}else if (status == 409) {
+				errorMsg = 'Data already exists';
+
+			} else {
+				errorMsg = 'code' + response.status;
+			}
+		} catch (e) {
+			errorMsg = e;
+		}
+	}
+
+	function confirmload() {
+		if (confirm('¿Estás seguro de que quieres cargar los datos iniciales?')) {
+			loadinitial();
+		}
+	}
+
+	function confierdeleteall() {
+		if (confirm('¿Estás seguro de que quieres eliminar todos los datos?')) {
+			deleteAllLifeExpectancy();
+		}
+	}
+
+	function confirmedelete(country, year) {
+		if (confirm('¿Estás seguro de que quieres eliminar ' + country + ' - ' + year +' ?')) {
+			deleteLifeExpectancy(country, year);
+		}
+	}
+			
 </script>
+<button  class="load-data"  on:click={confirmload}>Cargar datos iniciales</button>
+{#if errorMsg != ''}
+	<hr />
+	<p class="error-msg">ERROR: {errorMsg}</p>
+{/if}
+
+<div class="container">
+	<div class="column">
+		<div class="cabecera">
+			<h2>Lista de datos</h2>
+			<button class="delete-button" on:click={confierdeleteall}>Borrar lista</button>
+		</div>
+
+		<ul>
+			{#each lifeExpectancy as life}
+				<li class="list-item">
+					<a href="/life-expectancy/{life.country}/{life.year}">{life.country} - {life.year}</a>
+					<a href="/life-expectancy/{life.country}/{life.year}/edit">
+						<button class="edit-button"> Editar </button>
+					</a>
+					<button
+						class="delete-button"
+						on:click={() => confirmedelete(life.country, life.year)}>Borrar</button
+					>
+				</li>
+			{/each}
+		</ul>
+	</div>
+	<div class="column">
+		<div class="form-section">
+			<div class="cabecera">
+				<h2>Crear un nuevo dato</h2>
+				<button on:click={createLifeExpectancy} class="create-button">Crear Dato</button>
+			</div>
+			<table>
+				<tbody>
+					<tr>
+						<th>Country</th>
+						<td
+							><input
+								type="text"
+								bind:value={newLifeExpectancy.country}
+								on:input={handleCountryChange}
+								class="input-field"
+							/></td
+						>
+					</tr>
+					<tr>
+						<th>Year</th>
+						<td
+							><input
+								type="text"
+								bind:value={newLifeExpectancy.year}
+								on:input={handleYearChange}
+								class="input-field"
+							/></td
+						>
+					</tr>
+					<tr>
+						<th>Continent</th>
+						<td
+							><input
+								type="text"
+								bind:value={newLifeExpectancy.continent}
+								on:input={handleContinentChange}
+								class="input-field"
+							/></td
+						>
+					</tr>
+					<tr>
+						<th>Life Expectancy</th>
+						<td
+							><input
+								type="text"
+								bind:value={newLifeExpectancy.life_expectancy}
+								on:input={handleLifeExpectancyChange}
+								class="input-field"
+							/></td
+						>
+					</tr>
+					<tr>
+						<th>Population</th>
+						<td
+							><input
+								type="text"
+								bind:value={newLifeExpectancy.population}
+								on:input={handlePopulationChange}
+								class="input-field"
+							/></td
+						>
+					</tr>
+					<tr>
+						<th>CO2 Emissions</th>
+						<td
+							><input
+								type="text"
+								bind:value={newLifeExpectancy.co2_emissions}
+								on:input={handleCo2EmissionsChange}
+								class="input-field"
+							/></td
+						>
+					</tr>
+					<tr>
+						<th>Electric Power Consumption</th>
+						<td
+							><input
+								type="text"
+								bind:value={newLifeExpectancy.electric_power_consumption}
+								on:input={handleElectricPowerConsumptionChange}
+								class="input-field"
+							/></td
+						>
+					</tr>
+					<tr>
+						<th>Forest Area</th>
+						<td
+							><input
+								type="text"
+								bind:value={newLifeExpectancy.forest_area}
+								on:input={handleForestAreaChange}
+								class="input-field"
+							/></td
+						>
+					</tr>
+					<tr>
+						<th>Individuals Using the Internet</th>
+						<td
+							><input
+								type="text"
+								bind:value={newLifeExpectancy.individuals_using_internet}
+								on:input={handleIndividualsUsingTheInternetChange}
+								class="input-field"
+							/></td
+						>
+					</tr>
+					<tr>
+						<th>Military Expenditure</th>
+						<td
+							><input
+								type="text"
+								bind:value={newLifeExpectancy.military_expenditure}
+								on:input={handleMilitaryExpenditureChange}
+								class="input-field"
+							/></td
+						>
+					</tr>
+					<tr>
+						<th>People Practicing Open Defecation</th>
+						<td
+							><input
+								type="text"
+								bind:value={newLifeExpectancy.open_defecation}
+								on:input={handlePeoplePracticingOpenDefecationChange}
+								class="input-field"
+							/></td
+						>
+					</tr>
+					<tr>
+						<th>People Using at Least Basic Drinking Water Services</th>
+						<td
+							><input
+								type="text"
+								bind:value={newLifeExpectancy.basic_drinking_water_services}
+								on:input={handlePeopleUsingAtLeastBasicDrinkingWaterServicesChange}
+								class="input-field"
+							/></td
+						>
+					</tr>
+					<tr>
+						<th>Beer Consumption per Capita</th>
+						<td
+							><input
+								type="text"
+								bind:value={newLifeExpectancy.beer_consumption_per_capita}
+								on:input={handleBeerConsumptionPerCapitaChange}
+								class="input-field"
+							/></td
+						>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
 
 <style>
 	.container {
@@ -176,10 +397,7 @@
 		background-color: white;
 		border-radius: 10px;
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	}
-
-	.form-section {
-		margin-top: 20px;
+		align-items: center;
 	}
 
 	.input-field {
@@ -193,21 +411,29 @@
 	}
 
 	.input-field:focus {
-		border-color: #007BFF;
+		border-color: #007bff;
 	}
 
-	.create-button, .delete-button , .edit-button{
+	.create-button,
+	.delete-button,
+	.edit-button,
+	.load-data {
 		padding: 10px 20px;
-		background-color: #007BFF;
-		color: white;
+		background-color: #cccccc;
+		color: #333333;
 		border: none;
 		border-radius: 5px;
 		cursor: pointer;
 		transition: background-color 0.3s ease;
 	}
 
-	.create-button:hover, .delete-button:hover, .edit-button:hover {
-		background-color: #0056b3;
+	.create-button:hover,
+	.delete-button:hover,
+	.edit-button:hover {
+		background-color: #bbbbbb;
+	}
+	.load-data:hover {
+		background-color: #007bff;
 	}
 
 	.error-msg {
@@ -224,100 +450,11 @@
 
 	.delete-button {
 		margin-left: 10px;
+		align-self: center;
 	}
 	.cabecera {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-		
-    }
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
 </style>
-
-<div class="container">
-	<div class="column">
-		<h2>Lista de datos</h2>
-		<ul>
-			{#each lifeExpectancy as life}
-				<li class="list-item">
-					<a href="/life-expectancy/{life.country}/{life.year}">{life.country} - {life.year}</a>
-					<a href="/life-expectancy/{life.country}/{life.year}/edit">
-					<button class="edit-button">
-						Editar
-					</button>
-					</a>
-					<button class="delete-button" on:click={() => deleteLifeExpectancy(life.country, life.year)}>Borrar</button>
-				</li>
-			{/each}
-			<button class="delete-button" on:click={deleteAllLifeExpectancy}>Borrar lista</button>
-		</ul>
-	</div>
-	<div class="column">
-		<div class="form-section">
-			<div class="cabecera">
-				<h2>Crear un nuevo dato</h2>
-				<button on:click={createLifeExpectancy} class="create-button">Crear Dato</button>
-			</div>
-				
-			<table>
-				<tbody>
-						<tr>
-							<th>Country</th>
-							<td><input type="text" bind:value={newLifeExpectancy.country} on:input={handleCountryChange} class="input-field"/></td>
-						</tr>
-						<tr>
-							<th>Year</th>
-							<td><input type="text" bind:value={newLifeExpectancy.year} on:input={handleYearChange} class="input-field"/></td>
-						</tr>
-						<tr>
-							<th>Continent</th>
-							<td><input type="text" bind:value={newLifeExpectancy.continent} on:input={handleContinentChange} class="input-field"/></td>
-						</tr>
-						<tr>
-							<th>Life Expectancy</th>
-							<td><input type="text" bind:value={newLifeExpectancy.life_expectancy} on:input={handleLifeExpectancyChange} class="input-field"/></td>
-						</tr>
-						<tr>
-							<th>Population</th>
-							<td><input type="text" bind:value={newLifeExpectancy.population} on:input={handlePopulationChange} class="input-field"/></td>
-						</tr>
-						<tr>
-							<th>CO2 Emissions</th>
-							<td><input type="text" bind:value={newLifeExpectancy.co2_emissions} on:input={handleCo2EmissionsChange} class="input-field"/></td>
-						</tr>
-						<tr>
-							<th>Electric Power Consumption</th>
-							<td><input type="text" bind:value={newLifeExpectancy.electric_power_consumption} on:input={handleElectricPowerConsumptionChange} class="input-field"/></td>
-						</tr>
-						<tr>
-							<th>Forest Area</th>
-							<td><input type="text" bind:value={newLifeExpectancy.forest_area} on:input={handleForestAreaChange} class="input-field"/></td>
-						</tr>
-						<tr>
-							<th>Individuals Using the Internet</th>
-							<td><input type="text" bind:value={newLifeExpectancy.individuals_using_internet} on:input={handleIndividualsUsingTheInternetChange} class="input-field"/></td>
-						</tr>
-						<tr>
-							<th>Military Expenditure</th>
-							<td><input type="text" bind:value={newLifeExpectancy.military_expenditure} on:input={handleMilitaryExpenditureChange} class="input-field"/></td>
-						</tr>
-						<tr>
-							<th>People Practicing Open Defecation</th>
-							<td><input type="text" bind:value={newLifeExpectancy.open_defecation} on:input={handlePeoplePracticingOpenDefecationChange} class="input-field"/></td>
-						</tr>
-						<tr>
-							<th>People Using at Least Basic Drinking Water Services</th>
-							<td><input type="text" bind:value={newLifeExpectancy.basic_drinking_water_services} on:input={handlePeopleUsingAtLeastBasicDrinkingWaterServicesChange} class="input-field"/></td>
-						</tr>
-						<tr>
-							<th>Beer Consumption per Capita</th>
-							<td><input type="text" bind:value={newLifeExpectancy.beer_consumption_per_capita} on:input={handleBeerConsumptionPerCapitaChange} class="input-field"/></td>
-						</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-</div>
-{#if errorMsg != ''}
-	<hr />
-	<p class="error-msg">ERROR: {errorMsg}</p>
-{/if}
