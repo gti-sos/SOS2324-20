@@ -4,28 +4,26 @@
 
 
 <div class="container">
-	<ul>
-		<li><strong>Team</strong>
-			<ul>
-				<li><a href="https://github.com/Alexfer02">Alejandro Fernández Orozco</a></li>
-				<li><a href="https://github.com/C1sko">Francisco Sáez Pérez</a></li>
-				<li><a href="https://github.com/rufmorpac">Rufino Moreno Pacheco</a></li>
-			</ul>
-		</li>
-		<li><strong>Project description</strong>: Our work consists of studying how food production and the use of
-			drugs influence the life expectancy of the population in different countries of the world.</li>
-		<li><strong>Repository</strong>: <a href="https://github.com/gti-sos/SOS2324-20">gti-sos/SOS2324-20</a></li>
-		<li><strong>URL</strong>:<a
-				href="https://sos2324-20-415018.ew.r.appspot.com/">sos2324-20-415018.appspot.com</a>
-		</li>
-		<li><strong>APIs</strong>:
-			<ul>
-				<li><a href="https://sos2324-20-415018.ew.r.appspot.com/api/v1/life-expectancy/docs">https://sos2324-20-415018.ew.r.appspot.com/api/v1/life-expectancy/docs</a> developed by Alejandro Fernández Orozco</li>
-				<li><a href="https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/docs" > https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/docs</a> developed by Francisco Sáez Pérez</li>
-				<li><a href="https://sos2324-20-415018.ew.r.appspot.com/api/v1/phamaceutical-drugs-spending/docs" > https://sos2324-20-415018.ew.r.appspot.com/api/v1/phamaceutical-drugs-spending/docs</a> developed by Rufino Moreno Pacheco</li>
-			</ul>
-		</li>
-	</ul>
+<ul>
+  <li><strong>Team</strong>
+    <ul>
+      <li><a href="https://github.com/Alexfer02">Alejandro Fernández Orozco</a> life-expectancy</li>
+      <li><a href="https://github.com/C1sko">Francisco Sáez Pérez</a> food-production</li>
+      <li><a href="https://github.com/rufmorpac">Rufino Moreno Pacheco</a></li>
+    </ul>
+  </li>
+  <li><strong>Project description</strong>: Our work consists of studying how food production and the use of drugs influence the life expectancy of the population in different countries of the world.</li>
+  <li><strong>Repository</strong>: <a href="https://github.com/gti-sos/SOS2324-20">gti-sos/SOS2324-20</a></li>
+  <li><strong>URL</strong>:<a href="https://sos2324-20-415018.ew.r.appspot.com/">sos2324-20-415018.appspot.com</a></li>
+  <li><strong>APIs</strong>:
+    <ul>
+      <li>V1: <a href="https://sos2324-20-415018.ew.r.appspot.com/api/v1/life-expectancy/docs">https://sos2324-20-415018.ew.r.appspot.com/api/v1/life-expectancy/docs</a> developed by Alejandro Fernández Orozco</li>
+      <li>V2: <a href="https://sos2324-20-415018.ew.r.appspot.com/api/v2/life-expectancy/docs"> https://sos2324-20-415018.ew.r.appspot.com/api/v2/life-expectancy/docs</a> developed by Alejandro Fernández Orozco</li>
+      <li><a href="https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/docs">https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/docs</a> developed by Francisco Sáez Pérez</li>
+      <li><a href="https://sos2324-20-415018.ew.r.appspot.com/api/v1/phamaceutical-drugs-spending/docs">https://sos2324-20-415018.ew.r.appspot.com/api/v1/phamaceutical-drugs-spending/docs</a> developed by Rufino Moreno Pacheco</li>
+    </ul>
+  </li>
+</ul>
 </div>
 <style>
 	
