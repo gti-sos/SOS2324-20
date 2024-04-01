@@ -1,36 +1,113 @@
 <script>
-    import { onMount } from "svelte";
-    import {dev} from "$app/environment";
-    import {page} from '$app/stores';
+	import { onMount } from 'svelte';
+	import { dev } from '$app/environment';
+	import { page } from '$app/stores';
 
-    let API="/api/v1/life-expectancy";
-    if(dev){
-        API="http://localhost:10000/api/v1/life-expectancy";
-    }
+	let API = '/api/v1/life-expectancy';
+	if (dev) {
+		API = 'http://localhost:10000/api/v1/life-expectancy';
+	}
 
-    let country=$page.params.Country;
-    let year=$page.params.Year;
-    let selectedLifeExpectancy=[];
+	onMount(() => {
+		loadLifeExpectancy();
+	});
 
-    onMount(()=>{
-        getSelectedLifeExpectancy();
-    })
+	let selectedLifeExpectancy = {
+		country: '',
+		year: 0,
+		continent: '',
+		life_expectancy: 0,
+		population: 0,
+		co2_emissions: 0,
+		electric_power_consumption: 0,
+		forest_area: 0,
+		individuals_using_the_internet: 0,
+		military_expenditure: 0,
+		people_practicing_open_defecation: 0,
+		people_using_at_least_basic_drinking_water_services: 0,
+		beer_consumption_per_capita: 0
+	};
 
-    async function getSelectedLifeExpectancy(){
-        let response=await fetch(API,{
-                            method:"GET"
-                        })
+	let country = $page.params.Country;
+	let year = $page.params.Year;
 
-        let data=await response.json();
-        data.forEach((le) => {
-            if(le.country==country && le.year==year){
-                selectedLifeExpectancy.push(le);
-            }
-        });
-    }
+	let errorMsg = '';
+
+	async function loadLifeExpectancy() {
+		try {
+			let response = await fetch(`${API}?country=${country}&year=${year}`);
+			if (response.status === 200) {
+				let data = await response.json();
+				selectedLifeExpectancy = { ...selectedLifeExpectancy, ...data };
+			} else {
+				errorMsg = 'Error loading data';
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	}
 </script>
 
-{#if selectedLifeExpectancy.length > 0}
-    <p>Country: {selectedLifeExpectancy[0].country}</p>
-    <p>Year: {selectedLifeExpectancy[0].year}</p>
-{/if}
+<div class="container">
+	<div class="column">
+		<h1>Esperanza de vida de {country} en {year}</h1>
+		<table>
+			<tbody>
+				<tr>
+					<th>Country</th>
+					<td>{selectedLifeExpectancy.country}</td>
+				</tr>
+				<tr>
+					<th>Year</th>
+					<td>{selectedLifeExpectancy.year}</td>
+				</tr>
+				<tr>
+					<th>Continent</th>
+					<td>{selectedLifeExpectancy.continent}</td>
+				</tr>
+				<tr>
+					<th>Life Expectancy</th>
+					<td>{selectedLifeExpectancy.life_expectancy}</td>
+				</tr>
+				<tr>
+					<th>Population</th>
+					<td>{selectedLifeExpectancy.population}</td>
+				</tr>
+				<tr>
+					<th>CO2 Emissions</th>
+					<td>{selectedLifeExpectancy.co2_emissions}</td>
+				</tr>
+				<tr>
+					<th>Electric Power Consumption</th>
+					<td>{selectedLifeExpectancy.electric_power_consumption}</td>
+				</tr>
+				<tr>
+					<th>Forest Area</th>
+					<td>{selectedLifeExpectancy.forest_area}</td>
+				</tr>
+				<tr>
+					<th>Individuals Using the Internet</th>
+					<td>{selectedLifeExpectancy.individuals_using_the_internet}</td>
+				</tr>
+				<tr>
+					<th>Military Expenditure</th>
+					<td>{selectedLifeExpectancy.military_expenditure}</td>
+				</tr>
+				<tr>
+					<th>People Practicing Open Defecation</th>
+					<td>{selectedLifeExpectancy.people_practicing_open_defecation}</td>
+				</tr>
+				<tr>
+					<th>People Using at Least Basic Drinking Water Services</th>
+					<td>{selectedLifeExpectancy.people_using_at_least_basic_drinking_water_services}</td>
+				</tr>
+				<tr>
+					<th>Beer Consumption per Capita</th>
+					<td>{selectedLifeExpectancy.beer_consumption_per_capita}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+    <button><a href="/life-expectancy/{country}/{year}/edit">Editar</a></button>
+    <button><a href="/life-expectancy"> Volver atrás</a></button>
+</div>

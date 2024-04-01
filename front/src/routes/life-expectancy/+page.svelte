@@ -84,12 +84,19 @@
 		getLifeExpectancy();
 	});
 
-	async function getLifeExpectancy() {
-		let response = await fetch(API, { method: 'GET' });
 
-		let data = await response.json();
-		lifeExpectancy = data;
-		console.log(data);
+	async function getLifeExpectancy() {
+		try {
+			let response = await fetch(API, { method: 'GET' });
+			let data = await response.json();
+			if (data!=null) {
+				lifeExpectancy = data;
+			} else {
+				lifeExpectancy = [];
+			}
+		} catch (e) {
+				lifeExpectancy = [];
+		}
 	}
 
 	async function deleteLifeExpectancy(country, year) {
@@ -102,11 +109,13 @@
 					method: 'DELETE'
 				}
 			);
+			console.log(`Deletion response status: ${response.status}`);
 
-			if (response.status === 200) {
-				console.log('Life deleted');
+			if (response.status == 200) {
+				console.log('País borrado exitosamente');
+				getLifeExpectancy();
 			} else {
-				console.log('Error: ' + response.status);
+				console.log(`Error eliminando el pais, no existe, status code: ${status}`);
 			}
 		} catch (e) {
 			console.log('Error: ' + e);
@@ -119,8 +128,8 @@
 		try {
 			let response = await fetch(API + '/', { method: 'DELETE' });
 
-			if (response.status === 200) {
-				getLifeExpectancy();
+			if (response.status == 200) {
+				location.reload();
 			} else {
 				errorMsg = 'code' + response.status;
 			}
@@ -140,7 +149,8 @@
 			});
 			let status = await response.status;
 			console.log(`Creation response: ${status}`);
-			if (status === 201) {
+			if (status == 201) {
+				console.log(newLifeExpectancy);
 				getLifeExpectancy();
 			} else {
 				errorMsg = 'code' + response.status;
@@ -151,194 +161,162 @@
 	}
 </script>
 
-<table>
-	<thead>
-		<tr>
-			<th>Country</th>
-			<th>Year</th>
-			<th>Continent</th>
-			<th>Life Expectancy</th>
-			<th>Population</th>
-			<th>CO2 Emissions</th>
-			<th>Electric Power Consumption</th>
-			<th>Forest Area</th>
-			<th>Individuals Using The Internet</th>
-			<th>Military Expenditure</th>
-			<th>People Practicing Open Defecation</th>
-			<th>People Using At Least Basic Drinking Water Services</th>
-			<th>Beer Consumption Per Capita</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td
-				><input
-					type="text"
-					bind:value={newLifeExpectancy.country}
-					on:input={handleCountryChange}
-				/></td
-			>
-			<td
-				><input type="number" bind:value={newLifeExpectancy.year} on:input={handleYearChange} /></td
-			>
-			<td
-				><input
-					type="text"
-					bind:value={newLifeExpectancy.continent}
-					on:input={handleContinentChange}
-				/></td
-			>
-			<td
-				><input
-					type="number"
-					bind:value={newLifeExpectancy.life_expectancy}
-					on:input={handleLifeExpectancyChange}
-				/></td
-			>
-			<td
-				><input
-					type="number"
-					bind:value={newLifeExpectancy.population}
-					on:input={handlePopulationChange}
-				/></td
-			>
-			<td
-				><input
-					type="number"
-					bind:value={newLifeExpectancy.co2_emissions}
-					on:input={handleCo2EmissionsChange}
-				/></td
-			>
-			<td
-				><input
-					type="number"
-					bind:value={newLifeExpectancy.electric_power_consumption}
-					on:input={handleElectricPowerConsumptionChange}
-				/></td
-			>
-			<td
-				><input
-					type="number"
-					bind:value={newLifeExpectancy.forest_area}
-					on:input={handleForestAreaChange}
-				/></td
-			>
-			<td
-				><input
-					type="number"
-					bind:value={newLifeExpectancy.individuals_using_internet}
-					on:input={handleIndividualsUsingTheInternetChange}
-				/></td
-			>
-			<td
-				><input
-					type="number"
-					bind:value={newLifeExpectancy.military_expenditure}
-					on:input={handleMilitaryExpenditureChange}
-				/></td
-			>
-			<td
-				><input
-					type="number"
-					bind:value={newLifeExpectancy.open_defecation}
-					on:input={handlePeoplePracticingOpenDefecationChange}
-				/></td
-			>
-			<td
-				><input
-					type="number"
-					bind:value={newLifeExpectancy.basic_drinking_water_services}
-					on:input={handlePeopleUsingAtLeastBasicDrinkingWaterServicesChange}
-				/></td
-			>
-			<td
-				><input
-					type="number"
-					bind:value={newLifeExpectancy.beer_consumption_per_capita}
-					on:input={handleBeerConsumptionPerCapitaChange}
-				/></td
-			>
-		</tr>
-	</tbody>
-</table>
+<style>
+	.container {
+		display: flex;
+		justify-content: space-between;
+		padding: 20px;
+		background-color: #f4f4f4;
+	}
 
-<ul>
-	{#each lifeExpectancy as life}
-		<li>
-			{life.country} - {life.year} - {life.continent} - {life.life_expectancy} - {life.population} -
-			{life.co2_emissions} - {life.electric_power_consumption} - {life.forest_area} - {life.individuals_using_the_internet}
-			- {life.military_expenditure} - {life.people_practicing_open_defecation} - {life.people_using_at_least_basic_drinking_water_services}
-			- {life.beer_consumption_per_capita}
-			<button on:click={() => deleteLifeExpectancy(life.country, life.year)}>Delete</button>
-		</li>
-	{/each}
-	<br />
-	<br />
-	<button on:click={createLifeExpectancy}>Crear Dato</button>
-	<button on:click={deleteAllLifeExpectancy}>Borrar lista</button>
-</ul>
+	.column {
+		flex: 1;
+		margin: 10px;
+		padding: 20px;
+		background-color: white;
+		border-radius: 10px;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	}
+
+	.form-section {
+		margin-top: 20px;
+	}
+
+	.input-field {
+		width: 100%;
+		padding: 10px;
+		margin-bottom: 10px;
+		border: 1px solid #ddd;
+		border-radius: 5px;
+		box-sizing: border-box;
+		transition: border-color 0.3s ease;
+	}
+
+	.input-field:focus {
+		border-color: #007BFF;
+	}
+
+	.create-button, .delete-button {
+		padding: 10px 20px;
+		background-color: #007BFF;
+		color: white;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+
+	.create-button:hover, .delete-button:hover {
+		background-color: #0056b3;
+	}
+
+	.error-msg {
+		color: red;
+		margin-top: 10px;
+	}
+
+	.list-item {
+		margin-bottom: 10px;
+		padding: 10px;
+		border: 1px solid #ddd;
+		border-radius: 5px;
+	}
+
+	.delete-button {
+		margin-left: 10px;
+	}
+	.cabecera {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+		
+    }
+</style>
+
+<div class="container">
+	<div class="column">
+		<ul>
+			{#each lifeExpectancy as life}
+				<li class="list-item">
+					<a href="/life-expectancy/{life.country}/{life.year}">{life.country} - {life.year} - {life.life_expectancy}</a>
+					<a href="/life-expectancy/{life.country}/{life.year}/edit">
+					<button>
+						Editar
+					</button>
+					</a>
+					<button class="delete-button" on:click={() => deleteLifeExpectancy(life.country, life.year)}>Delete</button>
+				</li>
+			{/each}
+			<button on:click={deleteAllLifeExpectancy}>Borrar lista</button>
+		</ul>
+	</div>
+	<div class="column">
+		<div class="form-section">
+			<div class="cabecera">
+				<h2>Crear un nuevo dato</h2>
+				<button on:click={createLifeExpectancy} class="create-button">Crear Dato</button>
+			</div>
+				
+			<table>
+				<tbody>
+						<tr>
+							<th>Country</th>
+							<td><input type="text" bind:value={newLifeExpectancy.country} on:input={handleCountryChange} class="input-field"/></td>
+						</tr>
+						<tr>
+							<th>Year</th>
+							<td><input type="text" bind:value={newLifeExpectancy.year} on:input={handleYearChange} class="input-field"/></td>
+						</tr>
+						<tr>
+							<th>Continent</th>
+							<td><input type="text" bind:value={newLifeExpectancy.continent} on:input={handleContinentChange} class="input-field"/></td>
+						</tr>
+						<tr>
+							<th>Life Expectancy</th>
+							<td><input type="text" bind:value={newLifeExpectancy.life_expectancy} on:input={handleLifeExpectancyChange} class="input-field"/></td>
+						</tr>
+						<tr>
+							<th>Population</th>
+							<td><input type="text" bind:value={newLifeExpectancy.population} on:input={handlePopulationChange} class="input-field"/></td>
+						</tr>
+						<tr>
+							<th>CO2 Emissions</th>
+							<td><input type="text" bind:value={newLifeExpectancy.co2_emissions} on:input={handleCo2EmissionsChange} class="input-field"/></td>
+						</tr>
+						<tr>
+							<th>Electric Power Consumption</th>
+							<td><input type="text" bind:value={newLifeExpectancy.electric_power_consumption} on:input={handleElectricPowerConsumptionChange} class="input-field"/></td>
+						</tr>
+						<tr>
+							<th>Forest Area</th>
+							<td><input type="text" bind:value={newLifeExpectancy.forest_area} on:input={handleForestAreaChange} class="input-field"/></td>
+						</tr>
+						<tr>
+							<th>Individuals Using the Internet</th>
+							<td><input type="text" bind:value={newLifeExpectancy.individuals_using_internet} on:input={handleIndividualsUsingTheInternetChange} class="input-field"/></td>
+						</tr>
+						<tr>
+							<th>Military Expenditure</th>
+							<td><input type="text" bind:value={newLifeExpectancy.military_expenditure} on:input={handleMilitaryExpenditureChange} class="input-field"/></td>
+						</tr>
+						<tr>
+							<th>People Practicing Open Defecation</th>
+							<td><input type="text" bind:value={newLifeExpectancy.open_defecation} on:input={handlePeoplePracticingOpenDefecationChange} class="input-field"/></td>
+						</tr>
+						<tr>
+							<th>People Using at Least Basic Drinking Water Services</th>
+							<td><input type="text" bind:value={newLifeExpectancy.basic_drinking_water_services} on:input={handlePeopleUsingAtLeastBasicDrinkingWaterServicesChange} class="input-field"/></td>
+						</tr>
+						<tr>
+							<th>Beer Consumption per Capita</th>
+							<td><input type="text" bind:value={newLifeExpectancy.beer_consumption_per_capita} on:input={handleBeerConsumptionPerCapitaChange} class="input-field"/></td>
+						</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
 {#if errorMsg != ''}
 	<hr />
-	ERROR: {errorMsg}
+	<p class="error-msg">ERROR: {errorMsg}</p>
 {/if}
-
-<style>
-	table {
-		width: 100%;
-		border-collapse: collapse;
-	}
-
-	th,
-	td {
-		border: 0.0625em solid #ddd;
-		padding: 0.5em;
-		text-align: left;
-	}
-
-	th {
-		background-color: #f2f2f2;
-		color: black;
-	}
-
-	tr:nth-child(even) {
-		background-color: #f2f2f2;
-	}
-
-	button {
-		background-color: #4caf50;
-		color: white;
-		padding: 0.625em 1.5em;
-		margin: 0.5em 0;
-		border: none;
-		cursor: pointer;
-		text-align: center;
-		text-decoration: none;
-		display: inline-block;
-		font-size: 1em;
-	}
-
-	button:hover {
-		background-color: #45a049;
-	}
-
-	ul {
-		list-style-type: none;
-		padding: 0;
-	}
-
-	li {
-		padding: 0.625em;
-		margin-bottom: 0.3125em;
-		background-color: #f2f2f2;
-	}
-
-	input[type='text'],
-	input[type='number'] {
-		width: 100%;
-		padding: 0.375em 0.75em;
-		margin: 0.3125em 0;
-		display: inline-block;
-		border: 0.0625em solid #ccc;
-		box-sizing: border-box;
-	}
-</style>

@@ -17,7 +17,7 @@ import bodyParser from "body-parser";
 import {API_FSP}  from "./back/api/food-production/index-FSP.js";
 import { API_AFO } from "./back/api/life-expectancy/index-AFO.js";
 import { API_RMP } from "./back/api/pharmaceutical-drugs-spending/index-RMP.js";
-import { API_AFO_V2 } from "./back/api/life-expectancy/index-AFO2.js";
+import { API_AFO_V2 } from "./back/api/life-expectancy/index-AFO-v2.js";
 
 
 app.use(cors());
