@@ -9,7 +9,7 @@
 		API = 'http://localhost:10000/api/v1/food-production';
 	}
 
-	let food = [];
+	let reports = [];
 	let errorMsg = '';
 	let successMsg = '';
 	let newFood = {
@@ -65,11 +65,16 @@
 	});
 
 	async function getFood() {
-		let response = await fetch(API, { method: 'GET' });
-
-		let data = await response.json();
-		food = data;
-		console.log(data);
+		try {
+			let response = await fetch(API, {
+				method: 'GET'
+			});
+			let data = await response.json();
+			reports = data;
+			console.log(data);
+		} catch (e) {
+			errorMsg = e;
+		}
 	}
 
 	async function deleteFood(entity, year) {
@@ -86,7 +91,7 @@
 			let status = await response.status;
 			console.log(`Deletion response status: ${status}`);
 
-			if (status === 200) {
+			if (status == 200) {
 				console.log('País borrado exitosamente');
 				getFood();
 			} else {
@@ -108,14 +113,13 @@
 			let status = await response.status;
 			console.log(`Estado de la respuesta de eliminación: ${status}`);
 
-			if (status === 200) {
-				console.log('Todos los alimentos han sido eliminados exitosamente');
-				location.reload();
+			if (response.status == 200) {
+				reports = []
 			} else {
-				console.log(`Error eliminando todos los alimentos, código de estado: ${status}`);
+				errorMsg = 'Error borrando todos los reportes, código: ' + response.status;
 			}
 		} catch (e) {
-			console.log(`Error eliminando todos los alimentos: ${e}`);
+			errorMsg = e;
 		}
 	}
 	function confirmDelete() {
@@ -139,7 +143,7 @@
 			let status = await response.status;
 			console.log(`Creation response status: ${status}`);
 
-			if (status === 201) {
+			if (status == 201) {
 				getFood();
 				console.log('País creado exitosamente');
 				successMsg = 'País creado exitosamente';
@@ -226,7 +230,7 @@
 </table>
 
 <ul>
-	{#each food as foodItem}
+	{#each reports as foodItem}
 		<li>
 			{foodItem.Entity} - {foodItem.Year}
 			<button on:click={() => deleteFood(foodItem.Entity, foodItem.Year)}>Delete</button>
