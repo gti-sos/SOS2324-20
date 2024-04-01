@@ -3,9 +3,9 @@
 	import { dev } from '$app/environment';
 	import { page } from '$app/stores';
 
-	let API = '/api/v1/life-expectancy';
+	let API = '/api/v2/life-expectancy';
 	if (dev) {
-		API = 'http://localhost:10000/api/v1/life-expectancy';
+		API = 'http://localhost:10000/api/v2/life-expectancy';
 	}
 
 	onMount(() => {
@@ -35,7 +35,12 @@
 
 	async function loadLifeExpectancy() {
 		try {
-			let response = await fetch(`${API}?country=${country}&year=${year}`);
+			let response = await fetch(`${API}/${country}/${year}`);
+			if(await fetch(`${API}?country=${country}&year=${year}`).then((res) => res.status) === 404){
+			errorMsg = 'No se encontraron datos para el país y año seleccionados';
+			selectedLifeExpectancy = null
+			return;
+			}
 			if (response.status === 200) {
 				let data = await response.json();
 				selectedLifeExpectancy = { ...selectedLifeExpectancy, ...data };
@@ -47,7 +52,10 @@
 		}
 	}
 </script>
-
+{#if selectedLifeExpectancy === null}
+	<h1>{errorMsg}</h1>
+{/if}
+{#if selectedLifeExpectancy !== null}
 <div class="container">
 	<div class="column">
 		<h1>Esperanza de vida de {country} en {year}</h1>
@@ -111,7 +119,7 @@
 	<button><a href="/life-expectancy/{country}/{year}/edit">Editar</a></button>
 	<button><a href="/life-expectancy"> Volver atrás</a></button>
 </div>
-
+{/if}
 <style>
 	.container {
 		display: flex;

@@ -6,9 +6,9 @@
 	let country = $page.params.Country;
 	let year = $page.params.Year;
 	let errorMsg = '';
-	let API = '/api/v1/life-expectancy';
+	let API = '/api/v2/life-expectancy';
 	if (dev) {
-		API = 'http://localhost:10000/api/v1/life-expectancy';
+		API = 'http://localhost:10000/api/v2/life-expectancy';
 	}
 
 	let editedLifeExpectancy = {
@@ -33,7 +33,10 @@
 
 	async function loadLifeExpectancy() {
 		try {
-			let response = await fetch(`${API}?country=${country}&year=${year}`);
+			let response = await fetch(`${API}/${country}/${year}`);
+			if(await fetch(`${API}?country=${country}&year=${year}`).then((res) => res.status) === 404){
+			errorMsg = 'No se encontraron datos para el país y año seleccionados';
+			}
 			if (response.status === 200) {
 				let data = await response.json();
 				console.log(data);
@@ -46,6 +49,8 @@
 		}
 	}
 
+	
+	
 	async function editLifeExpectancy() {
 		try {
 			let response = await fetch(`${API}/country/${country}/${year}`, {

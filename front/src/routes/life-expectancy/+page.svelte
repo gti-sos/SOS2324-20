@@ -3,9 +3,9 @@
 	import { dev } from '$app/environment';
 
 	//Muestra si está en desarrollo
-	let API = '/api/v1/life-expectancy';
+	let API = '/api/v2/life-expectancy';
 	if (dev) {
-		API = 'http://localhost:10000/api/v1/life-expectancy';
+		API = 'http://localhost:10000/api/v2/life-expectancy';
 	}
 
 	let lifeExpectancy = [];
@@ -112,6 +112,7 @@
 
 			if (response.status == 200) {
 				console.log('País borrado exitosamente');
+				errorMsg = 'País borrado exitosamente';
 				getLifeExpectancy();
 			} else {
 				console.log(`Error eliminando el pais, no existe, status code: ${response.status}`);
@@ -128,6 +129,7 @@
 			let response = await fetch(API + '/', { method: 'DELETE' });
 
 			if (response.status == 200) {
+				errorMsg = 'Todos los datos han sido borrados exitosamente';
 				location.reload();
 			} else {
 				errorMsg = 'code' + response.status;
@@ -150,6 +152,7 @@
 			console.log(`Creation response: ${status}`);
 			if (status == 201) {
 				console.log(newLifeExpectancy);
+				errorMsg = 'Dato creado exitosamente';
 				getLifeExpectancy();
 			} else {
 				errorMsg = 'code' + response.status;
@@ -161,12 +164,12 @@
 
 	async function loadinitial() {
 		try {
-			let response = await fetch(API + '/loadInitialData', { method: 'GET' });
+			let response = await fetch(API + '/loadCSVData', { method: 'GET' });
 			let status = await response.status;
 			console.log(`Creation response: ${status}`);
 			if (status == 201) {
 				getLifeExpectancy();
-			
+				errorMsg = 'Datos iniciales cargados exitosamente';
 			}else if (status == 409) {
 				errorMsg = 'Data already exists';
 
@@ -200,7 +203,7 @@
 <button  class="load-data"  on:click={confirmload}>Cargar datos iniciales</button>
 {#if errorMsg != ''}
 	<hr />
-	<p class="error-msg">ERROR: {errorMsg}</p>
+	<p class="error-msg">{errorMsg}</p>
 {/if}
 
 <div class="container">
@@ -434,11 +437,6 @@
 	}
 	.load-data:hover {
 		background-color: #007bff;
-	}
-
-	.error-msg {
-		color: red;
-		margin-top: 10px;
 	}
 
 	.list-item {
