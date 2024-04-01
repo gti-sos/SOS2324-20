@@ -126,6 +126,7 @@ function API_AFO_V2(app, dbLifeExpectancy) {
     let limit = parseInt(req.query.limit) || 10;
     let offset = parseInt(req.query.offset) || 0;
     let query = req.query;
+    
     for (let key in query) {
         if (query.hasOwnProperty(key)) {
             if (key === "year") {
@@ -145,6 +146,9 @@ function API_AFO_V2(app, dbLifeExpectancy) {
                 query[key] = parseFloat(query[key]);
             } else if (key === "country" || key === "continent") {
                 query[key] = String(query[key]);
+            }
+            else if(key === "limit" || key === "offset"){
+                delete query[key];
             }
         }
     }

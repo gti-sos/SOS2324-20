@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { dev } from '$app/environment';
+	import { writable } from 'svelte/store';
 
 	//Muestra si está en desarrollo
 	let API = '/api/v2/life-expectancy';
@@ -81,12 +82,18 @@
 	}
 
 	onMount(() => {
+		getmaxpage();
 		getLifeExpectancy();
+
 	});
 
+	let pagina = 1;
+	
 	async function getLifeExpectancy() {
 		try {
-			let response = await fetch(API, { method: 'GET' });
+			let limit=10;
+			let offset= (pagina - 1 ) * limit;
+			let response = await fetch(`${API}/?offset=${offset}&limit=${limit}`, { method: 'GET' });
 			let data = await response.json();
 			if (data != null) {
 				lifeExpectancy = data;
@@ -227,6 +234,8 @@
 				</li>
 			{/each}
 		</ul>
+		<button on:click={() => {pagina = pagina - 1; getLifeExpectancy();}}>Anterior</button>
+		<button on:click={() => {pagina = pagina + 1; getLifeExpectancy();}}>Siguiente</button>
 	</div>
 	<div class="column">
 		<div class="form-section">
