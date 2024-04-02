@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { dev } from '$app/environment';
+	import { get } from 'svelte/store';
 
 	//Muestra si está en desarrollo
 	let API = '/api/v2/life-expectancy';
@@ -82,10 +83,24 @@
 
 	onMount(() => {
 		getLifeExpectancy();
+		getMax();
 	});
 
 	let pagina = 1;
-
+	let max = 0;
+	var restantes= 0;
+	
+	async function getMax(){
+		try{
+			let response = await fetch(`${API}/sizeDB`, { method: 'GET' });
+			max = await response.json();
+			restantes = max - (pagina * 10);
+		}
+		catch(e){
+			max = 0;
+		}
+	}
+		
 	async function getLifeExpectancy() {
 		try {
 			let limit = 10;
@@ -118,6 +133,7 @@
 				console.log('País borrado exitosamente');
 				errorMsg = 'País borrado exitosamente';
 				getLifeExpectancy();
+				getMax();
 			} else {
 				console.log(`Error eliminando el pais, no existe, status code: ${response.status}`);
 			}
@@ -158,6 +174,9 @@
 				console.log(newLifeExpectancy);
 				errorMsg = 'Dato creado exitosamente';
 				getLifeExpectancy();
+				getMax();
+			} else if (status == 409) {
+				errorMsg = 'El dato ya existe';
 			} else {
 				errorMsg = 'code' + response.status;
 			}
@@ -175,7 +194,7 @@
 				getLifeExpectancy();
 				errorMsg = 'Datos iniciales cargados exitosamente';
 			} else if (status == 409) {
-				errorMsg = 'Data already exists';
+				errorMsg = 'Los datos ya existen';
 			} else {
 				errorMsg = 'code' + response.status;
 			}
@@ -193,6 +212,7 @@
 	function confierdeleteall() {
 		if (confirm('¿Estás seguro de que quieres eliminar todos los datos?')) {
 			deleteAllLifeExpectancy();
+			alert('Todos los datos han sido borrados exitosamente');
 		}
 	}
 
@@ -229,18 +249,25 @@
 				</li>
 			{/each}
 		</ul>
-		<button
-			on:click={() => {
-				pagina = pagina - 1;
-				getLifeExpectancy();
-			}}>Anterior</button
-		>
-		<button
+		{#if pagina != 1}
+			<button
+				on:click={() => {
+					pagina = pagina - 1;
+					getLifeExpectancy();
+					getMax();
+				}}>Anterior</button
+			>
+		{/if}
+		{#if (restantes > 0)}
+			<button
 			on:click={() => {
 				pagina = pagina + 1;
 				getLifeExpectancy();
-			}}>Siguiente</button
-		>
+				getMax();
+			}}>Siguiente</button>
+
+		{/if}
+		
 	</div>
 	<div class="column">
 		<div class="form-section">

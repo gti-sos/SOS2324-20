@@ -122,6 +122,17 @@ function API_AFO_V2(app, dbLifeExpectancy) {
     });
   });
 
+  app.get(API_BASE+ "/sizeDB" , (req, res) => {
+    dbLifeExpectancy.count({}, (err, data) => {
+      if (err) {
+        res.sendStatus(500, err);
+      } else {
+        res.send(JSON.stringify(data, null, 2));
+      }
+    });
+  });
+
+
   app.get(API_BASE + "/", (req, res) => {
     let limit = parseInt(req.query.limit) || 10;
     let offset = parseInt(req.query.offset) || 0;
