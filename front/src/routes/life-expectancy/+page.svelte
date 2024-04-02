@@ -1,7 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
 	import { dev } from '$app/environment';
-	import { writable } from 'svelte/store';
 
 	//Muestra si está en desarrollo
 	let API = '/api/v2/life-expectancy';
@@ -82,17 +81,15 @@
 	}
 
 	onMount(() => {
-		getmaxpage();
 		getLifeExpectancy();
-
 	});
 
 	let pagina = 1;
-	
+
 	async function getLifeExpectancy() {
 		try {
-			let limit=10;
-			let offset= (pagina - 1 ) * limit;
+			let limit = 10;
+			let offset = (pagina - 1) * limit;
 			let response = await fetch(`${API}/?offset=${offset}&limit=${limit}`, { method: 'GET' });
 			let data = await response.json();
 			if (data != null) {
@@ -177,9 +174,8 @@
 			if (status == 201) {
 				getLifeExpectancy();
 				errorMsg = 'Datos iniciales cargados exitosamente';
-			}else if (status == 409) {
+			} else if (status == 409) {
 				errorMsg = 'Data already exists';
-
 			} else {
 				errorMsg = 'code' + response.status;
 			}
@@ -201,13 +197,13 @@
 	}
 
 	function confirmedelete(country, year) {
-		if (confirm('¿Estás seguro de que quieres eliminar ' + country + ' - ' + year +' ?')) {
+		if (confirm('¿Estás seguro de que quieres eliminar ' + country + ' - ' + year + ' ?')) {
 			deleteLifeExpectancy(country, year);
 		}
 	}
-			
 </script>
-<button  class="load-data"  on:click={confirmload}>Cargar datos iniciales</button>
+
+<button class="load-data" on:click={confirmload}>Cargar datos iniciales</button>
 {#if errorMsg != ''}
 	<hr />
 	<p class="error-msg">{errorMsg}</p>
@@ -227,15 +223,24 @@
 					<a href="/life-expectancy/{life.country}/{life.year}/edit">
 						<button class="edit-button"> Editar </button>
 					</a>
-					<button
-						class="delete-button"
-						on:click={() => confirmedelete(life.country, life.year)}>Borrar</button
+					<button class="delete-button" on:click={() => confirmedelete(life.country, life.year)}
+						>Borrar</button
 					>
 				</li>
 			{/each}
 		</ul>
-		<button on:click={() => {pagina = pagina - 1; getLifeExpectancy();}}>Anterior</button>
-		<button on:click={() => {pagina = pagina + 1; getLifeExpectancy();}}>Siguiente</button>
+		<button
+			on:click={() => {
+				pagina = pagina - 1;
+				getLifeExpectancy();
+			}}>Anterior</button
+		>
+		<button
+			on:click={() => {
+				pagina = pagina + 1;
+				getLifeExpectancy();
+			}}>Siguiente</button
+		>
 	</div>
 	<div class="column">
 		<div class="form-section">
