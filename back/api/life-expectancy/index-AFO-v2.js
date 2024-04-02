@@ -7,20 +7,20 @@ const API_BASE = "/api/v2/life-expectancy";
 var initialData = [];
 
 function readCSVFile(filePath) {
-    const results = [];
+  const results = [];
 
-    return new Promise((resolve, reject) => {
-        fs.createReadStream(filePath)
-            .pipe(csv())
-            .on('data', (data) => results.push(parseardato(data)))
-            .on('end', () => {
-                initialData = results;
-                resolve();
-            })
-            .on('error', (error) => {
-                reject(error);
-            });
-    });
+  return new Promise((resolve, reject) => {
+    fs.createReadStream(filePath)
+      .pipe(csv())
+      .on("data", (data) => results.push(parseardato(data)))
+      .on("end", () => {
+        initialData = results;
+        resolve();
+      })
+      .on("error", (error) => {
+        reject(error);
+      });
+  });
 }
 
 function parseardato(dato) {
@@ -99,15 +99,15 @@ function validarDatos(req, res, next) {
 function API_AFO_V2(app, dbLifeExpectancy) {
   app.use(bodyParser.json());
 
-  readCSVFile('back/csvS/life_expectancy.csv')
+  readCSVFile("back/csvS/life_expectancy.csv")
     .then(() => {})
-    .catch(error => console.error(error));
+    .catch((error) => console.error(error));
 
   app.get(API_BASE + "/docs", (_req, res) => {
     res.redirect("https://documenter.getpostman.com/view/32925029/2sA35HXM1w");
   });
 
-  app.get(API_BASE + "/loadCSVData",(_req, res) => {
+  app.get(API_BASE + "/loadCSVData", (_req, res) => {
     dbLifeExpectancy.find({}, (err, datos) => {
       if (err) {
         res.sendStatus(500, "Internal Server Error");
@@ -126,87 +126,100 @@ function API_AFO_V2(app, dbLifeExpectancy) {
     let limit = parseInt(req.query.limit) || 10;
     let offset = parseInt(req.query.offset) || 0;
     let query = req.query;
-    
+    let from = parseInt(req.query.from) || null;
+    let to = parseInt(req.query.to) || null;
+
     for (let key in query) {
-        if (query.hasOwnProperty(key)) {
-            if (key === "year") {
-                query[key] = parseInt(query[key]);
-            } else if (
-                key === "life_expectancy" ||
-                key === "population" ||
-                key === "co2_emissions" ||
-                key === "electric_power_consumption" ||
-                key === "forest_area" ||
-                key === "individuals_using_the_internet" ||
-                key === "military_expenditure" ||
-                key === "people_practicing_open_defecation" ||
-                key === "people_using_at_least_basic_drinking_water_services" ||
-                key === "beer_consumption_per_capita"
-            ) {
-                query[key] = parseFloat(query[key]);
-            } else if (key === "country" || key === "continent") {
-                query[key] = String(query[key]);
-            }
-            else if(key === "limit" || key === "offset"){
-                delete query[key];
-            }
+      if (query.hasOwnProperty(key)) {
+        if (key === "year") {
+          query[key] = parseInt(query[key]);
+        } else if (
+          key === "life_expectancy" ||
+          key === "population" ||
+          key === "co2_emissions" ||
+          key === "electric_power_consumption" ||
+          key === "forest_area" ||
+          key === "individuals_using_the_internet" ||
+          key === "military_expenditure" ||
+          key === "people_practicing_open_defecation" ||
+          key === "people_using_at_least_basic_drinking_water_services" ||
+          key === "beer_consumption_per_capita"
+        ) {
+          query[key] = parseFloat(query[key]);
+        } else if (key === "country" || key === "continent") {
+          query[key] = String(query[key]);
+        } else if (key === "limit" || key === "offset") {
+          delete query[key];
+        } else if (key === "from" || key === "to") {
+          delete query[key];
         }
-    }
-
-    if (query.country && query.year) {
-        dbLifeExpectancy.findOne(query).sort({ country: 1, year: 1 }).exec((err, data) => {
-            if (err) {
-                res.sendStatus(500, err);
-            } else {
-                if (data) {
-                    delete data._id;
-                    res.send(JSON.stringify(data, null, 2));
-                } else {
-                    res.sendStatus(404, "Not Found");
-                }
-            }
-        });
-    } else {
-        dbLifeExpectancy
-            .find(query)
-            .sort({ country: 1, year: 1 })
-            .skip(offset)
-            .limit(limit)
-            .exec((err, data) => {
-                if (err) {
-                    res.sendStatus(500, err);
-                } else {
-                    if (data.length === 0) {
-                        res.send([]);
-                    } else {
-                        data.map((i) => {
-                            delete i._id;
-                        });
-                        res.send(JSON.stringify(data, null, 2));
-                    }
-                }
-            });
-    }
-});
-
-app.get(API_BASE + "/:country/:year", (req, res) => {
-  let country = req.params.country;
-  let year = parseInt(req.params.year);
-
-  dbLifeExpectancy.findOne({ country: country, year: year }, (err, data) => {
-    if (err) {
-      res.sendStatus(500, err);
-    } else {
-      if (data) {
-        delete data._id;
-        res.send(JSON.stringify(data, null, 2));
-      } else {
-        res.sendStatus(404, "Not Found");
       }
     }
-  });
-});
 
+    if (from && to) {
+      query.year = { $gte: from, $lte: to };
+    } else if (from) {
+      query.year = { $gte: from };
+    } else if (to) {
+      query.year = { $lte: to };
+    }
+
+    if (query.country && query.year && !from && !to && (!from || !to)) {
+      dbLifeExpectancy
+        .findOne(query)
+        .sort({ country: 1, year: 1 })
+        .exec((err, data) => {
+          if (err) {
+            res.sendStatus(500, err);
+          } else {
+            if (data) {
+              delete data._id;
+              res.send(JSON.stringify(data, null, 2));
+            } else {
+              res.sendStatus(404, "Not Found");
+            }
+          }
+        });
+    } else {
+      dbLifeExpectancy
+        .find(query)
+        .sort({ country: 1, year: 1 })
+        .skip(offset)
+        .limit(limit)
+        .exec((err, data) => {
+          if (err) {
+            res.sendStatus(500, err);
+          } else {
+            if (data.length === 0) {
+              res.send([]);
+            } else {
+              data.map((i) => {
+                delete i._id;
+              });
+              res.send(JSON.stringify(data, null, 2));
+            }
+          }
+        });
+    }
+  });
+
+  app.get(API_BASE + "/:country/:year", (req, res) => {
+    let country = req.params.country;
+    let year = parseInt(req.params.year);
+
+    dbLifeExpectancy.findOne({ country: country, year: year }, (err, data) => {
+      if (err) {
+        res.sendStatus(500, err);
+      } else {
+        if (data) {
+          delete data._id;
+          res.send(JSON.stringify(data, null, 2));
+        } else {
+          res.sendStatus(404, "Not Found");
+        }
+      }
+    });
+  });
 
   //POST 1
   app.post(API_BASE + "/", validarDatos, (req, res) => {
@@ -233,7 +246,6 @@ app.get(API_BASE + "/:country/:year", (req, res) => {
     );
   });
 
-  
   //PUT 1
   app.put(API_BASE + "/", (_, res) => {
     res.sendStatus(405, "Method Not Allowed");
