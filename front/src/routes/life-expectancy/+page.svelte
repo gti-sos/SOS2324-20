@@ -236,15 +236,16 @@
 			<button class="delete-button" on:click={confierdeleteall}>Borrar lista</button>
 		</div>
 
-		<ul>
+		<ul class="ul-container">
 			{#each lifeExpectancy as life}
-				<li class="list-item">
+				<ul class="list-item">
 					<a href="/life-expectancy/{life.country}/{life.year}">{life.country} - {life.year} &nbsp;</a>
-					<button class="edit-button" onclick="window.location.href = '/life-expectancy/{life.country}/{life.year}/edit'"> Editar </button>
-					<button class="delete-button" on:click={() => confirmedelete(life.country, life.year)}
-						>Borrar</button
-					>
-				</li>
+					<div class="buttons">
+						<button class="edit-button" onclick="window.location.href = '/life-expectancy/{life.country}/{life.year}/edit'"> Editar </button>
+						<button class="delete-button" on:click={() => confirmedelete(life.country, life.year)}>Borrar</button>
+					</div>
+					
+				</ul>
 			{/each}
 		</ul>
 		<div class="botonera">
@@ -431,7 +432,10 @@
 </div>
 
 <style>
-
+	.buttons{
+		display: flex;
+		align-items: center;
+	}
 	a{
 		text-decoration: none;
 		color: black;
@@ -445,6 +449,7 @@
 		justify-content: space-between;
 		padding: 20px;
 		background-color: #f4f4f4;
+
 	}
 	.botonera {
 		display: flex;
@@ -540,6 +545,9 @@
 		padding: 10px;
 		border: 1px solid #ddd;
 		border-radius: 5px;
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
 	}
 
 	.delete-button {
@@ -550,5 +558,9 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+	}
+	ul {
+		list-style-type: none;
+		padding: 0;
 	}
 </style>
