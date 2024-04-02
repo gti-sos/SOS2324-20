@@ -245,8 +245,8 @@
 			</tr>
 		</tbody>
 	</table>
-	<button on:click={editLifeExpectancy}> Actualizar datos</button>
-	<a href="/life-expectancy/{country}/{year}"><button> Volver atrás</button></a>
+	<button class="edit-button" on:click={editLifeExpectancy}> Actualizar datos</button>
+	<button class="back-button" onclick="window.location.href = '/life-expectancy/{country}/{year}'"> Volver atrás</button>
 </div>
 
 <style>
@@ -267,28 +267,27 @@
 		color: #333333;
 	}
 
-	button {
+	.edit-button{
+		margin-top: 20px;
+		padding: 10px 20px;
+		background-color: #00b15e;
+		color: #ffffff;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+
+	.back-button {
+		margin-top: 20px;
+		padding: 10px 20px;
 		background-color: #cccccc;
 		color: #333333;
-		padding: 10px 24px;
-		margin: 10px;
 		border: none;
-		text-align: center;
-		text-decoration: none;
-		display: inline-block;
-		font-size: 16px;
-		transition-duration: 0.4s;
+		border-radius: 5px;
 		cursor: pointer;
+		transition: background-color 0.3s ease;
 	}
-
-	button:hover {
-		background-color: #bbbbbb;
-	}
-
-	a {
-		text-decoration: none;
-	}
-
 	.container {
 		display: flex;
 		flex-direction: column;

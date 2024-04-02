@@ -116,8 +116,8 @@
 			</tbody>
 		</table>
 	</div>
-	<button><a href="/life-expectancy/{country}/{year}/edit">Editar</a></button>
-	<button><a href="/life-expectancy"> Volver atrás</a></button>
+	<button class="edit-button" onclick="window.location.href = '/life-expectancy/{country}/{year}/edit'">Editar</button>
+	<button class="back-button" onclick="window.location.href = '/life-expectancy'"> Volver atrás</button>
 </div>
 {/if}
 <style>
@@ -156,13 +156,30 @@
 		background-color: #dddddd;
 		color: #333333;
 	}
-
-	button {
+	.back-button {
 		margin-top: 20px;
 		padding: 10px 20px;
-		font-size: 16px;
 		background-color: #cccccc;
 		color: #333333;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+
+	.edit-button {
+		margin-top: 20px;
+		padding: 10px 20px;
+		background-color: #00b15e;
+		color: #ffffff;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+
+	.edit-button:hover {
+		background-color: #006435;
 	}
 	button:hover {
 		background-color: #bbbbbb;

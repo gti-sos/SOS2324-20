@@ -88,19 +88,18 @@
 
 	let pagina = 1;
 	let max = 0;
-	var restantes= 0;
-	
-	async function getMax(){
-		try{
+	var restantes = 0;
+
+	async function getMax() {
+		try {
 			let response = await fetch(`${API}/sizeDB`, { method: 'GET' });
 			max = await response.json();
-			restantes = max - (pagina * 10);
-		}
-		catch(e){
+			restantes = max - pagina * 10;
+		} catch (e) {
 			max = 0;
 		}
 	}
-		
+
 	async function getLifeExpectancy() {
 		try {
 			let limit = 10;
@@ -192,6 +191,7 @@
 			console.log(`Creation response: ${status}`);
 			if (status == 201) {
 				getLifeExpectancy();
+				getMax();
 				errorMsg = 'Datos iniciales cargados exitosamente';
 			} else if (status == 409) {
 				errorMsg = 'Los datos ya existen';
@@ -239,35 +239,39 @@
 		<ul>
 			{#each lifeExpectancy as life}
 				<li class="list-item">
-					<a href="/life-expectancy/{life.country}/{life.year}">{life.country} - {life.year}</a>
-					<a href="/life-expectancy/{life.country}/{life.year}/edit">
-						<button class="edit-button"> Editar </button>
-					</a>
+					<a href="/life-expectancy/{life.country}/{life.year}">{life.country} - {life.year} &nbsp;</a>
+					<button class="edit-button" onclick="window.location.href = '/life-expectancy/{life.country}/{life.year}/edit'"> Editar </button>
 					<button class="delete-button" on:click={() => confirmedelete(life.country, life.year)}
 						>Borrar</button
 					>
 				</li>
 			{/each}
 		</ul>
-		{#if pagina != 1}
-			<button
-				on:click={() => {
-					pagina = pagina - 1;
-					getLifeExpectancy();
-					getMax();
-				}}>Anterior</button
-			>
-		{/if}
-		{#if (restantes > 0)}
-			<button
-			on:click={() => {
-				pagina = pagina + 1;
-				getLifeExpectancy();
-				getMax();
-			}}>Siguiente</button>
-
-		{/if}
-		
+		<div class="botonera">
+			{#if pagina != 1}
+				<button
+					class="previous-button"
+					on:click={() => {
+						pagina = pagina - 1;
+						getLifeExpectancy();
+						getMax();
+					}}>Anterior</button
+				>
+			{/if}
+			{#if max!=0}
+				<p>&nbsp; Página &nbsp; {pagina} &nbsp;</p>
+			{/if}
+			{#if restantes > 0}
+				<button
+					class="next-button"
+					on:click={() => {
+						pagina = pagina + 1;
+						getLifeExpectancy();
+						getMax();
+					}}>Siguiente</button
+				>
+			{/if}
+		</div>
 	</div>
 	<div class="column">
 		<div class="form-section">
@@ -427,13 +431,27 @@
 </div>
 
 <style>
+
+	a{
+		text-decoration: none;
+		color: black;
+		
+	}
+	a:visited{
+		color: black;
+	}
 	.container {
 		display: flex;
 		justify-content: space-between;
 		padding: 20px;
 		background-color: #f4f4f4;
 	}
-
+	.botonera {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+	}
 	.column {
 		flex: 1;
 		margin: 10px;
@@ -459,11 +477,10 @@
 	}
 
 	.create-button,
-	.delete-button,
-	.edit-button,
-	.load-data {
+	.previous-button,
+	.next-button {
 		padding: 10px 20px;
-		background-color: #cccccc;
+		background-color: #80ff00;
 		color: #333333;
 		border: none;
 		border-radius: 5px;
@@ -471,13 +488,51 @@
 		transition: background-color 0.3s ease;
 	}
 
-	.create-button:hover,
-	.delete-button:hover,
-	.edit-button:hover {
-		background-color: #bbbbbb;
+	.delete-button {
+		padding: 10px 20px;
+		background-color: #ff0000;
+		color: #ffffff;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
 	}
-	.load-data:hover {
+
+	.edit-button {
+		padding: 10px 20px;
+		background-color: #00b15e;
+		color: #ffffff;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+
+	.load-data {
+		padding: 10px 20px;
 		background-color: #007bff;
+		color: #ffffff;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+	.delete-button:hover {
+		background-color: #b40000;
+	}
+
+	.edit-button:hover {
+		background-color: #006435;
+	}
+
+	.create-button:hover,
+	.previous-button:hover,
+	.next-button:hover {
+		background-color: #218d00;
+	}
+
+	.load-data:hover {
+		background-color: #005dc0;
 	}
 
 	.list-item {
