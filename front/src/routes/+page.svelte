@@ -19,7 +19,8 @@
     <ul>
       <li>V1: <a href="https://sos2324-20-415018.ew.r.appspot.com/api/v1/life-expectancy/docs">https://sos2324-20-415018.ew.r.appspot.com/api/v1/life-expectancy/docs</a> developed by Alejandro Fernández Orozco</li>
       <li>V2: <a href="https://sos2324-20-415018.ew.r.appspot.com/api/v2/life-expectancy/docs"> https://sos2324-20-415018.ew.r.appspot.com/api/v2/life-expectancy/docs</a> developed by Alejandro Fernández Orozco</li>
-      <li><a href="https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/docs">https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/docs</a> developed by Francisco Sáez Pérez</li>
+      <li>V1:<a href="https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/docs">https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/docs</a> developed by Francisco Sáez Pérez</li>
+      <li>V2:<a href="https://sos2324-20-415018.ew.r.appspot.com/api/v2/food-production/docs">https://sos2324-20-415018.ew.r.appspot.com/api/v2/food-production/docs</a> developed by Francisco Sáez Pérez</li>
       <li><a href="https://sos2324-20-415018.ew.r.appspot.com/api/v1/phamaceutical-drugs-spending/docs">https://sos2324-20-415018.ew.r.appspot.com/api/v1/phamaceutical-drugs-spending/docs</a> developed by Rufino Moreno Pacheco</li>
     </ul>
   </li>
