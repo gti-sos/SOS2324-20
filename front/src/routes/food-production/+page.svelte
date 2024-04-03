@@ -5,9 +5,9 @@
 	import { Button, Col, Row } from '@sveltestrap/sveltestrap';
 
 	//Muestra si está en desarrollo
-	let API = '/api/v1/food-production';
+	let API = '/api/v2/food-production';
 	if (dev) {
-		API = 'http://localhost:10000/api/v1/food-production';
+		API = 'http://localhost:10000/api/v2/food-production';
 	}
 
 	let reports = [];

@@ -14,4 +14,6 @@
 
   - [https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/docs] (developed by Francisco Sáez Pérez)
 
+  - V2: [https://sos2324-20-415018.ew.r.appspot.com/api/v2/food-production/docs] ( developed by Francisco Sáez Pérez)
+
   - [https://sos2324-20-415018.ew.r.appspot.com/api/v1/phamaceutical-drugs-spending/docs] (developed by Rufino Moreno Pacheco)
