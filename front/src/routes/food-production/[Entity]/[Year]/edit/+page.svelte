@@ -8,9 +8,9 @@
 
 	let errorMsg = '';
 
-	let API = '/api/v1/food-production';
+	let API = '/api/v2/food-production';
 	if (dev) {
-		API = 'http://localhost:10000/api/v1/food-production';
+		API = 'http://localhost:10000/api/v2/food-production';
 	}
 
 	let editedFoodProduction = {
@@ -31,7 +31,10 @@
 
 	async function loadFoodProduction() {
 		try {
-			let response = await fetch(`${API}?Entity=${country}&Year=${year}`);
+			let response = await fetch(`${API}/${country}/${year}`);
+			if (await fetch(`${API}?Entity=${country}&Year=${year}`).then((res) => res.status) === 404) {
+				errorMsg = 'No se encontraron datos para el país y año seleccionados';
+			}
 			if (response.status === 200) {
 				let data = await response.json();
 				editedFoodProduction = { ...editedFoodProduction, ...data };
@@ -64,15 +67,15 @@
 	}
 
 	function parseInput(value, type) {
-        switch (type) {
-            case 'number':
-                return Number(value);
-            case 'string':
-                return String(value);
-            default:
-                return value;
-        }
-    }
+		switch (type) {
+			case 'number':
+				return Number(value);
+			case 'string':
+				return String(value);
+			default:
+				return value;
+		}
+	}
 </script>
 
 {#if errorMsg}
@@ -182,39 +185,64 @@
 			</tr>
 		</tbody>
 	</table>
-	<button on:click={editFoodProduction}>Actualizar datos</button>
-	<a href="/food-production/{country}/{year}"><button>Volver atrás</button></a>
+	<button class="edit-button" on:click={editFoodProduction}> Actualizar datos</button>
+	<button class="back-button" onclick="window.location.href = '/food-production/{country}/{year}'"> Volver atrás</button>
 </div>
 
 <style>
+	table {
+		border-collapse: collapse;
+		margin: 0 auto;
+	}
+
+	th,
+	td {
+		border: 1px solid #ddd;
+		padding: 8px;
+		text-align: left;
+	}
+
+	th {
+		background-color: #dddddd;
+		color: #333333;
+	}
+
+	.edit-button{
+		margin-top: 20px;
+		padding: 10px 20px;
+		background-color: #00b15e;
+		color: #ffffff;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+
+	.back-button {
+		margin-top: 20px;
+		padding: 10px 20px;
+		background-color: #cccccc;
+		color: #333333;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
 	.container {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		width: 80%;
+		margin: auto;
 		padding: 20px;
+		box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+		background-color: #ffffff;
+		border-radius: 10px;
 	}
 
-	table {
-		border-collapse: collapse;
-		margin: 0 auto; /* Centra la tabla horizontalmente */
-	}
-
-	table,
-	th,
-	td {
-		border: 1px solid black;
-		padding: 10px;
-		text-align: center; /* Centra el texto en las celdas */
-	}
-
-	th {
-		background-color: #f2f2f2;
-	}
-
-	input {
-		width: 100%;
-		padding: 5px;
-		box-sizing: border-box;
+	h1 {
+		color: #333333;
+		margin-bottom: 20px;
 	}
 </style>

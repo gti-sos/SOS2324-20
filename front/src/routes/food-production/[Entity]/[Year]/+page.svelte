@@ -3,9 +3,9 @@
 	import { dev } from '$app/environment';
 	import { page } from '$app/stores';
 
-	let API = '/api/v1/food-production';
+	let API = '/api/v2/food-production';
 	if (dev) {
-		API = 'http://localhost:10000/api/v1/food-production';
+		API = 'http://localhost:10000/api/v2/food-production';
 	}
 
 	onMount(() => {
@@ -31,7 +31,14 @@
 
 	async function loadFoodProduction() {
 		try {
-			let response = await fetch(`${API}?Entity=${country}&Year=${year}`);
+			let response = await fetch(`${API}/${country}/${year}`);
+			if (
+				(await fetch(`${API}?Entity=${country}&Year=${year}`).then((res) => res.status)) === 404
+			) {
+				errorMsg = 'No se encontraron datos para el país y año seleccionados';
+				selectedFoodProduction = null;
+				return;
+			}
 			if (response.status === 200) {
 				let data = await response.json();
 				selectedFoodProduction = { ...selectedFoodProduction, ...data };
@@ -44,6 +51,9 @@
 	}
 </script>
 
+{#if selectedFoodProduction === null}
+	<h1>{errorMsg}</h1>
+{/if}
 <div class="container">
 	<div class="column">
 		<h1>Producción de alimentos de {country} en {year}</h1>
@@ -88,8 +98,8 @@
 			</tbody>
 		</table>
 	</div>
-	<button><a href="/food-production/{country}/{year}/edit">Editar</a></button>
-	<button><a href="/food-production">Volver atrás</a></button>
+	<button class="edit-button" onclick="window.location.href = '/food-production/{country}/{year}/edit'">Editar</button>
+	<button class="back-button" onclick="window.location.href = '/food-production'"> Volver atrás</button>
 </div>
 
 <style>
@@ -98,6 +108,8 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		background-color: #ffffff;
+		box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
 		padding: 20px;
 	}
 
@@ -123,12 +135,38 @@
 	}
 
 	th {
-		background-color: #f2f2f2;
+		background-color: #dddddd;
+		color: #333333;
 	}
-
-	button {
+	.back-button {
 		margin-top: 20px;
 		padding: 10px 20px;
-		font-size: 16px;
+		background-color: #cccccc;
+		color: #333333;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+
+	.edit-button {
+		margin-top: 20px;
+		padding: 10px 20px;
+		background-color: #00b15e;
+		color: #ffffff;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+
+	.edit-button:hover {
+		background-color: #006435;
+	}
+	button:hover {
+		background-color: #bbbbbb;
+	}
+	h1 {
+		color: #333333;
 	}
 </style>

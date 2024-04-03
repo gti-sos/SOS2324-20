@@ -228,6 +228,10 @@ function API_FSP_V2(app, dbFood) {
           query[key] = parseInt(query[key]);
         } else if (key === "Entity") {
           query[key] = String(query[key]);
+        } else if (key === "limit" || key === "offset") {
+          delete query[key];
+        } else if (key === "from" || key === "to") {
+          delete query[key];
         }
       }
     }
