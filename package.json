@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "install:frontend": "cd front && npm install && npm run build && cd ..",
-    "test": "npm run test-life-expectancy && npm run test-life-expectancy-v2 && npm run test-food-production-v2 && npm run test-phamaceutical-drugs-spending",
+    "test": "npm run test-life-expectancy && npm run test-life-expectancy-v2 && npm run test-food-production && npm run test-food-production-v2 && npm run test-phamaceutical-drugs-spending",
     "test-life-expectancy": "newman run ./back/tests/api-life-expectation/api-life-expectation-test.json -e ./back/tests/api-life-expectation/environment/local.json",
     "test-life-expectancy-v2": "newman run ./back/tests/api-life-expectation/api-life-expectation-test-v2.json -e ./back/tests/api-life-expectation/environment/local.json",
     "test-food-production": "newman run ./back/tests/api-food-production/api-food-production-test.json -e ./back/tests/api-food-production/environment/local.json",
