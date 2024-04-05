@@ -3,9 +3,9 @@
 	import { dev } from '$app/environment';
 	import { page } from '$app/stores';
 
-	let API = '/api/v2/life-expectancy';
+	let API = '/api/v2/food-production';
 	if (dev) {
-		API = 'http://localhost:10000/api/v2/life-expectancy';
+		API = 'http://localhost:10000/api/v2/food-production';
 	}
 
 	onMount(() => {
@@ -13,12 +13,13 @@
 	});
 
 	let errorMsg = '';
-	let country = $page.params.Country;
-	let year = $page.params.Year;
+	let country = $page.params.Entity;
+    let year = $page.params.Year;
 	let data = '';
+
 	async function getSearch() {
 		try {
-			let response = await fetch(`${API}?country=${country}&year=${year}`);
+			let response = await fetch(`${API}?Entity=${country}&Year=${year}`);
 			if (response.status === 200) {
 				let datas = await response.json();
 				data = datas;
@@ -34,7 +35,7 @@
 		}
 	}
 
-	async function deleteLifeExpectancy(country, year) {
+	async function deleteFoodProduction(country, year) {
 		console.log(`Deleting ${country} for year ${year}`);
 
 		try {
@@ -60,14 +61,14 @@
 
 	function confirmedelete(country, year) {
 		if (confirm('¿Estás seguro de que quieres eliminar ' + country + ' - ' + year + ' ?')) {
-			deleteLifeExpectancy(country, year);
+			deleteFoodProduction(country, year);
 		}
 	}
 </script>
 
 <div class="container">
 	<div class="column">
-		<h1>Esperanza de vida</h1>
+		<h1>Producción de comida de los países</h1>
 		<p>Resultados para {country} - {year}</p>
 		{#if errorMsg != ''}
 			<hr />
@@ -76,12 +77,12 @@
 		{#if errorMsg == ''}
 		<ul class="ul-container">
 			<ul class="list-item">
-				<a href="/life-expectancy/{data.country}/{data.year}">{data.country} - {data.year} &nbsp;</a
+				<a href="/food-production/{data.country}/{data.year}">{data.country} - {data.year} &nbsp;</a
 				>
 				<div class="buttons">
 					<button
 						class="button"
-						onclick="window.location.href = '/life-expectancy/{data.country}/{data.year}/edit'"
+						onclick="window.location.href = '/food-production/{data.country}/{data.year}/edit'"
 						>Editar</button
 					>
 					<button class="button" on:click={() => confirmedelete(data.country, data.year)}

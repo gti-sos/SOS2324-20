@@ -77,7 +77,7 @@
 					<div class="buttons">
 						<button
 							class="button"
-							onclick="windows.location.href = '/life-expectancy/{data.country}/{data.year}/edit'"
+							onclick="window.location.href = '/life-expectancy/{data.country}/{data.year}/edit'"
 							>Editar</button
 						>
 						<button class="button" on:click={() => confirmedelete(data.country, data.year)}

@@ -150,7 +150,6 @@
 	}
 
 	async function createFood() {
-
 		try {
 			let response = await fetch(API, {
 				method: 'POST',
@@ -204,9 +203,29 @@
 			loadinitial();
 		}
 	}
+
+	let inputEntity = '';
+	let inputYear = '';
 </script>
 
-<button class="load-data" on:click={confirmload}>Cargar datos iniciales</button>
+<div class="header">
+	<button class="load-data" on:click={confirmload}>Cargar datos iniciales</button>
+	<div class="search">
+		<p>Para realizar la búsqueda, ingrese un valor con la primera letra en Mayúsculas</p>
+		<input type="text" bind:value={inputEntity} placeholder="Afghanistan" />
+		<input type="text" bind:value={inputYear} placeholder="1962" />
+		{#if inputYear != '' && inputEntity != ''}
+			<button onclick="window.location.href='/food-production/{inputEntity}/{inputYear}/search'"
+				>Buscar</button
+			>
+		{/if}
+		{#if inputYear == ''}
+			<button onclick="window.location.href='/food-production/{inputEntity}/search'">Buscar</button
+			>
+		{/if}
+	</div>
+</div>
+
 {#if errorMsg != ''}
 	<hr />
 	<p class="error-msg">{errorMsg}</p>
@@ -378,6 +397,12 @@
 </div>
 
 <style>
+	.header{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 20px;
+	}
 	.buttons {
 		display: flex;
 		align-items: center;
