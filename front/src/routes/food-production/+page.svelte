@@ -71,9 +71,9 @@
 
 	async function getFood() {
 		try {
-			//let limit = 10;
-			//let offset = (pagina - 1) * limit;
-			let response = await fetch(API, { method: 'GET' });
+			let limit = 10;
+			let offset = (pagina - 1) * limit;
+			let response = await fetch(`${API}/?offset=${offset}&limit=${limit}`, { method: 'GET' });
 			let data = await response.json();
 			if (data != null) {
 				foodProduction = data;
