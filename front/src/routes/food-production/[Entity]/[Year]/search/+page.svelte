@@ -77,15 +77,15 @@
 		{#if errorMsg == ''}
 		<ul class="ul-container">
 			<ul class="list-item">
-				<a href="/food-production/{data.country}/{data.year}">{data.country} - {data.year} &nbsp;</a
+				<a href="/food-production/{data.Entity}/{data.Year}">{data.Entity} - {data.Year} &nbsp;</a
 				>
 				<div class="buttons">
 					<button
 						class="button"
-						onclick="window.location.href = '/food-production/{data.country}/{data.year}/edit'"
+						onclick="window.location.href = '/food-production/{data.Entity}/{data.Year}/edit'"
 						>Editar</button
 					>
-					<button class="button" on:click={() => confirmedelete(data.country, data.year)}
+					<button class="button" on:click={() => confirmedelete(data.Entity, data.Year)}
 						>Borrar</button
 					>
 				</div>
