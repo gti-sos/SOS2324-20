@@ -3,6 +3,10 @@
 	import Footer from './Footer.svelte';
 </script>
 
+<svelte:head>
+	<title> Proyecto realizado por el grupo 20 </title>
+</svelte:head>
+
 <Header />
 
 <main>

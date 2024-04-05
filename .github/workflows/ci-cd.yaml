@@ -8,6 +8,7 @@ jobs:
       - run: cd front; npm install; cd ..
       - run: cd front; npm run build; cd ..
       - run: npm install
+      - run: npx playwright install --with-deps
       - run: npm start &
       - run: npm test
 
