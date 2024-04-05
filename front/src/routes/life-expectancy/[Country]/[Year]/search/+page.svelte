@@ -73,6 +73,7 @@
 			<hr />
 			<p class="error-msg">{errorMsg}</p>
 		{/if}
+		{#if errorMsg == ''}
 		<ul class="ul-container">
 			<ul class="list-item">
 				<a href="/life-expectancy/{data.country}/{data.year}">{data.country} - {data.year} &nbsp;</a
@@ -89,5 +90,6 @@
 				</div>
 			</ul>
 		</ul>
+		{/if}
 	</div>
 </div>

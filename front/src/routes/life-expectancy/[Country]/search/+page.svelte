@@ -69,6 +69,7 @@
 			<hr />
 			<p class="error-msg">{errorMsg}</p>
 		{/if}
+		{#if errorMsg== ''}
 		<ul class="ul-container">
 			{#each list_search as data}
 				<ul class="list-item">
@@ -86,5 +87,6 @@
 				</ul>
 			{/each}
 		</ul>
+		{/if}
 	</div>
 </div>
