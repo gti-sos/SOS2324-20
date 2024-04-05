@@ -26,6 +26,9 @@
 					errorMsg = 'No se encontraron resultados';
 				}
 			}
+			if (response.status === 404) {
+				errorMsg = 'No se encontraron resultados';
+			}
 		} catch (error) {
 			errorMsg = 'Error loading data';
 		}
