@@ -366,7 +366,7 @@
 							Editar
 						</button>
 						<button
-							class="delete-button"
+							class="delete-button2"
 							on:click={() => deleteLifeExpectancy(lifeExpectancy.country, lifeExpectancy.year)}
 							>Borrar</button
 						>
@@ -643,7 +643,7 @@
 		transition: background-color 0.3s ease;
 	}
 
-	.delete-button {
+	.delete-button, .delete-button2{
 		padding: 10px 20px;
 		background-color: #ff0000;
 		color: #ffffff;

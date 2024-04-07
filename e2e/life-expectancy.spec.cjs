@@ -7,35 +7,38 @@ test("Header", async ({ page }) => {
   expect(header).toBeDefined();
 });
 
-
 test("Charge Data", async ({ page }) => {
   await page.goto("http://localhost:10000/life-expectancy");
-
   // Espera a que el botón esté presente en la página
-  await page.locator(".load-data").click();
-  let messageNew = await page.locator(".enlace").first();
-  expect(messageNew).toBeDefined();
+  await page.getByText('Crear Dato').click();
+  await page.waitForTimeout(100);
+  let CountryCount = (await page.locator('.list-item').all()).length;
+  expect(CountryCount).toBe(1);
 });
+
+
 
 test("List Countries", async ({ page }) => {
   await page.goto("http://localhost:10000/life-expectancy");
-
-  await page.waitForTimeout(300);
-
-  let CountryCount = (await page.locator(".ul-container").all()).length;
+  await page.getByText("Borrar lista").click();
+  await page.getByText('Cargar datos iniciales').click();
+  await page.waitForTimeout(100);
+  let CountryCount = (await page.locator(".list-item").all()).length;
   expect(CountryCount).toBeGreaterThan(0);
 });
 
+
 test("life-expectancy delete all data works", async ({ page }) => {
   await page.goto("http://localhost:10000/life-expectancy");
-  await page.waitForTimeout(100);
-
+  await page.getByText("Cargar datos iniciales").click();
   await page.getByText("Borrar lista").click();
-  page.on("dialog", async (dialog) => {
-    console.log(dialog.message());
-    await dialog.accept();
-  });
-  let CountryCount = (await page.locator(".list-item").all()).length;
   await page.waitForTimeout(100);
-  expect(CountryCount).toBeLessThan(1);
+  let CountryCount = (await page.locator(".list-item").all()).length;
+  expect(CountryCount).toBe(0);
 });
+
+
+
+
+
+
