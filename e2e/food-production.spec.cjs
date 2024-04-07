@@ -14,14 +14,12 @@ test('List Countrys', async ({ page }) => {
 });
 /*
 test('Create new Country-Year', async ({ page }) => {
-  await page.goto('http://localhost:10000');
+  await page.goto('http://localhost:10000/food-production');
 
-  await page.getByRole('navigation').getByRole('link', { Entity: 'food-production' }).click();
-
-  await page.getByRole('button', { name: 'Crear'}).click();
-  let messageNewEntity = (await page.getByText('Persona creada con éxito'));
+  // Espera a que el botón esté presente en la página
+  await page.getByText('Crear Dato').click();
+  let messageNewEntity = (await page.getByText('País creado exitosamente'));
   expect(messageNewEntity).toBeVisible();
-
 });
 
 test('Delete a Country-Year', async ({ page }) => {
@@ -35,17 +33,20 @@ test('Delete a Country-Year', async ({ page }) => {
   expect(messageDeletedCountry).toBeVisible();
 
 });
+*/
+test('food-production delete all data works', async ({ page }) => {
+    await page.goto('http://localhost:10000/food-production');
+    await page.waitForTimeout(100);
 
-test('Delete all', async ({ page }) => {
-  await page.goto('http://localhost:10000');
+    await page.getByText('Borrar lista').click();
+    page.on('dialog', async dialog => {
+        console.log(dialog.message());
+        await dialog.accept();
+    });
+    let EntityCount = (await page.locator('.list-item').all()).length;
+    await page.waitForTimeout(100);
+    expect(EntityCount).toBeLessThan(1);
 
-  await page.getByRole('navigation').getByRole('link', { name: 'food-production' }).click();
-  await page.waitForTimeout(2000);
-
-  await page.getByRole('button', { name: 'Borrar todo'}).click();
-
-  let messageDeletedCountry = (await page.getByText('Países borrados con éxito'));
-  expect(messageDeletedCountry).toBeVisible();
 
 });
-*/
+

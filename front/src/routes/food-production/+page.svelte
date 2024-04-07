@@ -164,7 +164,7 @@
 
 			if (status == 201) {
 				console.log(newFood);
-				successMsg = 'País creado exitosamente';
+				errorMsg = 'País creado exitosamente';
 				getFood();
 				getMax();
 			} else if (status == 409) {
