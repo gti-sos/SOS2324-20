@@ -81,7 +81,7 @@
 
 		try {
 			let response = await fetch(
-				`${API}/location/${encodeURIComponent(location)}/${encodeURIComponent(time)}`,
+				`${API}/${encodeURIComponent(location)}/${encodeURIComponent(time)}`,
 				{
 					method: 'DELETE'
 				}
