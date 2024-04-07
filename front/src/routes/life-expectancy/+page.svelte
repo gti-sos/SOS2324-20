@@ -169,8 +169,8 @@
 
 			if (response.status == 200) {
 				console.log('País borrado exitosamente');
-				errorMsg = 'País borrado exitosamente';
 				getLifeExpectancy();
+				errorMsg = 'País borrado exitosamente';
 				getMax();
 			} else {
 				console.log(`Error eliminando el pais, no existe, status code: ${response.status}`);
@@ -241,6 +241,7 @@
 			errorMsg = e;
 		}
 	}
+
 
 
 	let search_country = '';
