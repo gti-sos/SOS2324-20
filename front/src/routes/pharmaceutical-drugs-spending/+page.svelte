@@ -52,7 +52,7 @@
 
 	async function getMax() {
 		try {
-			let response = await fetch(`${API}/sizeDB`, { method: 'GET' });
+			let response = await fetch(`${API}/`, { method: 'GET' });
 			max = await response.json();
 			restantes = max - pagina * 10;
 		} catch (e) {
@@ -178,7 +178,7 @@
 
 	function confirmedelete(location, time) {
 		if (confirm('¿Estás seguro de que quieres eliminar ' + location + ' - ' + time + ' ?')) {
-			deleteLifeExpectancy(location, time);
+			deleteDrugSpending(location, time);
 		}
 	}
 
