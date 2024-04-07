@@ -7,14 +7,6 @@ test("Header", async ({ page }) => {
   expect(header).toBeDefined();
 });
 
-test("List Countries", async ({ page }) => {
-  await page.goto("http://localhost:10000/life-expectancy");
-
-  await page.waitForTimeout(300);
-
-  let CountryCount = (await page.locator(".ul-container").all()).length;
-  expect(CountryCount).toBeGreaterThan(0);
-});
 
 test("Charge Data", async ({ page }) => {
   await page.goto("http://localhost:10000/life-expectancy");
@@ -23,6 +15,15 @@ test("Charge Data", async ({ page }) => {
   await page.locator(".load-data").click();
   let messageNew = await page.locator(".enlace").first();
   expect(messageNew).toBeDefined();
+});
+
+test("List Countries", async ({ page }) => {
+  await page.goto("http://localhost:10000/life-expectancy");
+
+  await page.waitForTimeout(300);
+
+  let CountryCount = (await page.locator(".ul-container").all()).length;
+  expect(CountryCount).toBeGreaterThan(0);
 });
 
 test("life-expectancy delete all data works", async ({ page }) => {
