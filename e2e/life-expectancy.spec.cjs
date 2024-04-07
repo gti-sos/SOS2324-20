@@ -12,8 +12,8 @@ test("List Countries", async ({ page }) => {
 
   await page.waitForTimeout(300);
 
-  let EntityCount = (await page.locator(".ul-container").all()).length;
-  expect(EntityCount).toBeGreaterThan(0);
+  let CountryCount = (await page.locator(".ul-container").all()).length;
+  expect(CountryCount).toBeGreaterThan(0);
 });
 
 test("Charge Data", async ({ page }) => {
@@ -34,7 +34,7 @@ test("life-expectancy delete all data works", async ({ page }) => {
     console.log(dialog.message());
     await dialog.accept();
   });
-  let EntityCount = (await page.locator(".list-item").all()).length;
+  let CountryCount = (await page.locator(".list-item").all()).length;
   await page.waitForTimeout(100);
-  expect(EntityCount).toBeLessThan(1);
+  expect(CountryCount).toBeLessThan(1);
 });
