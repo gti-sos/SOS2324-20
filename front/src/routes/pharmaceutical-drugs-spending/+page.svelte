@@ -15,7 +15,6 @@
 		location: 'LocationName',
 		time: 0,
 		pc_healthxp: 0,
-		life_expectancy: 0,
 		pc_gdp: 0,
 		usd_cap: 0,
 		total_spend: 0
@@ -223,7 +222,7 @@
 			{#each drugSpending as drug}
 				<ul class="list-item">
 					<a href="/pharmaceutical-drugs-spending/{drug.location}/{drug.time}"
-						>{life.location} - {life.time} &nbsp;</a
+						>{drug.location} - {drug.time} &nbsp;</a
 					>
 					<div class="buttons">
 						<button
