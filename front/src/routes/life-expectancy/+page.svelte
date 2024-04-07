@@ -1,7 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
 	import { dev } from '$app/environment';
-	import { get } from 'svelte/store';
 
 	//Muestra si está en desarrollo
 	let API = '/api/v2/life-expectancy';
@@ -104,15 +103,55 @@
 		try {
 			let limit = 10;
 			let offset = (pagina - 1) * limit;
-			let response = await fetch(`${API}/?offset=${offset}&limit=${limit}`, { method: 'GET' });
-			let data = await response.json();
+			let query = `?offset=${offset}&limit=${limit}`;
+			var params = query;
+			let params_not_found = false;
+			let params_ids = '';
+			for (const [key, value] of Object.entries(search)) {
+				if (value != '') {
+					params = params + `&${key}=${value}`;
+				}
+			}
+			if (search_country && search_year) {
+				params_not_found = true;
+				params_ids = params + `&country=${search_country}&year=${search_year}`;
+			} else {
+				if (search_country) {
+					params_not_found = true;
+					params_ids = params + `&country=${search_country}`;
+				} else {
+					if (search_year) {
+						params_not_found = true;
+						params_ids = params + `&year=${search_year}`;
+					} else {
+						params_ids = params;
+					}
+				}
+			}
+			const response = await fetch(API + params_ids, { method: 'GET' });
+			const data = await response.json();
 			if (data != null) {
 				lifeExpectancy = data;
 			} else {
 				lifeExpectancy = [];
 			}
+			let status = await response.status;
+			if (status == 404) {
+				errorMsg = 'No se encontraron resultados';
+			}
+			if (status == 200) {
+				errorMsg = '';
+			}
+			if (status == 500) {
+				errorMsg = 'Error cargando datos';
+			}
+			if (params_not_found) {
+				if (data.length == 0) {
+					errorMsg = 'No se encontraron resultados';
+				}
+			}
 		} catch (e) {
-			lifeExpectancy = [];
+			console.log('Error: ' + e);
 		}
 	}
 
@@ -222,23 +261,97 @@
 		}
 	}
 
-	let inputCountry='';
-	let inputYear='';
+	let search_country = '';
+	let search_year = '';
+	let search = {
+		continent: '',
+		life_expectancy: '',
+		population: '',
+		co2_emissions: '',
+		electric_power_consumption: '',
+		forest_area: '',
+		individuals_using_the_internet: '',
+		military_expenditure: '',
+		people_practicing_open_defecation: '',
+		people_using_at_least_basic_drinking_water_services: '',
+		beer_consumption_per_capita: '',
+		from: '',
+		to: ''
+	};
+
+	let show_search = false;
+	const toggle_search = () => (
+		(show_search = !show_search),
+		(search_country = ''),
+		(search_year = ''),
+		(search.continent = ''),
+		(search.life_expectancy = ''),
+		(search.population = ''),
+		(search.co2_emissions = ''),
+		(search.electric_power_consumption = ''),
+		(search.forest_area = ''),
+		(search.individuals_using_the_internet = ''),
+		(search.military_expenditure = ''),
+		(search.people_practicing_open_defecation = ''),
+		(search.people_using_at_least_basic_drinking_water_services = ''),
+		(search.beer_consumption_per_capita = ''),
+		(search.from = ''),
+		(search.to = ''),
+		getLifeExpectancy()
+	);
+
+	async function searchLF() {
+		show_search = true;
+	}
 </script>
 
 <div class="header">
 	<button class="load-data" on:click={confirmload}>Cargar datos iniciales</button>
-	<div class="search">
-		<p>Para realizar la búsqueda, ingrese un valor con la primera letra en Mayúsculas</p>
-		<input type="text" bind:value={inputCountry} placeholder="Spain"/>
-		<input type="text" bind:value={inputYear} placeholder="2020"/>
-		{#if (inputYear != '')&& (inputCountry != '')}
-			<button onclick="window.location.href='/life-expectancy/{inputCountry}/{inputYear}/search'">Buscar</button>
-		{/if}
-		{#if (inputYear == '')}
-			<button onclick="window.location.href='/life-expectancy/{inputCountry}/search'">Buscar</button>
-		{/if}
-	</div>
+	{#if !show_search}
+		<button class="search" on:click={searchLF}>Realizar buscar</button>
+	{/if}
+	{#if show_search}
+		<div class="search">
+			<p>Para realizar la búsqueda, ingrese un valor con la primera letra en Mayúsculas</p>
+			<input type="text" bind:value={search_country} placeholder="pais" />
+			<input type="text" bind:value={search_year} placeholder="año" />
+			<input type="text" bind:value={search.continent} placeholder="continente" />
+			<input type="text" bind:value={search.life_expectancy} placeholder="esperanza de vida" />
+			<input type="text" bind:value={search.population} placeholder="population" />
+			<input type="text" bind:value={search.co2_emissions} placeholder="co2" />
+			<input
+				type="text"
+				bind:value={search.electric_power_consumption}
+				placeholder="consumo electrico"
+			/>
+			<input type="text" bind:value={search.forest_area} placeholder="area de bosque" />
+			<input
+				type="text"
+				bind:value={search.individuals_using_the_internet}
+				placeholder="uso de internet"
+			/>
+			<input type="text" bind:value={search.military_expenditure} placeholder="gastos militares" />
+			<input
+				type="text"
+				bind:value={search.people_practicing_open_defecation}
+				placeholder="defecación abierta"
+			/>
+			<input
+				type="text"
+				bind:value={search.people_using_at_least_basic_drinking_water_services}
+				placeholder="servicios de agua potable básicos"
+			/>
+			<input
+				type="text"
+				bind:value={search.beer_consumption_per_capita}
+				placeholder="consumo de cerveza per capita"
+			/>
+			<input type="text" bind:value={search.from} placeholder="desde" />
+			<input type="text" bind:value={search.to} placeholder="hasta" />
+			<button on:click={getLifeExpectancy}>Buscar</button>
+			<button class="search" on:click={toggle_search}>Cancelar</button>
+		</div>
+	{/if}
 </div>
 
 {#if errorMsg != ''}
@@ -254,16 +367,49 @@
 		</div>
 
 		<ul class="ul-container">
-			{#each lifeExpectancy as life}
+			{#if lifeExpectancy.length == 0}
+				<p>No hay datos</p>
+			{/if}
+			{#if !Array.isArray(lifeExpectancy)}
 				<ul class="list-item">
-					<a class="enlace" href="/life-expectancy/{life.country}/{life.year}">{life.country} - {life.year} &nbsp;</a>
+					<a href="/life-expectancy/{lifeExpectancy.country}/{lifeExpectancy.year}"
+						>{lifeExpectancy.country} - {lifeExpectancy.year} &nbsp;</a
+					>
 					<div class="buttons">
-						<button class="edit-button" onclick="window.location.href = '/life-expectancy/{life.country}/{life.year}/edit'"> Editar </button>
-						<button class="delete-button" on:click={() => confirmedelete(life.country, life.year)}>Borrar</button>
+						<button
+							class="edit-button"
+							onclick="window.location.href = '/life-expectancy/{lifeExpectancy.country}/{lifeExpectancy.year}/edit'"
+						>
+							Editar
+						</button>
+						<button
+							class="delete-button"
+							on:click={() => confirmedelete(lifeExpectancy.country, lifeExpectancy.year)}
+							>Borrar</button
+						>
 					</div>
-					
 				</ul>
-			{/each}
+			{/if}
+			{#if Array.isArray(lifeExpectancy)}
+				{#each lifeExpectancy as life}
+					<ul class="list-item">
+						<a class="enlace" href="/life-expectancy/{life.country}/{life.year}"
+							>{life.country} - {life.year} &nbsp;</a
+						>
+						<div class="buttons">
+							<button
+								class="edit-button"
+								onclick="window.location.href = '/life-expectancy/{life.country}/{life.year}/edit'"
+							>
+								Editar
+							</button>
+							<button class="delete-button" on:click={() => confirmedelete(life.country, life.year)}
+								>Borrar</button
+							>
+						</div>
+					</ul>
+				{/each}
+			{/if}
 		</ul>
 		<div class="botonera">
 			{#if pagina != 1}
@@ -276,7 +422,7 @@
 					}}>Anterior</button
 				>
 			{/if}
-			{#if max!=0}
+			{#if max != 0}
 				<p>&nbsp; Página &nbsp; {pagina} &nbsp;</p>
 			{/if}
 			{#if restantes > 0}
@@ -449,22 +595,21 @@
 </div>
 
 <style>
-	.header{
+	.header {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		padding: 20px;
 	}
-	.buttons{
+	.buttons {
 		display: flex;
 		align-items: center;
 	}
-	a{
+	a {
 		text-decoration: none;
 		color: black;
-		
 	}
-	a:visited{
+	a:visited {
 		color: black;
 	}
 	.container {
@@ -472,7 +617,6 @@
 		justify-content: space-between;
 		padding: 20px;
 		background-color: #f4f4f4;
-
 	}
 	.botonera {
 		display: flex;
