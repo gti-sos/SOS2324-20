@@ -256,7 +256,7 @@
 		<ul class="ul-container">
 			{#each lifeExpectancy as life}
 				<ul class="list-item">
-					<a href="/life-expectancy/{life.country}/{life.year}">{life.country} - {life.year} &nbsp;</a>
+					<a class="enlace" href="/life-expectancy/{life.country}/{life.year}">{life.country} - {life.year} &nbsp;</a>
 					<div class="buttons">
 						<button class="edit-button" onclick="window.location.href = '/life-expectancy/{life.country}/{life.year}/edit'"> Editar </button>
 						<button class="delete-button" on:click={() => confirmedelete(life.country, life.year)}>Borrar</button>
