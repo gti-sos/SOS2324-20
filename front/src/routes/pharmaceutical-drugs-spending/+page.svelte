@@ -72,7 +72,7 @@
 				drugSpending = [];
 			}
 		} catch (e) {
-			lifeExpectancy = [];
+			drugSpending = [];
 		}
 	}
 
