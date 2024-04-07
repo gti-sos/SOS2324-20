@@ -164,7 +164,7 @@
 
 			if (status == 201) {
 				console.log(newFood);
-				successMsg = 'País creado exitosamente';
+				errorMsg = 'País creado exitosamente';
 				getFood();
 				getMax();
 			} else if (status == 409) {
@@ -209,7 +209,7 @@
 </script>
 
 <div class="header">
-	<button class="load-data" on:click={confirmload}>Cargar datos iniciales</button>
+	<button class="load-data" on:click={loadinitial}>Cargar datos iniciales</button>
 	<div class="search">
 		<p>Para realizar la búsqueda, ingrese un valor con la primera letra en Mayúsculas</p>
 		<input type="text" bind:value={inputEntity} placeholder="Afghanistan" />
@@ -235,7 +235,7 @@
 	<div class="column">
 		<div class="cabecera">
 			<h2>Lista de datos</h2>
-			<button class="delete-button" on:click={confirmDelete}>Borrar lista</button>
+			<button class="delete-button" on:click={deleteAllFood}>Borrar lista</button>
 		</div>
 
 		<ul class="ul-container">
@@ -249,7 +249,7 @@
 						>
 							Editar
 						</button>
-						<button class="delete-button" on:click={() => deleteFood(f.Entity, f.Year)}
+						<button class="delete-button2" on:click={() => deleteFood(f.Entity, f.Year)}
 							>Borrar</button
 						>
 					</div>
@@ -471,7 +471,15 @@
 		cursor: pointer;
 		transition: background-color 0.3s ease;
 	}
-
+	.delete-button2 {
+		padding: 10px 20px;
+		background-color: #ff0000;
+		color: #ffffff;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
 	.edit-button {
 		padding: 10px 20px;
 		background-color: #00b15e;

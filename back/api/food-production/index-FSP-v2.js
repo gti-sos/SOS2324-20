@@ -173,7 +173,7 @@ function validarDatos(req, res, next) {
 
 function API_FSP_V2(app, dbFood) {
   app.use(bodyParser.json());
-  dbFood.insert(initialData);
+  //dbFood.insert(initialData);         //para cargar los datos iniciales automaticamente
 
   app.get(API_BASE + "/docs", (req, res) => {
     res.redirect("https://documenter.getpostman.com/view/32976936/2sA35K2fzg");

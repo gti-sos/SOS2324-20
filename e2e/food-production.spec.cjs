@@ -4,48 +4,53 @@ const { test, expect } = require('@playwright/test');
 test('List Countrys', async ({ page }) => {
   await page.goto('http://localhost:10000/food-production');
 
-  //await page.getByRole('navigation').getByRole('link', { name: 'food-production' }).click();
+  await page.getByText('Cargar datos iniciales').click();
 
-  await page.waitForTimeout(300);
+  await page.waitForTimeout(100);
 
   let EntityCount = (await page.locator('.list-item').all()).length;
   expect(EntityCount).toBeGreaterThan(0);
 
 });
-/*
+
+test('food-production delete all data works', async ({ page }) => {
+  await page.goto('http://localhost:10000/food-production');
+  await page.waitForTimeout(100);
+  await page.getByText('Cargar datos iniciales').click();
+
+  await page.waitForTimeout(100);
+  
+  await page.getByText('Borrar lista').click();
+  await page.waitForTimeout(100);
+  let EntityCount = (await page.locator('.list-item').all()).length;
+  expect(EntityCount).toBe(0);
+
+});
+
 test('Create new Country-Year', async ({ page }) => {
-  await page.goto('http://localhost:10000');
+  await page.goto('http://localhost:10000/food-production');
 
-  await page.getByRole('navigation').getByRole('link', { Entity: 'food-production' }).click();
-
-  await page.getByRole('button', { name: 'Crear'}).click();
-  let messageNewEntity = (await page.getByText('Persona creada con éxito'));
-  expect(messageNewEntity).toBeVisible();
-
+  // Espera a que el botón esté presente en la página
+  await page.getByText('Crear Dato').click();
+  await page.waitForTimeout(100);
+  let EntityCount = (await page.locator('.list-item').all()).length;
+  expect(EntityCount).toBe(1);
 });
 
 test('Delete a Country-Year', async ({ page }) => {
-  await page.goto('http://localhost:10000');
+  await page.goto('http://localhost:10000/food-production');
 
-  await page.getByRole('navigation').getByRole('link', { name: 'food-production' }).click();
+  await page.waitForTimeout(100);
+ // await page.getByText('Crear Dato').click();
+ // await page.waitForTimeout(100);
+  let EntityCount = (await page.locator('.list-item').all()).length;
+  await page.locator('.delete-button2').click();
 
-  await page.locator('div').filter({ hasText: /^Louis Armstrong- Male Borrar$/ }).getByRole('button').click();
-
-  let messageDeletedCountry = (await page.getByText('Persona borrada con éxito'));
-  expect(messageDeletedCountry).toBeVisible();
-
-});
-
-test('Delete all', async ({ page }) => {
-  await page.goto('http://localhost:10000');
-
-  await page.getByRole('navigation').getByRole('link', { name: 'food-production' }).click();
-  await page.waitForTimeout(2000);
-
-  await page.getByRole('button', { name: 'Borrar todo'}).click();
-
-  let messageDeletedCountry = (await page.getByText('Países borrados con éxito'));
-  expect(messageDeletedCountry).toBeVisible();
+  await page.waitForTimeout(100);
+  let EntityCount2 = (await page.locator('.list-item').all()).length;
+  expect(EntityCount2).toBeLessThan(EntityCount);
 
 });
-*/
+
+
+
