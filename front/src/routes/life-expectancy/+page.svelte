@@ -242,24 +242,6 @@
 		}
 	}
 
-	function confirmload() {
-		if (confirm('¿Estás seguro de que quieres cargar los datos iniciales?')) {
-			loadinitial();
-		}
-	}
-
-	function confierdeleteall() {
-		if (confirm('¿Estás seguro de que quieres eliminar todos los datos?')) {
-			deleteAllLifeExpectancy();
-			alert('Todos los datos han sido borrados exitosamente');
-		}
-	}
-
-	function confirmedelete(country, year) {
-		if (confirm('¿Estás seguro de que quieres eliminar ' + country + ' - ' + year + ' ?')) {
-			deleteLifeExpectancy(country, year);
-		}
-	}
 
 	let search_country = '';
 	let search_year = '';
@@ -306,7 +288,7 @@
 </script>
 
 <div class="header">
-	<button class="load-data" on:click={confirmload}>Cargar datos iniciales</button>
+	<button class="load-data" on:click={loadinitial}>Cargar datos iniciales</button>
 	{#if !show_search}
 		<button class="search" on:click={searchLF}>Realizar buscar</button>
 	{/if}
@@ -363,7 +345,7 @@
 	<div class="column">
 		<div class="cabecera">
 			<h2>Lista de datos</h2>
-			<button class="delete-button" on:click={confierdeleteall}>Borrar lista</button>
+			<button class="delete-button" on:click={deleteAllLifeExpectancy}>Borrar lista</button>
 		</div>
 
 		<ul class="ul-container">
@@ -384,7 +366,7 @@
 						</button>
 						<button
 							class="delete-button"
-							on:click={() => confirmedelete(lifeExpectancy.country, lifeExpectancy.year)}
+							on:click={() => deleteLifeExpectancy(lifeExpectancy.country, lifeExpectancy.year)}
 							>Borrar</button
 						>
 					</div>
@@ -403,7 +385,7 @@
 							>
 								Editar
 							</button>
-							<button class="delete-button" on:click={() => confirmedelete(life.country, life.year)}
+							<button class="delete-button" on:click={() => deleteLifeExpectancy(life.country, life.year)}
 								>Borrar</button
 							>
 						</div>
