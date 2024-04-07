@@ -11,7 +11,6 @@
 
 	let foodProduction = [];
 	let errorMsg = '';
-	let successMsg = '';
 	let newFood = {
 		Entity: 'EntityName',
 		Year: 2024,
@@ -73,16 +72,55 @@
 		try {
 			let limit = 10;
 			let offset = (pagina - 1) * limit;
-			let response = await fetch(`${API}/?offset=${offset}&limit=${limit}`, { method: 'GET' });
-			let data = await response.json();
+			let query = `?offset=${offset}&limit=${limit}`;
+			var params = query;
+			let params_not_found = false;
+			let params_ids = '';
+			for (const [key, value] of Object.entries(search)) {
+				if (value != '') {
+					params = params + `&${key}=${value}`;
+				}
+			}
+			if (search_country && search_year) {
+				params_not_found = true;
+				params_ids = params + `&Entity=${search_country}&Year=${search_year}`;
+			} else {
+				if (search_country) {
+					params_not_found = true;
+					params_ids = params + `&Entity=${search_country}`;
+				} else {
+					if (search_year) {
+						params_not_found = true;
+						params_ids = params + `&Year=${search_year}`;
+					} else {
+						params_ids = params;
+					}
+				}
+			}
+			const response = await fetch(API + params_ids, { method: 'GET' });
+			const data = await response.json();
 			if (data != null) {
 				foodProduction = data;
-				console.log(foodProduction);
 			} else {
 				foodProduction = [];
 			}
+			let status = await response.status;
+			if (status == 404) {
+				errorMsg = 'No se encontraron resultados';
+			}
+			if (status == 200) {
+				errorMsg = '';
+			}
+			if (status == 500) {
+				errorMsg = 'Error cargando datos';
+			}
+			if (params_not_found) {
+				if (data.length == 0) {
+					errorMsg = 'No se encontraron resultados';
+				}
+			}
 		} catch (e) {
-			foodProduction = [];
+			console.log('Error: ' + e);
 		}
 	}
 
@@ -111,6 +149,9 @@
 			if (response.status == 200) {
 				console.log('País borrado exitosamente');
 				errorMsg = 'País borrado exitosamente';
+				setTimeout(() => {
+                        errorMsg= "País borrado exitosamente";
+                    }, 20);
 				getFood();
 				getMax();
 			} else {
@@ -124,19 +165,16 @@
 	async function deleteAllFood() {
 		console.log(`Eliminando todos los alimentos`);
 
-		try {
-			let response = await fetch(API, {
-				method: 'DELETE'
-			});
+		console.log(`Deleting all`);
 
-			let status = await response.status;
-			console.log(`Estado de la respuesta de eliminación: ${status}`);
+		try {
+			let response = await fetch(API + '/', { method: 'DELETE' });
 
 			if (response.status == 200) {
-				errorMsg = 'Todos los datos han sido eliminados';
+				errorMsg = 'Todos los datos han sido borrados exitosamente';
 				location.reload();
 			} else {
-				errorMsg = 'Error borrando todos los reportes, código: ' + response.status;
+				errorMsg = 'code' + response.status;
 			}
 		} catch (e) {
 			errorMsg = e;
@@ -204,28 +242,78 @@
 		}
 	}
 
-	let inputEntity = '';
-	let inputYear = '';
+	let search_country = '';
+	let search_year = '';
+	let search = {
+		Entity: '',
+		Year: '',
+		rice_production: '',
+		tomatoes_production: '',
+		tea_production: '',
+		potatoes_production: '',
+		cocoa_beans_production: '',
+		meat_chicken_production: '',
+		bananas_production: '',
+		from: '',
+		to: ''
+	};
+	let show_search = false;
+	const toggle_search = () => (
+		(show_search = !show_search),
+		(search_country = ''),
+		(search_year = ''),
+		(search.rice_production = ''),
+		(search.tomatoes_production = ''),
+		(search.tea_production = ''),
+		(search.potatoes_production = ''),
+		(search.cocoa_beans_production = ''),
+		(search.meat_chicken_production = ''),
+		(search.bananas_production = ''),
+		(search.from = ''),
+		(search.to = ''),
+		getFood()
+	);
+	async function searchALL() {
+		show_search = true;
+	}
 </script>
 
 <div class="header">
 	<button class="load-data" on:click={loadinitial}>Cargar datos iniciales</button>
-	<div class="search">
-		<p>Para realizar la búsqueda, ingrese un valor con la primera letra en Mayúsculas</p>
-		<input type="text" bind:value={inputEntity} placeholder="Afghanistan" />
-		<input type="text" bind:value={inputYear} placeholder="1962" />
-		{#if inputYear != '' && inputEntity != ''}
-			<button onclick="window.location.href='/food-production/{inputEntity}/{inputYear}/search'"
-				>Buscar</button
-			>
-		{/if}
-		{#if inputYear == ''}
-			<button onclick="window.location.href='/food-production/{inputEntity}/search'">Buscar</button
-			>
-		{/if}
-	</div>
+	{#if !show_search}
+		<button class="search" on:click={searchALL}>Realizar buscar</button>
+	{/if}
+	{#if show_search}
+		<div class="search">
+			<p>Para realizar la búsqueda, ingrese un valor con la primera letra en Mayúsculas</p>
+			<input type="text" bind:value={search_country} placeholder="pais" />
+			<input type="text" bind:value={search_year} placeholder="año" />
+			<input type="text" bind:value={search.rice_production} placeholder="Producción de arroz" />
+			<input
+				type="text"
+				bind:value={search.tomatoes_production}
+				placeholder="Producción de tomates"
+			/>
+			<input type="text" bind:value={search.tea_production} placeholder="Producción de té" />
+			<input
+				type="text"
+				bind:value={search.potatoes_production}
+				placeholder="Producción de patatas"
+			/>
+			<input
+				type="text"
+				bind:value={search.cocoa_beans_production}
+				placeholder="Producción de cacao"
+			/>
+			<input type="text" bind:value={search.meat_chicken_production} placeholder="Producción de pollo" />
+			<input type="text" bind:value={search.bananas_production} placeholder="Producción de platanos" />
+			<input type="text" bind:value={search.from} placeholder="desde" />
+			<input type="text" bind:value={search.to} placeholder="hasta" />
+			<button on:click={getFood}>Buscar</button>
+			<button class="search" on:click={toggle_search}>Cancelar</button>
+		</div>
+	{/if}
 </div>
-
 {#if errorMsg != ''}
 	<hr />
 	<p class="error-msg">{errorMsg}</p>
@@ -397,7 +485,7 @@
 </div>
 
 <style>
-	.header{
+	.header {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
