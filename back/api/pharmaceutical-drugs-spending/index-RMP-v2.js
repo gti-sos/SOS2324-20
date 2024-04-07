@@ -65,7 +65,7 @@ function validarDatos(req, res, next) {
 
 var datos = [];
 
-function API_RMP(app, dbDrugs) {
+function API_RMP_V2(app, dbDrugs) {
 
     app.use(bodyParser.json());
 
@@ -243,4 +243,4 @@ function API_RMP(app, dbDrugs) {
 
 
 
-export { API_RMP };
+export { API_RMP_V2 };
