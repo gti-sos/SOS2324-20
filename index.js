@@ -18,6 +18,7 @@ import bodyParser from "body-parser";
 import {API_FSP}  from "./back/api/food-production/index-FSP.js";
 import { API_AFO } from "./back/api/life-expectancy/index-AFO.js";
 import { API_RMP } from "./back/api/pharmaceutical-drugs-spending/index-RMP.js";
+import { API_RMP_V2 } from "./back/api/pharmaceutical-drugs-spending/index-RMP-v2.js";
 import { API_AFO_V2 } from "./back/api/life-expectancy/index-AFO-v2.js";
 import { API_FSP_V2 } from "./back/api/food-production/index-FSP-v2.js";   
 
@@ -30,6 +31,7 @@ API_AFO(app,dbLifeExpectancy);
 API_RMP(app,dbDrugs);
 API_AFO_V2(app,dbLifeExpectancy2);
 API_FSP_V2(app,dbFood2);
+API_RMP_V2(app,dbDrugs);
 
 
 app.use(handler);

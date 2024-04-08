@@ -4,10 +4,17 @@
 	import { get } from 'svelte/store';
 
 	//Muestra si está en desarrollo
+	/*
 	let API = '/api/v1/phamaceutical-drugs-spending';
 	if (dev) {
 		API = 'http://localhost:10000/api/v1/phamaceutical-drugs-spending';
 	}
+	*/
+	let API = '/api/v2/pharmaceutical-drugs-spending';
+	if (dev) {
+		API = 'http://localhost:10000/api/v2/pharmaceutical-drugs-spending';
+	}
+	
 
 	let drugSpending = [];
 	let errorMsg = '';
@@ -81,7 +88,7 @@
 
 		try {
 			let response = await fetch(
-				`${API}/${encodeURIComponent(location)}/${encodeURIComponent(time)}`,
+				`${API}/country/${encodeURIComponent(location)}/${encodeURIComponent(time)}`,
 				{
 					method: 'DELETE'
 				}
@@ -110,6 +117,8 @@
 			if (response.status == 200) {
 				errorMsg = 'Todos los datos han sido borrados exitosamente';
 				location.reload();
+				getDrugSpending();
+				getMax();
 			} else {
 				errorMsg = 'code' + response.status;
 			}
@@ -162,7 +171,7 @@
 			errorMsg = e;
 		}
 	}
-
+	
 	function confirmload() {
 		if (confirm('¿Estás seguro de que quieres cargar los datos iniciales?')) {
 			loadinitial();
@@ -176,7 +185,7 @@
 		}
 	}
 
-	function confirmedelete(location, time) {
+	function confirmDelete(location, time) {
 		if (confirm('¿Estás seguro de que quieres eliminar ' + location + ' - ' + time + ' ?')) {
 			deleteDrugSpending(location, time);
 		}
@@ -231,7 +240,7 @@
 						>
 							Editar
 						</button>
-						<button class="delete-button" on:click={() => confirmedelete(drug.location, drug.time)}
+						<button class="delete-button" on:click={() => confirmDelete(drug.location, drug.time)}
 							>Borrar</button
 						>
 					</div>
