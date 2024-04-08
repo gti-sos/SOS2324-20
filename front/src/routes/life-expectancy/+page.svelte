@@ -139,9 +139,9 @@
 			if (status == 404) {
 				errorMsg = 'No se encontraron resultados';
 			}
-			if (status == 200) {
-				errorMsg = '';
-			}
+			// if (status == 200) {
+			// 	errorMsg = '';
+			// }
 			if (status == 500) {
 				errorMsg = 'Error cargando datos';
 			}
@@ -187,8 +187,9 @@
 			let response = await fetch(API + '/', { method: 'DELETE' });
 
 			if (response.status == 200) {
-				errorMsg = 'Todos los datos han sido borrados exitosamente';
 				location.reload();
+				alert('Todos los datos han sido borrados exitosamente');
+				errorMsg = 'Todos los datos han sido borrados exitosamente';
 			} else {
 				errorMsg = 'code' + response.status;
 			}
