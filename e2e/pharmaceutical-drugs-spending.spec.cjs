@@ -30,9 +30,7 @@ test("List Countries", async ({ page }) => {
 
 
 test("pharmaceutical-drugs-spending delete all data works", async ({ page }) => {
-  await page.goto("http://localhost:10000/pharmaceutical-drugs-spending");
-  await page.getByText("Cargar datos iniciales").click();
-  await page.getByText("Borrar lista").click();
+  await page.goto("http://localhost:10000/pharmaceutical-drugs-spending");s
   await page.getByText("Borrar lista").click();
   await page.waitForTimeout(100);
   let CountryCount = (await page.locator(".list-item").all()).length;
