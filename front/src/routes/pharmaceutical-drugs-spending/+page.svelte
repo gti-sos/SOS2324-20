@@ -4,16 +4,17 @@
 	import { get } from 'svelte/store';
 
 	//Muestra si está en desarrollo
+	/*
 	let API = '/api/v1/phamaceutical-drugs-spending';
 	if (dev) {
 		API = 'http://localhost:10000/api/v1/phamaceutical-drugs-spending';
 	}
-	/*
+	*/
 	let API = '/api/v2/pharmaceutical-drugs-spending';
 	if (dev) {
 		API = 'http://localhost:10000/api/v2/pharmaceutical-drugs-spending';
 	}
-	*/
+	
 
 	let drugSpending = [];
 	let errorMsg = '';
