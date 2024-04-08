@@ -2,6 +2,7 @@ import express from "express";
 let app = express();
 
 import bodyParser from "body-parser";
+import { time } from "console";
 
 const API_BASE = '/api/v2/pharmaceutical-drugs-spending';
 
@@ -112,7 +113,7 @@ function API_RMP_V2(app, dbDrugs) {
 
     });
 
-
+    /*
     app.get(API_BASE + "/", (req, res) => {
         const limit = parseInt(req.query.limit) || 10;
         const offset = parseInt(req.query.offset) || 0;
@@ -139,6 +140,81 @@ function API_RMP_V2(app, dbDrugs) {
             }
             res.json(data);
         });
+    });
+    */
+    app.get(API_BASE + "/", (req, res) => {
+        let limit = parseInt(req.query.limit) || 10;
+        let offset = parseInt(req.query.offset) || 0;
+        let query = req.query;
+        let from = parseInt(req.query.from) || null;
+        let to = parseInt(req.query.to) || null;
+
+        for (let key in query) {
+            if (query.hasOwnProperty(key)) {
+                if (key === "time") {
+                    query[key] = parseInt(query[key]);
+                } else if (
+                    key === "pc_healthxp" ||
+                    key === "pc_gdp" ||
+                    key === "usd_cap" ||
+                    key === "total_spend" 
+                ) {
+                    query[key] = parseFloat(query[key]);
+                } else if (key === "location") {
+                    query[key] = String(query[key]);
+                } else if (key === "limit" || key === "offset") {
+                    delete query[key];
+                } else if (key === "from" || key === "to") {
+                    delete query[key];
+                }
+            }
+        }
+
+        if (from && to) {
+            query.time = { $gte: from, $lte: to };
+        } else if (from) {
+            query.time = { $gte: from };
+        } else if (to) {
+            query.time = { $lte: to };
+        }
+
+        if (query.location && query.time && !from && !to && (!from || !to)) {
+            dbDrugs
+                .findOne(query)
+                .sort({ location: 1, time: 1 })
+                .exec((err, data) => {
+                    if (err) {
+                        res.sendStatus(500, err);
+                    } else {
+                        if (data) {
+                            delete data._id;
+                            res.send(JSON.stringify(data, null, 2));
+                        } else {
+                            res.sendStatus(404, "Not Found");
+                        }
+                    }
+                });
+        } else {
+            dbDrugs
+                .find(query)
+                .sort({ location: 1, time: 1 })
+                .skip(offset)
+                .limit(limit)
+                .exec((err, data) => {
+                    if (err) {
+                        res.sendStatus(500, err);
+                    } else {
+                        if (data.length === 0) {
+                            res.send([]);
+                        } else {
+                            data.map((i) => {
+                                delete i._id;
+                            });
+                            res.send(JSON.stringify(data, null, 2));
+                        }
+                    }
+                });
+        }
     });
 
 

@@ -49,27 +49,27 @@
 				<tbody>
 					<tr>
 						<th>Location</th>
-						<td>{selectedDrugSpending[0].location}</td>
+						<td>{selectedDrugSpending.location}</td>
 					</tr>
 					<tr>
 						<th>Time</th>
-						<td>{selectedDrugSpending[0].time}</td>
+						<td>{selectedDrugSpending.time}</td>
 					</tr>
 					<tr>
 						<th>PC Healthxp</th>
-						<td>{selectedDrugSpending[0].pc_healthxp}</td>
+						<td>{selectedDrugSpending.pc_healthxp}</td>
 					</tr>
 					<tr>
 						<th>PC GDP</th>
-						<td>{selectedDrugSpending[0].pc_gdp}</td>
+						<td>{selectedDrugSpending.pc_gdp}</td>
 					</tr>
 					<tr>
 						<th>USD Cap</th>
-						<td>{selectedDrugSpending[0].usd_cap}</td>
+						<td>{selectedDrugSpending.usd_cap}</td>
 					</tr>
 					<tr>
 						<th>Total Spend</th>
-						<td>{selectedDrugSpending[0].total_spend}</td>
+						<td>{selectedDrugSpending.total_spend}</td>
 					</tr>
 				</tbody>
 			</table>

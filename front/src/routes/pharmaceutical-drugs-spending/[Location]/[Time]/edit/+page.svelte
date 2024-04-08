@@ -27,18 +27,14 @@
 	async function loadDrugsSpending() {
 		try {
 			let response = await fetch(`${API}?location=${country}&time=${year}`);
-			if (response.status === 404) {
-				errorMsg = 'No se encontraron datos para el país y año seleccionados';
-				return;
+			if(await fetch(`${API}?location=${country}&time=${year}`).then((res) => res.status) === 404){
+			errorMsg = 'No se encontraron datos para el país y año seleccionados';
+			editedDrugSpending = null
+			return;
 			}
 			if (response.status === 200) {
 				let data = await response.json();
-				if (Array.isArray(data) && data.length > 0) {
-					editedDrugSpending = { ...editedDrugSpending, ...data[0] };
-					console.log(editedDrugSpending, null, 2);
-				} else {
-					errorMsg = 'Datos no válidos';
-				}
+				editedDrugSpending = { ...editedDrugSpending, ...data };
 			} else {
 				errorMsg = 'Error loading data';
 			}

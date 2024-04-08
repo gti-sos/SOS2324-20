@@ -14,7 +14,6 @@
 	if (dev) {
 		API = 'http://localhost:10000/api/v2/pharmaceutical-drugs-spending';
 	}
-	
 
 	let drugSpending = [];
 	let errorMsg = '';
@@ -71,15 +70,56 @@
 		try {
 			let limit = 10;
 			let offset = (pagina - 1) * limit;
-			let response = await fetch(`${API}/?offset=${offset}&limit=${limit}`, { method: 'GET' });
-			let data = await response.json();
+			let query = `?offset=${offset}&limit=${limit}`;
+			var params = query;
+			let params_not_found = false;
+			let params_ids = '';
+			for (const [key, value] of Object.entries(search)) {
+				if (value != '') {
+					params = params + `&${key}=${value}`;
+				}
+			}
+			if (search_country && search_year) {
+				params_not_found = true;
+				params_ids = params + `&location=${search_country}&time=${search_year}`;
+			} else {
+				if (search_country && search_year) {
+					params_not_found = true;
+					params_ids = params + `&location=${search_country}&time=${search_year}`;
+				} else if (search_country) {
+					params_not_found = true;
+					params_ids = params + `&location=${search_country}`;
+				} else if (search_year) {
+					params_not_found = true;
+					params_ids = params + `&time=${search_year}`;
+				} else {
+					params_ids = params;
+				}
+			}
+			const response = await fetch(API + params_ids, { method: 'GET' });
+			const data = await response.json();
 			if (data != null) {
 				drugSpending = data;
 			} else {
 				drugSpending = [];
 			}
+			let status = await response.status;
+			if (status == 404) {
+				errorMsg = 'No se encontraron resultados';
+			}
+			if (status == 200) {
+				errorMsg = '';
+			}
+			if (status == 500) {
+				errorMsg = 'Error cargando datos';
+			}
+			if (params_not_found) {
+				if (data.length == 0) {
+					errorMsg = 'No se encontraron resultados';
+				}
+			}
 		} catch (e) {
-			drugSpending = [];
+			console.log('Error: ' + e);
 		}
 	}
 
@@ -171,7 +211,7 @@
 			errorMsg = e;
 		}
 	}
-	
+
 	function confirmload() {
 		if (confirm('¿Estás seguro de que quieres cargar los datos iniciales?')) {
 			loadinitial();
@@ -191,28 +231,57 @@
 		}
 	}
 
-	let inputLocation = '';
-	let inputTime = '';
+	let search_country = '';
+	let search_year = '';
+	let search = {
+		pc_gdp: '',
+		pc_healthxp: '',
+		usd_cap: '',
+		total_spend: '',
+		from: '',
+		to: ''
+	};
+
+	let show_search = false;
+	const toggle_search = () => (
+		(show_search = !show_search),
+		(search_country = ''),
+		(search_year = ''),
+		(search.pc_healthxp = ''),
+		(search.pc_gdp = ''),
+		(search.usd_cap = ''),
+		(search.total_spend = ''),
+		(search.from = ''),
+		(search.to = ''),
+		getDrugSpending()
+	);
+	async function searchLF() {
+		show_search = true;
+		search.from = '';
+		search.to = '';
+	}
 </script>
 
 <div class="header">
 	<button class="load-data" on:click={confirmload}>Cargar datos iniciales</button>
-	<div class="search">
-		<p>Para realizar la búsqueda, ingrese un valor con la primera letra en Mayúsculas</p>
-		<input type="text" bind:value={inputLocation} placeholder="Spain" />
-		<input type="text" bind:value={inputTime} placeholder="2020" />
-		{#if inputTime != '' && inputLocation != ''}
-			<button
-				onclick="window.location.href='/pharmaceutical-drugs-spending/{inputLocation}/{inputTime}/search'"
-				>Buscar</button
-			>
-		{/if}
-		{#if inputTime == ''}
-			<button onclick="window.location.href='/pharmaceutical-drugs-spending/{inputLocation}/search'"
-				>Buscar</button
-			>
-		{/if}
-	</div>
+	{#if !show_search}
+		<button class="search" on:click={searchLF}>Realizar buscar</button>
+	{/if}
+	{#if show_search}
+		<div class="search">
+			<p>Para realizar la búsqueda, ingrese un valor con la primera letra en Mayúsculas</p>
+			<input type="text" bind:value={search_country} placeholder="pais" />
+			<input type="text" bind:value={search_year} placeholder="año" />
+			<input type="text" bind:value={search.pc_gdp} placeholder="pc_gdp" />
+			<input type="text" bind:value={search.pc_healthxp} placeholder="pc_healthxp" />
+			<input type="text" bind:value={search.usd_cap} placeholder="usd_cap" />
+			<input type="text" bind:value={search.total_spend} placeholder="total_spend" />
+			<input type="text" bind:value={search.from} placeholder="desde" />
+			<input type="text" bind:value={search.to} placeholder="hasta" />
+			<button on:click={getDrugSpending}>Buscar</button>
+			<button class="search" on:click={toggle_search}>Cancelar</button>
+		</div>
+	{/if}
 </div>
 
 {#if errorMsg != ''}
@@ -419,7 +488,8 @@
 		transition: background-color 0.3s ease;
 	}
 
-	.delete-button {
+	.delete-button,
+	.delete-button2 {
 		padding: 10px 20px;
 		background-color: #ff0000;
 		color: #ffffff;
