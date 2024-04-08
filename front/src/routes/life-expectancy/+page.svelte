@@ -139,9 +139,9 @@
 			if (status == 404) {
 				errorMsg = 'No se encontraron resultados';
 			}
-			if (status == 200) {
-				errorMsg = '';
-			}
+			// if (status == 200) {
+			// 	errorMsg = '';
+			// }
 			if (status == 500) {
 				errorMsg = 'Error cargando datos';
 			}
