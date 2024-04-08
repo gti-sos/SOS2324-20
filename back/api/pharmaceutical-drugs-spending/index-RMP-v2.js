@@ -117,7 +117,7 @@ function API_RMP_V2(app, dbDrugs) {
         const limit = parseInt(req.query.limit) || 10;
         const offset = parseInt(req.query.offset) || 0;
         const query = {};
-    
+
         for (const key in req.query) {
             if (req.query.hasOwnProperty(key)) {
                 if (key === "time") {
@@ -129,7 +129,7 @@ function API_RMP_V2(app, dbDrugs) {
                 }
             }
         }
-    
+
         dbDrugs.find(query).skip(offset).limit(limit).exec((err, data) => {
             if (err) {
                 return res.status(500).json({ error: "Internal Server Error" });
@@ -145,7 +145,7 @@ function API_RMP_V2(app, dbDrugs) {
     app.post(API_BASE + "/", validarDatos, (req, res) => {
         let drug = req.body;
 
-        dbDrugs.findOne({ location: drug.location }, (err, existingDrug) => {
+        dbDrugs.findOne({ location: drug.location, time: drug.time }, (err, existingDrug) => {
             if (err) {
                 res.sendStatus(500, "Internal Error");
             } else {
@@ -176,34 +176,34 @@ function API_RMP_V2(app, dbDrugs) {
         let country = req.params.country;
         let year = parseInt(req.params.year);
         const newData = req.body;
-    
+
         dbDrugs.findOne({ location: country, time: year }, (err, datos) => {
-          if (err) {
-            res.sendStatus(500, "Internal Server Error");
-          } else {
-            if (datos) {
-              dbDrugs.update(
-                { _id: datos._id },
-                { $set: newData },
-                (err, numUpdated) => {
-                  if (err) {
-                    res.sendStatus(500, err);
-                  } else {
-                    if (numUpdated === 0) {
-                      res.sendStatus(400, "Bad request");
-                    } else {
-                      res.sendStatus(200, "Updated");
-                    }
-                  }
-                }
-              );
+            if (err) {
+                res.sendStatus(500, "Internal Server Error");
             } else {
-              res.sendStatus(404, "Not Found");
+                if (datos) {
+                    dbDrugs.update(
+                        { _id: datos._id },
+                        { $set: newData },
+                        (err, numUpdated) => {
+                            if (err) {
+                                res.sendStatus(500, err);
+                            } else {
+                                if (numUpdated === 0) {
+                                    res.sendStatus(400, "Bad request");
+                                } else {
+                                    res.sendStatus(200, "Updated");
+                                }
+                            }
+                        }
+                    );
+                } else {
+                    res.sendStatus(404, "Not Found");
+                }
             }
-          }
         });
-      });
-    
+    });
+
 
     app.delete(API_BASE + "/", (req, res) => {
 
