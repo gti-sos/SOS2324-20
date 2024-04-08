@@ -18,7 +18,7 @@
 	let drugSpending = [];
 	let errorMsg = '';
 	let newDrugSpending = {
-		location: 'LocationName',
+		location: 'Location',
 		time: 0,
 		pc_healthxp: 0,
 		pc_gdp: 0,
@@ -212,24 +212,7 @@
 		}
 	}
 
-	function confirmload() {
-		if (confirm('¿Estás seguro de que quieres cargar los datos iniciales?')) {
-			loadinitial();
-		}
-	}
 
-	function confirmDeleteAll() {
-		if (confirm('¿Estás seguro de que quieres eliminar todos los datos?')) {
-			deleteAllDrugSpending();
-			alert('Todos los datos han sido borrados exitosamente');
-		}
-	}
-
-	function confirmDelete(location, time) {
-		if (confirm('¿Estás seguro de que quieres eliminar ' + location + ' - ' + time + ' ?')) {
-			deleteDrugSpending(location, time);
-		}
-	}
 
 	let search_country = '';
 	let search_year = '';
@@ -263,7 +246,7 @@
 </script>
 
 <div class="header">
-	<button class="load-data" on:click={confirmload}>Cargar datos iniciales</button>
+	<button class="load-data" on:click={loadinitial}>Cargar datos iniciales</button>
 	{#if !show_search}
 		<button class="search" on:click={searchLF}>Realizar buscar</button>
 	{/if}
@@ -293,7 +276,7 @@
 	<div class="column">
 		<div class="cabecera">
 			<h2>Lista de datos</h2>
-			<button class="delete-button" on:click={confirmDeleteAll}>Borrar lista</button>
+			<button class="delete-button" on:click={deleteAllDrugSpending}>Borrar lista</button>
 		</div>
 
 		<ul class="ul-container">
@@ -309,7 +292,7 @@
 						>
 							Editar
 						</button>
-						<button class="delete-button" on:click={() => confirmDelete(drug.location, drug.time)}
+						<button class="delete-button" on:click={() => deleteDrugSpending(drug.location, drug.time)}
 							>Borrar</button
 						>
 					</div>
