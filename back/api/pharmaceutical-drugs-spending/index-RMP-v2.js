@@ -113,6 +113,16 @@ function API_RMP_V2(app, dbDrugs) {
 
     });
 
+    app.get(API_BASE+ "/sizeDB" , (req, res) => {
+        dbDrugs.count({}, (err, data) => {
+          if (err) {
+            res.sendStatus(500, err);
+          } else {
+            res.send(JSON.stringify(data, null, 2));
+          }
+        });
+      });
+
     /*
     app.get(API_BASE + "/", (req, res) => {
         const limit = parseInt(req.query.limit) || 10;
