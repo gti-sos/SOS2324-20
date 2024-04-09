@@ -71,7 +71,7 @@ function API_RMP_V2(app, dbDrugs) {
     app.use(bodyParser.json());
 
     app.get(API_BASE + "/docs", (req, res) => {
-        res.redirect("https://documenter.getpostman.com/view/33015692/2sA2xh4DGC");
+        res.redirect("https://documenter.getpostman.com/view/33015692/2sA3Bg9FFc");
     });
     /*
     app.get(API_BASE + "/", (req, res) => {
