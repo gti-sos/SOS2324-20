@@ -68,7 +68,7 @@
         },
         colors: colors,
         title: {
-            text: 'Consumo de cerveza per cápita en Europa en el año 2000'
+            text: 'Consumo de electricidad per cápita en Europa en el año 2000'
         },
         xAxis: {
             categories: data.map(item => item.country),
@@ -79,14 +79,14 @@
         },
         yAxis: {
             title: {
-                text: 'Consumo de cerveza per cápita'
+                text: 'Consumo de electricidad per cápita'
             },
             tickInterval: 5
         },
         series: [{
-            name: 'Consumo de cerveza per cápita',
+            name: 'Consumo de electricidad per cápita',
              data: data.map(item => ({
-                y: item.beer_consumption_per_capita,
+                y: item.electric_power_consumption,
                 color: getRandomColor()}))
         }]
     });
