@@ -1,75 +1,69 @@
 <script>
-
-import { onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import { dev } from '$app/environment';
 
-	//Muestra si está en desarrollo
-
+	// URLs de las APIs
 	let API1 = '/api/v2/life-expectancy';
-    let API2 = '/api/v2/food-production';
+	let API2 = '/api/v2/food-production';
 	if (dev) {
 		API1 = 'http://localhost:10000/api/v2/life-expectancy';
-        API2 = 'http://localhost:10000/api/v2/food-production';
+		API2 = 'http://localhost:10000/api/v2/food-production';
 	}
+
+	// Función para obtener un color aleatorio
 	function getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
-
-	async function fillStackedBarChart() {
-		// Supongamos que cada miembro del equipo tiene su propia API para obtener sus datos
-		const apis = [API1, API2];
-		const apiResponse1 = [];
-		const apiResponse2 = [];
-
-		for (const api of apis) {
-			if (api === API1) {
-				const response = await fetch(api + '?continent=Europe&year=2000&limit=100&offset=0');
-				apiResponse1.push(await response.json());
-			} else {
-				const response = await fetch(api + '?limit=100&offset=0');
-				apiResponse2.push(await response.json());
-			}
-
-			Highcharts.chart('stackedBarContainer', {
-				chart: {
-					type: 'bar'
-				},
-				title: {
-					text: 'Datos combinados de todos los miembros del equipo'
-				},
-				xAxis: {
-					categories: apiResponse1.map((item) => item.continent) // Asume que todos los miembros tienen los mismos países
-				},
-				yAxis: {
-					title: {
-						text: 'Valor total'
-					}
-				},
-				plotOptions: {
-					series: {
-						stacking: 'normal'
-					}
-				},
-				series: [
-					{
-						name: 'Consumo de cerveza per cápita',
-						data: apiResponse1.map((item) => item.beer_consumption_per_capita),
-						color: getRandomColor()
-					},
-					{
-						name: 'Producción de arroz',
-						data: apiResponse2.map((item) => item.rice_production),
-						color: getRandomColor()
-					}
-				]
-			});
+		const letters = '0123456789ABCDEF';
+		let color = '#';
+		for (let i = 0; i < 6; i++) {
+			color += letters[Math.floor(Math.random() * 16)];
 		}
+		return color;
 	}
+
+	// Función para llenar la gráfica de barras apiladas
+	async function fillStackedBarChart() {
+		// Realizar las solicitudes a las APIs
+		const response1 = await fetch(API1 + '?country=Albania&year=2000');
+		const response2 = await fetch(API2 + '?Entity=Afghanistan&Year=1970');
+
+		// Obtener los datos de las respuestas
+		const data1 = await response1.json();
+		console.log("datos1",data1);
+		console.log("data1[0]",data1[0]);
+		const data2 = await response2.json();
+		console.log("datos2",data2);
+		//console.log(data2[0].meat_chicken_production);
+		// Crear la gráfica
+		Highcharts.chart('stackedBarContainer', {
+			chart: {
+				type: 'bar'
+			},
+			title: {
+				text: 'Comparación de Life Expectancy en Albania y Meat Chicken Production en Afghanistan'
+			},
+			xAxis: {
+				categories: ['Albania', 'Afghanistan']
+			},
+			yAxis: {
+				title: {
+					text: 'Valor'
+				}
+			},
+			plotOptions: {
+				series: {
+					stacking: 'normal'
+				}
+			},
+			series: [
+				{
+					name: 'Comparación',
+					data: [data1.life_expectancy, data2.meat_chicken_production],
+					color: getRandomColor()
+				}
+			]
+		});
+	}
+
 	onMount(async () => {
 		await fillStackedBarChart();
 	});
@@ -78,4 +72,5 @@ import { onMount } from 'svelte';
 <svelte:head>
 	<script src="https://code.highcharts.com/highcharts.js"></script>
 </svelte:head>
+
 <div id="stackedBarContainer"></div>
