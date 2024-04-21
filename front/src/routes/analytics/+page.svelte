@@ -11,6 +11,14 @@ import { onMount } from 'svelte';
 		API1 = 'http://localhost:10000/api/v2/life-expectancy';
         API2 = 'http://localhost:10000/api/v2/food-production';
 	}
+	function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
 
 	async function fillStackedBarChart() {
 		// Supongamos que cada miembro del equipo tiene su propia API para obtener sus datos
