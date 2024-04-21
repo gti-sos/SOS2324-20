@@ -35,7 +35,7 @@ import { onMount } from 'svelte';
 					text: 'Datos combinados de todos los miembros del equipo'
 				},
 				xAxis: {
-					categories: allData[0].map((item) => item.country) // Asume que todos los miembros tienen los mismos países
+					categories: apiResponse1.map((item) => item.continent) // Asume que todos los miembros tienen los mismos países
 				},
 				yAxis: {
 					title: {
