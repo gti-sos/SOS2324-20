@@ -1,12 +1,15 @@
 <script>
+
+import { onMount } from 'svelte';
+	import { dev } from '$app/environment';
+
+	//Muestra si está en desarrollo
+
 	let API1 = '/api/v2/life-expectancy';
+    let API2 = '/api/v2/food-production';
 	if (dev) {
 		API1 = 'http://localhost:10000/api/v2/life-expectancy';
-	}
-
-	let API2 = '/api/v2/food-production';
-	if (dev) {
-		API2 = 'http://localhost:10000/api/v2/food-production';
+        API2 = 'http://localhost:10000/api/v2/food-production';
 	}
 
 	async function fillStackedBarChart() {
