@@ -62,7 +62,7 @@
 			series: [
 				{
 					name: 'Comparación',
-					data: [data1.co2_emissions, data2.meat_chicken_production, data3.total_spend],
+					data: [data1.electric_power_consumption, data2.meat_chicken_production, data3.total_spend],
 					color: getRandomColor()
 				}
 			]
