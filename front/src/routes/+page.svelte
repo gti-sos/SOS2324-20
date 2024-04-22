@@ -7,7 +7,7 @@
 <ul>
   <li><strong>Team</strong>
     <ul>
-      <li><a href="https://github.com/Alexfer02">Alejandro Fernández Orozco</a> life-expectancy</li>
+      <li><a href="https://github.com/Alexfer02">Alejandro Fernández Orozco   </a> life-expectancy</li>
       <li><a href="https://github.com/C1sko">Francisco Sáez Pérez</a> food-production</li>
       <li><a href="https://github.com/rufmorpac">Rufino Moreno Pacheco</a> phamaceutical-drugs-spending</li>
     </ul>
@@ -17,8 +17,8 @@
   <li><strong>URL</strong>:<a href="https://sos2324-20-415018.ew.r.appspot.com/">sos2324-20-415018.appspot.com</a></li>
   <li><strong>APIs</strong>:
     <ul>
-      <li>V1: <a href="https://sos2324-20-415018.ew.r.appspot.com/api/v1/life-expectancy/docs">https://sos2324-20-415018.ew.r.appspot.com/api/v1/life-expectancy/docs</a> developed by Alejandro Fernández Orozco</li>
-      <li>V2: <a href="https://sos2324-20-415018.ew.r.appspot.com/api/v2/life-expectancy/docs"> https://sos2324-20-415018.ew.r.appspot.com/api/v2/life-expectancy/docs</a> developed by Alejandro Fernández Orozco</li>
+      <li><a href="https://sos2324-20-415018.ew.r.appspot.com/api/v1/life-expectancy">V1</a> : <a href="https://sos2324-20-415018.ew.r.appspot.com/api/v1/life-expectancy/docs">https://sos2324-20-415018.ew.r.appspot.com/api/v1/life-expectancy/docs</a> developed by Alejandro Fernández Orozco</li>
+      <li> <a href="https://sos2324-20-415018.ew.r.appspot.com/api/v2/life-expectancy">V2</a> : <a href="https://sos2324-20-415018.ew.r.appspot.com/api/v2/life-expectancy/docs"> https://sos2324-20-415018.ew.r.appspot.com/api/v2/life-expectancy/docs</a> developed by Alejandro Fernández Orozco</li>
       <li>V1:<a href="https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/docs">https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/docs</a> developed by Francisco Sáez Pérez</li>
       <li>V2:<a href="https://sos2324-20-415018.ew.r.appspot.com/api/v2/food-production/docs">https://sos2324-20-415018.ew.r.appspot.com/api/v2/food-production/docs</a> developed by Francisco Sáez Pérez</li>
       <li>V1:<a href="https://sos2324-20-415018.ew.r.appspot.com/api/v1/phamaceutical-drugs-spending/docs">https://sos2324-20-415018.ew.r.appspot.com/api/v1/phamaceutical-drugs-spending/docs</a> developed by Rufino Moreno Pacheco</li>
