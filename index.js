@@ -12,6 +12,7 @@ let dbFood2 = new dataStore();  // Datos Fran
 let dbLifeExpectancy = new dataStore();  // Datos Alex
 let dbLifeExpectancy2 = new dataStore();  // Datos Alex
 let dbDrugs = new dataStore(); // Datos Rufino
+let dbDrugs2 = new dataStore(); // Datos Rufino
 
 import bodyParser from "body-parser";
 
@@ -31,7 +32,7 @@ API_AFO(app,dbLifeExpectancy);
 API_RMP(app,dbDrugs);
 API_AFO_V2(app,dbLifeExpectancy2);
 API_FSP_V2(app,dbFood2);
-API_RMP_V2(app,dbDrugs);
+API_RMP_V2(app,dbDrugs2);
 
 
 app.use(handler);
