@@ -33,7 +33,6 @@
 		// Obtener los datos de las respuestas
 		const data1 = await response1.json();
 		console.log("datos1",data1);
-		console.log("data1[0]",data1[0]);
 		const data2 = await response2.json();
 		console.log("datos2",data2);
 		const data3 = await response3.json();
@@ -63,7 +62,7 @@
 			series: [
 				{
 					name: 'Comparación',
-					data: [data1.beer_consumption_per_capita, data2.meat_chicken_production, data3.total_spend],
+					data: [data1.co2_emissions, data2.meat_chicken_production, data3.total_spend],
 					color: getRandomColor()
 				}
 			]
