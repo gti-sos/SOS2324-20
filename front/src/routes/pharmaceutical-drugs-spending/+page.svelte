@@ -471,8 +471,8 @@
 		transition: background-color 0.3s ease;
 	}
 
-	.delete-button,
-	.delete-button2 {
+
+	.delete-button {
 		padding: 10px 20px;
 		background-color: #ff0000;
 		color: #ffffff;
