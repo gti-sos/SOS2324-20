@@ -44,7 +44,7 @@
 				type: 'bar'
 			},
 			title: {
-				text: 'Comparación de Life Expectancy en Albania, Meat Chicken Production en Afghanistan, Gasto total en millones en Sanidad en AUS'
+				text: 'Comparación de consumo eléctrico en Albania, Meat Chicken Production en Afghanistan, Gasto total en millones en Sanidad en Australia'
 			},
 			xAxis: {
 				categories: ['Albania', 'Afghanistan', 'Australia'],
