@@ -63,7 +63,7 @@
 			series: [
 				{
 					name: 'Comparación',
-					data: [data1.life_expectancy, data2.meat_chicken_production, data3.total_spend],
+					data: [data1.beer_consumption_per_capita, data2.meat_chicken_production, data3.total_spend],
 					color: getRandomColor()
 				}
 			]
