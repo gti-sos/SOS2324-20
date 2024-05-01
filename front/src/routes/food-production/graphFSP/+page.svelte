@@ -1,41 +1,34 @@
 <script>
 	import { onMount } from 'svelte';
+	import { dev } from '$app/environment';
 
-	onMount(() => {
-		getData();
-	});
+	let API = '/api/v3/food-production';
+	if (dev) {
+		API = 'http://localhost:10000/api/v3/food-production';
+	}
 
-	let API = 'https://sos2324-20-415018.ew.r.appspot.com/api/v2/food-production';
-	let dataAvailable = false;
-
-	async function getData() {
+	async function getGraph1() {
 		try {
-			const res = await fetch(API); // Obtener todos los datos
+			const res = await fetch(API + '?Entity=Afghanistan&Year=2021');
 			const data = await res.json();
 			console.log(`Data received: ${JSON.stringify(data, null, 2)}`);
-
-			if (data.length > 0) {
-				dataAvailable = true;
-				const year1961Data = data.find((item) => item.Year === 1961); // Obtener datos para el año 1961
-				createGraph(year1961Data);
-				createSecondGraph(data); // Pasar todos los datos para la segunda gráfica
-			}
+			createPieChart(data);
 		} catch (error) {
 			console.log(`Error fetching data: ${error}`);
 		}
 	}
 
-	function createGraph(data) {
-		const totalProduction = Object.values(data).reduce((acc, value) => {
-			return typeof value === 'number' ? acc + value : acc;
-		}, 0);
+	function createPieChart(data) {
+		const productionData = Object.entries(data).filter(
+			([key, value]) => typeof value === 'number' && key !== 'Entity' && key !== 'Year'
+		);
 
-		const productionPercentages = Object.entries(data)
-			.filter(([key, value]) => typeof value === 'number' && key !== 'Year')
-			.map(([key, value]) => ({
-				name: key.replace('_production', '').replace('_', ' '),
-				y: (value / totalProduction) * 100
-			}));
+		const totalProduction = productionData.reduce((acc, [key, value]) => acc + value, 0);
+
+		const productionPercentages = productionData.map(([key, value]) => ({
+			name: key.replace('_production', '').replace('_', ' '),
+			y: (value / totalProduction) * 100
+		}));
 
 		Highcharts.chart('container', {
 			chart: {
@@ -48,13 +41,13 @@
 				valueSuffix: '%'
 			},
 			plotOptions: {
-				series: {
+				pie: {
 					allowPointSelect: true,
 					cursor: 'pointer',
 					dataLabels: {
 						enabled: true,
 						distance: 20,
-						format: '{point.percentage:.1f}%'
+						format: '{point.name}: {point.percentage:.1f}%'
 					}
 				}
 			},
@@ -68,48 +61,74 @@
 		});
 	}
 
-	function createSecondGraph(data) {
-		const years = Array.from(new Set(data.map(item => item.Year))); // Obtener años únicos
+	let isCreatingSecondGraph = false;
+	async function createSecondGraph(entity, startYear, endYear) {
+		if (isCreatingSecondGraph) return; // Si ya se está creando la gráfica, salir de la función
+		isCreatingSecondGraph = true; // Marcar que se está creando la gráfica
+		try {
+			// Array para almacenar los datos de producción de cada año
+			let allData = [];
 
-		const seriesData = Object.keys(data[0]).filter(key => key !== 'Entity' && key !== 'Year').map((property, index) => ({
-			name: property.replace('_production', '').replace('_', ' '), // Cambiar las etiquetas al español
-			data: years.map(year => {
-				const yearData = data.find(item => item.Year === year);
-				return {
-					x: year, // Mostrar los años en el eje X
-					y: yearData ? yearData[property] : 0 // Mantener la producción en el eje Y
-				};
-			})
-		}));
+			// Iterar sobre todos los años desde startYear hasta endYear
+			for (let year = startYear; year <= endYear; year++) {
+				const res = await fetch(`${API}?Entity=${entity}&Year=${year}`);
+				const data = await res.json();
+				allData.push(data);
+			}
 
-		Highcharts.chart('secondContainer', {
-			chart: {
-				type: 'areaspline'
-			},
-			title: {
-				text: 'Comparación de Producción a lo Largo de los Años' // Cambiar título al español
-			},
-			xAxis: {
-				title: {
-					text: 'Año' // Cambiar etiqueta del eje X al español
+			console.log(`Data received: ${JSON.stringify(allData, null, 2)}`);
+
+			// Crear los datos de la serie para la gráfica
+			const years = Array.from(new Set(allData.map(item => item.Year)));
+
+			const seriesData = Object.keys(allData[0]).filter(key => key !== 'Entity' && key !== 'Year').map((property, index) => ({
+				name: property.replace('_production', '').replace('_', ' '), // Cambiar las etiquetas al español
+				data: years.map(year => {
+					const yearData = allData.find(item => item.Year === year);
+					return yearData ? yearData[property] : 0; // Mantener la producción en el eje Y
+				})
+			}));
+
+			// Crear la gráfica de Highcharts
+			Highcharts.chart('secondContainer', {
+				chart: {
+					type: 'areaspline'
 				},
-				categories: years // Especificar las etiquetas del eje X como los años
-			},
-			yAxis: {
 				title: {
-					text: 'Producción' // Mantener etiqueta del eje Y en inglés
-				}
-			},
-			plotOptions: {
-				series: {
-					marker: {
-						enabled: false // Desactivar los marcadores en los puntos de datos
+					text: 'Comparación de Producción en Afghanistan a lo Largo de los Años' // Cambiar título al español
+				},
+				xAxis: {
+					title: {
+						text: 'Años' // Cambiar etiqueta del eje X al español
+					},
+					categories: years // Especificar las etiquetas del eje X como los años
+				},
+				yAxis: {
+					title: {
+						text: 'Producción' // Mantener etiqueta del eje Y en inglés
 					}
-				}
-			},
-			series: seriesData
-		});
+				},
+				plotOptions: {
+					series: {
+						marker: {
+							enabled: false // Desactivar los marcadores en los puntos de datos
+						}
+					}
+				},
+				series: seriesData
+			});
+		} finally {
+			isCreatingSecondGraph = false; // Reiniciar la bandera después de que se complete la creación de la gráfica
+		}
 	}
+
+	onMount(async () => {
+		await getGraph1();
+		const entity = 'Afghanistan';
+		const startYear = 2011;
+		const endYear = 2021;
+		await createSecondGraph(entity, startYear, endYear);
+	});
 </script>
 
 <svelte:head>
