@@ -105,7 +105,7 @@ function API_FSP_V3(app, dbFood) {
     .catch((error) => console.error(error));
 
   app.get(API_BASE + "/docs", (req, res) => {
-    res.redirect("https://documenter.getpostman.com/view/32976936/2sA35K2fzg");
+    res.redirect("https://documenter.getpostman.com/view/32976936/2sA3JDiRh1");
   });
 
   //GETs

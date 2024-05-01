@@ -4,11 +4,11 @@
 
 	// URLs de las APIs
 	let API1 = '/api/v2/life-expectancy';
-	let API2 = '/api/v2/food-production';
+	let API2 = '/api/v3/food-production';
 	let API3 = '/api/v2/pharmaceutical-drugs-spending'
 	if (dev) {
 		API1 = 'http://localhost:10000/api/v2/life-expectancy';
-		API2 = 'http://localhost:10000/api/v2/food-production';
+		API2 = 'http://localhost:10000/api/v3/food-production';
 		API3 = 'http://localhost:10000/api/v2/pharmaceutical-drugs-spending';
 	}
 
