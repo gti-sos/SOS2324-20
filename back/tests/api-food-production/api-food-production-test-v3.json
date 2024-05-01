@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "d9dd2136-e688-4aa7-bad1-a3f8b9e0387a",
-		"name": "food-production V2",
+		"_postman_id": "803be716-622d-45db-935e-a5788932b2f6",
+		"name": "food-production V3",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "32976936"
 	},
@@ -26,13 +26,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v2/food-production/loadInitialData",
+					"raw": "{{SERVER}}/api/v3/food-production/loadInitialData",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"food-production",
 						"loadInitialData"
 					]
@@ -61,13 +61,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v2/food-production",
+					"raw": "{{SERVER}}/api/v3/food-production",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"food-production"
 					]
 				},
@@ -95,13 +95,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v2/food-production/?Entity=Afghanistan&rice_production=380000",
+					"raw": "{{SERVER}}/api/v3/food-production/?Entity=Afghanistan&rice_production=380000",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"food-production",
 						""
 					],
@@ -140,13 +140,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v2/food-production/Afghanistan/1962",
+					"raw": "{{SERVER}}/api/v3/food-production/Afghanistan/1962",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"food-production",
 						"Afghanistan",
 						"1962"
@@ -176,13 +176,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v2/food-production/Mojacar/1962",
+					"raw": "{{SERVER}}/api/v3/food-production/Mojacar/1962",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"food-production",
 						"Mojacar",
 						"1962"
@@ -214,7 +214,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"Entity\":\"Greece\",\"Year\":1961,\"rice_production\":319000,\"tomatoes_production\":1873812,\"tea_production\":56315,\"potatoes_production\":130000,\"cocoa_beans_production\":835368,\"meat_chicken_production\":5600,\"bananas_production\":112\n}",
+					"raw": "{\n\t\"Entity\":\"Mojacar\",\"Year\":1961,\"rice_production\":319000,\"tomatoes_production\":1873812,\"tea_production\":56315,\"potatoes_production\":130000,\"cocoa_beans_production\":835368,\"meat_chicken_production\":5600,\"bananas_production\":112\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -222,13 +222,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{SERVER}}/api/v2/food-production",
+					"raw": "{{SERVER}}/api/v3/food-production",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"food-production"
 					]
 				},
@@ -266,13 +266,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{SERVER}}/api/v2/food-production",
+					"raw": "{{SERVER}}/api/v3/food-production",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"food-production"
 					]
 				},
@@ -310,13 +310,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{SERVER}}/api/v2/food-production",
+					"raw": "{{SERVER}}/api/v3/food-production",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"food-production"
 					]
 				},
@@ -353,13 +353,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{SERVER}}/api/v2/food-production/country/Afghanistan",
+					"raw": "{{SERVER}}/api/v3/food-production/country/Afghanistan",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"food-production",
 						"country",
 						"Afghanistan"
@@ -399,13 +399,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{SERVER}}/api/v2/food-production",
+					"raw": "{{SERVER}}/api/v3/food-production",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"food-production"
 					]
 				},
@@ -443,13 +443,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{SERVER}}/api/v2/food-production/country/Afghanistan/1961",
+					"raw": "{{SERVER}}/api/v3/food-production/country/Afghanistan/1961",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"food-production",
 						"country",
 						"Afghanistan",
@@ -490,13 +490,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{SERVER}}/api/v2/food-production/country/Afghanistan/1968",
+					"raw": "{{SERVER}}/api/v3/food-production/country/Afghanistan/1968",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"food-production",
 						"country",
 						"Afghanistan",
@@ -537,13 +537,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{SERVER}}/api/v2/food-production",
+					"raw": "{{SERVER}}/api/v3/food-production",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"food-production"
 					]
 				},
