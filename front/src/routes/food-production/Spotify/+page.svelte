@@ -1,15 +1,9 @@
 <script>
 	// @ts-nocheck
 	import { onMount } from 'svelte';
-	import * as sveltestrap from 'sveltestrap';
-
-	let Button = sveltestrap.Button;
-	let Table = sveltestrap.Table;
-	let Form = sveltestrap.Form;
-	let FormGroup = sveltestrap.FormGroup;
-	let Label = sveltestrap.Label;
-	let Input = sveltestrap.Input;
+	import {Button, Table, Form, FormGroup, Label, Input} from '@sveltestrap/sveltestrap';
 	import { Buffer } from 'buffer';
+
 
 	var client_id_spotify = '';
 	var client_secret_spotify = '';
