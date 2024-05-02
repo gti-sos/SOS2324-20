@@ -178,7 +178,7 @@
 					Para poder usar esta funcionalidad, tienes que ir a la página de desarrolladores de
 					spotify: <a href="https://developer.spotify.com/dashboard/applications"
 						>https://developer.spotify.com/dashboard/applications</a
-					>, crear un APP para obtener el Client Id y Secret y añadir
+					>, Tienes que crear una APP para obtener el Client Id y Secret y añadirlos
 					<strong>https://sos2324-20-415018.ew.r.appspot.com/food-production/Spotify</strong> en el campo
 					"Redirect URIs".
 				</p>
