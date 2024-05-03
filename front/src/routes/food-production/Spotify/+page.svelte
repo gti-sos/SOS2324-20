@@ -1,9 +1,8 @@
 <script>
 	// @ts-nocheck
 	import { onMount } from 'svelte';
-	import {Button, Table, Form, FormGroup, Label, Input} from '@sveltestrap/sveltestrap';
+	import { Button, Table, Form, FormGroup, Label, Input } from '@sveltestrap/sveltestrap';
 	import { Buffer } from 'buffer';
-
 
 	var client_id_spotify = '';
 	var client_secret_spotify = '';
@@ -14,11 +13,14 @@
 	const TOKEN = 'https://accounts.spotify.com/api/token';
 	const PLAYLISTS = 'https://api.spotify.com/v1/me/playlists';
 
-	let redirect_uri = 'https://sos2324-20-415018.ew.r.appspot.com/food-production/Spotify';
+	//let redirect_uri = 'https://sos2324-20-415018.ew.r.appspot.com/food-production/Spotify';
+	let redirect_uri = 'http://localhost:5173/food-production/Spotify';
 
 	let playlists = [];
 	let show_token_section = false;
 	let show_playlists_section = false;
+	let selectedPlaylistId = null;
+	let songs = [];
 
 	onMount(async () => {
 		onPageLoad();
@@ -121,13 +123,15 @@
 	}
 	async function addPlaylist(item) {
 		console.log(item);
+		const tracksTotal = item.tracks ? item.tracks.total : 0; // Verificar si tracks está definido
 		playlists.push({
 			id: item.id,
 			name: item.name,
-			tracks: item.tracks.total,
+			tracks: tracksTotal,
 			url_image: item.images[0].url
 		});
 	}
+
 	async function refreshAccessToken() {
 		refresh_token_spotify = localStorage.getItem('refresh_token_spotify');
 		let body = 'grant_type=refresh_token';
@@ -161,6 +165,49 @@
 		access_token_spotify = null;
 		refresh_token_spotify = null;
 	}
+	async function callApi2(method, url, body) {
+		try {
+			const res = await fetch(url, {
+				method: method,
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + access_token_spotify
+				},
+				body: body
+			});
+			if (!res.ok) {
+				throw new Error('La respuesta de la API no fue exitosa. Código de estado: ' + res.status);
+			}
+			return res; // Devuelve la respuesta para ser procesada posteriormente
+		} catch (error) {
+			console.error('Hubo un error al llamar a la API:', error);
+			throw error; // Reenvía el error para que pueda ser manejado por el bloque catch externo
+		}
+	}
+
+	async function refreshSongs() {
+		if (!selectedPlaylistId) return; // Si no hay una playlist seleccionada, no hagas nada
+		const url = `https://api.spotify.com/v1/playlists/${selectedPlaylistId}/tracks`;
+		callApi2('GET', url, null)
+			.then(async (data) => {
+				const response = await data.json();
+				if (response.items) {
+					// Limpiar la lista de canciones
+					songs = [];
+					// Iterar sobre cada elemento (canción) recibido
+					response.items.forEach((item) => {
+						// Obtener el nombre de la canción y agregarlo a la lista de canciones
+						const songName = item.track.name;
+						songs.push({ name: songName });
+					});
+				} else {
+					console.error('No se recibieron canciones de la playlist.');
+				}
+			})
+			.catch((error) => {
+				console.error('Hubo un error al obtener las canciones:', error);
+			});
+	}
 </script>
 
 <main>
@@ -172,7 +219,7 @@
 					Para poder usar esta funcionalidad, tienes que ir a la página de desarrolladores de
 					spotify: <a href="https://developer.spotify.com/dashboard/applications"
 						>https://developer.spotify.com/dashboard/applications</a
-					>, Tienes que crear una APP para obtener el Client Id y Secret y añadirlos
+					>, Tienes que crear una APP para obtener el Client Id y Secret y añadir la URL
 					<strong>https://sos2324-20-415018.ew.r.appspot.com/food-production/Spotify</strong> en el campo
 					"Redirect URIs".
 				</p>
@@ -194,37 +241,32 @@
 		{#if show_playlists_section == true}
 			<div class="row">
 				<div class="col-md-6">
-					<Table bordered striped>
-						<thead>
-							<tr>
-								<th>
-									<h3 class="mb-3" style="color: #4CAF50;">Playlists</h3>
-									<div class="d-flex">
-										<Button class="me-3" color="warning" on:click={refreshPlaylists}
-											>Recargar</Button
-										>
-										<Button color="danger" on:click={revokeAcces}>Limpiar credenciales</Button>
-									</div>
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							{#if playlists.length == 0}
-								<tr>
-									<td colspan="6"><p class="text-center">No hay datos.</p></td>
-								</tr>
-							{:else}
-								{#each playlists as x}
-									<tr>
-										<td>
-											<img src={x.url_image} alt="Imagen de {x.name}" class="me-3" />
-											{x.name} ({x.tracks})
-										</td>
-									</tr>
+					<Form class="mb-3">
+						<FormGroup>
+							<Label for="playlistSelect">Selecciona una Playlist</Label>
+							<Input
+								type="select"
+								id="playlistSelect"
+								bind:value={selectedPlaylistId}
+								on:change={refreshSongs}
+							>
+								<option value="">Selecciona una Playlist</option>
+								{#each playlists as playlist}
+									<option value={playlist.id}>{playlist.name}</option>
 								{/each}
-							{/if}
-						</tbody>
-					</Table>
+							</Input>
+						</FormGroup>
+					</Form>
+				</div>
+			</div>
+			<!-- Agregar una lista para mostrar las canciones -->
+			<div class="row">
+				<div class="col-md-6">
+					<ul>
+						{#each songs as song}
+							<li>{song.name}</li>
+						{/each}
+					</ul>
 				</div>
 			</div>
 		{/if}

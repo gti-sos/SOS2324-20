@@ -173,15 +173,16 @@
 
 		const filteredData = Object.values(groupedData);
 		console.log(`FILTERED DATA amCharts: ${JSON.stringify(filteredData, null, 2)}`);
-		// Asignar los valores acumulados a los polígonos
-		let bubbleSeries = chart.series.push(
-			am5map.MapPointSeries.new(root, {
-				valueField: 'value',
-				calculateAggregates: true,
-				polygonIdField: 'id'
-			})
-		);
 
+		// Asigna los valores acumulados a los polígonos
+		polygonSeries.data.setAll(
+			filteredData.map((item) => ({
+				id: item.id,
+				name: item.name,
+				value: item.value
+			}))
+		);
+		
 		// Mostrar meat_chicken_production sobre los países
 
 		polygonSeries.mapPolygons.template.setAll({
