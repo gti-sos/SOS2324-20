@@ -178,6 +178,7 @@
 		valores = filteredData.map((item) => item.value);
 		console.log('VALORES:', valores);
 
+		//lista con los IDs necesarios de cada país
 		let filteredData2 = [
 			{
 				id: 'AF',
