@@ -5,8 +5,11 @@
 			<h2>Francisco</h2>
 			<ul>
 				<li class="li_mod">
-					<a href="/food-production/spotify">Spotify</a> : Uso textual a través de OAUTH de la API de
-					Spotify. Muestra tus playlists.
+					<a href="/food-production/Spotify">Spotify</a> : Uso textual a través de OAUTH de la API de
+					Spotify. Selecciona la playlist que desees de entre todas tus playlist y se mostrará una lista con todas las canciones de la playlist elegida.
+				</li>
+				<li class="li_mod">
+					<a href="/food-production/TwitterApi">Twitter</a> : Comparación de seguidores en Twitter mediante una gráfica de barras.
 				</li>
 			</ul>
 		</li>
