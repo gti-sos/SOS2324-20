@@ -3,8 +3,10 @@ import csv from "csv-parser";
 
 import bodyParser from "body-parser";
 import fs from "fs";
+import path from "path";
 
 const API_BASE = "/api/v3/food-production";
+var path_FSP = "/api/proxy_FSP";
 
 var initialData = [];
 
@@ -100,6 +102,12 @@ function validarDatos(req, res, next) {
 function API_FSP_V3(app, dbFood) {
   app.use(bodyParser.json());
 
+  app.use(path_FSP, (req, res) => {
+    var url = req.url.replace("/?url=", "");
+    console.log("piped: " + req.url);
+    req.pipe(request(url)).pipe(res);
+  });
+
   readCSVFile("back/csvS/world-food-production.csv")
     .then(() => {})
     .catch((error) => console.error(error));
@@ -175,10 +183,9 @@ function API_FSP_V3(app, dbFood) {
     }
 
     if (query.Entity && query.Year && !from && !to && (!from || !to)) {
-
       dbFood
         .findOne(query)
-        .sort({ Entity: 1, Year: 1 })  //para que salgan ordenados
+        .sort({ Entity: 1, Year: 1 }) //para que salgan ordenados
         .exec((err, data) => {
           if (err) {
             res.sendStatus(500, err);
@@ -236,23 +243,26 @@ function API_FSP_V3(app, dbFood) {
   app.post(API_BASE + "/", validarDatos, (req, res) => {
     let food = req.body;
     console.log("NEW POST WITH BODY: ", JSON.stringify(req.body, null, 2));
-    dbFood.findOne({ Entity: food.Entity, Year: food.Year }, (err, existingFood) => {
-      if (err) {
-        res.sendStatus(500, "Internal Error");
-      } else {
-        if (existingFood) {
-          res.sendStatus(409, "Food already exists");
+    dbFood.findOne(
+      { Entity: food.Entity, Year: food.Year },
+      (err, existingFood) => {
+        if (err) {
+          res.sendStatus(500, "Internal Error");
         } else {
-          dbFood.insert(food, (err, newFood) => {
-            if (err) {
-              res.sendStatus(500, "Internal Error");
-            } else {
-              res.sendStatus(201, "Created");
-            }
-          });
+          if (existingFood) {
+            res.sendStatus(409, "Food already exists");
+          } else {
+            dbFood.insert(food, (err, newFood) => {
+              if (err) {
+                res.sendStatus(500, "Internal Error");
+              } else {
+                res.sendStatus(201, "Created");
+              }
+            });
+          }
         }
       }
-    });
+    );
   });
 
   app.post(API_BASE + "/:field/:value", (req, res) => {
