@@ -19,9 +19,16 @@
 
 	//let API = 'http://localhost:10000/api/v3/food-production/proxy_FSP/?url=https://sos2324-21.ew.r.appspot.com/api/v2/cause-of-deaths';
 	onMount(async () => {
-		await loadData();
+		await loadChartData();
 		//console.log(`Data received: ${JSON.stringify(data_integracion, null, 2)}`);
 	});
+
+	async function loadChartData() {
+		await loadData();
+		const chartData = prepareChartData(data_integracion);
+		createChart(chartData);
+	}
+
 	async function loadCause() {
 		await fetch(API_cause_of_death + '/loadInitialData', {
 			method: 'GET'
@@ -33,64 +40,45 @@
 		await getData();
 		await getData_Cause_death();
 		await mixData(); // Llamada a mixData dentro de loadData
-		//if (data_integracion.length > 0) loadChartData(data_integracion);
 	}
-		async function mixData() {
-			// Crea un objeto para mapear los datos de la causa de muerte por año
-			const causeOfDeathMap = {};
-			data_cause_of_death.forEach((item) => {
-				const key = `${item.country_name}-${item.year}`;
-				causeOfDeathMap[key] = item;
-			});
-			console.log(`Cause of death map: ${JSON.stringify(causeOfDeathMap, null, 2)}`);
-			// Itera sobre los datos de producción de alimentos
-			data.forEach((item) => {
-				const key = `${item.Entity}-${item.Year}`;
-				const causeOfDeathItem = causeOfDeathMap[key];
-				if (causeOfDeathItem) {
-					// Si hay datos de causa de muerte correspondientes, combina la información
-					data_integracion.push({
-						Entity: item.Entity,
-						Year: item.Year,
-						rice_production: item.rice_production,
-						tomatoes_production: item.tomatoes_production,
-						tea_production: item.tea_production,
-						potatoes_production: item.potatoes_production,
-						country_name: causeOfDeathItem.country_name,
-						year: causeOfDeathItem.year,
-						nutricional_deficience: causeOfDeathItem.nutricional_deficience
-					});
-					console.log(causeOfDeathItem.year);
-				}
-			});
-
-			console.log(`Data received: ${JSON.stringify(data_integracion, null, 2)}`);
-		}
-
-	function calculateTotalProduction(data) {
-		const totalProduction = {};
-
-		// Itera sobre los datos para calcular el total de producción de cada país
+	async function mixData() {
+		// Crear un objeto para mapear los datos de producción de alimentos por año
+		const foodProductionMap = {};
 		data.forEach((item) => {
-			const country = item.Entity;
-			if (!totalProduction[country]) {
-				// Si es la primera vez que se encuentra el país, inicializa su total de producción
-				totalProduction[country] = {
-					rice_production: 0,
-					tomatoes_production: 0,
-					tea_production: 0,
-					potatoes_production: 0
-				};
-			}
-
-			// Suma la producción de cada cultivo al total del país
-			totalProduction[country].rice_production += item.rice_production || 0;
-			totalProduction[country].tomatoes_production += item.tomatoes_production || 0;
-			totalProduction[country].tea_production += item.tea_production || 0;
-			totalProduction[country].potatoes_production += item.potatoes_production || 0;
+			const key = `${item.Entity}-${item.Year}`;
+			foodProductionMap[key] = item;
 		});
 
-		return totalProduction;
+		// Crear un objeto para mapear los datos de causa de muerte por año
+		const causeOfDeathMap = {};
+		data_cause_of_death.forEach((item) => {
+			const key = `${item.country_name}-${item.year}`;
+			causeOfDeathMap[key] = item;
+		});
+
+		// Iterar sobre los datos de producción de alimentos y combinar con los datos de causa de muerte
+		const integratedData = [];
+		Object.keys(foodProductionMap).forEach((foodKey) => {
+			const causeKey = foodKey.replace('Eswatini', 'Eswatini').replace('-', '-');
+			const foodItem = foodProductionMap[foodKey];
+			const causeItem = causeOfDeathMap[causeKey];
+			if (causeItem) {
+				integratedData.push({
+					Entity: foodItem.Entity,
+					Year: foodItem.Year,
+					rice_production: foodItem.rice_production,
+					tea_production: foodItem.tea_production,
+					potatoes_production: foodItem.potatoes_production,
+					country_name: causeItem.country_name,
+					year: causeItem.year,
+					nutricional_deficiencie: causeItem.nutricional_deficiencie
+				});
+			}
+		});
+
+		console.log(`Integrated data: ${JSON.stringify(integratedData, null, 2)}`);
+
+		data_integracion = integratedData;
 	}
 
 	async function getData() {
@@ -105,7 +93,7 @@
 			});
 			result = JSON.stringify(filteredData, null, 2);
 			data = filteredData;
-			//console.log(`Data: ${JSON.stringify(data, null, 2)}`);
+			//console.log(`Data food: ${JSON.stringify(data, null, 2)}`);
 		} catch (error) {
 			console.log(error);
 		}
@@ -129,33 +117,59 @@
 		}
 	}
 
-	// Función para crear la gráfica
-	function createChart(totalProduction) {
+	function prepareChartData(data) {
+		const chartData = {};
+		data.forEach((item) => {
+			const year = item.Year;
+			if (!chartData[year]) {
+				chartData[year] = {
+					totalProduction: 0,
+					nutricional_deficiencie: item.nutricional_deficiencie // Asigna el valor entero directamente
+				};
+			}
+			// Suma la producción de cada cultivo al total del año
+			chartData[year].totalProduction +=
+				item.rice_production + item.tea_production + item.potatoes_production;
+		});
+		console.log(`chartData: ${JSON.stringify(chartData, null, 2)}`);
+		return chartData;
+	}
+
+	// GRÁFICA DE TIPO COMBINACION
+	function createChart(chartData) {
 		Highcharts.chart('container', {
 			chart: {
-				zoomType: 'xy'
+				type: 'column'
 			},
 			title: {
-				text: 'Producción y Deficiencia Nutricional por País'
+				text: 'Combinación de muertes por deficiencia nutricional en cuanto a producción de alimentos',
+				align: 'left'
 			},
-			xAxis: {
-				categories: Object.keys(totalProduction), // Países como categorías del eje X
-				crosshair: true
-			},
+			xAxis: [
+				{
+					categories: Object.keys(chartData).map(String),
+					crosshair: true,
+					title: {
+						text: 'Año'
+					}
+				}
+			],
 			yAxis: [
 				{
+					// Primary yAxis
 					title: {
-						text: 'Producción Total'
-					}
-				},
-				{
-					title: {
-						text: 'Deficiencia Nutricional',
-						style: {
-							color: Highcharts.getOptions().colors[1]
-						}
+						text: 'Deficiencia Nutricional' // Cambiado el título del eje Y
 					},
 					opposite: true
+				},
+				{
+					// Secondary yAxis
+					title: {
+						text: 'Producción Total' // Cambiado el título del eje Y
+					},
+					labels: {
+						format: '{value} toneladas' // Agregado el sufijo toneladas para las etiquetas del eje Y
+					}
 				}
 			],
 			tooltip: {
@@ -163,55 +177,25 @@
 			},
 			series: [
 				{
-					name: 'Producción de Arroz',
-					type: 'column',
-					data: Object.values(totalProduction).map((item) => item.rice_production),
-					tooltip: {
-						valueSuffix: ' toneladas'
-					}
-				},
-				{
-					name: 'Producción de Tomates',
-					type: 'column',
-					data: Object.values(totalProduction).map((item) => item.tomatoes_production),
-					tooltip: {
-						valueSuffix: ' toneladas'
-					}
-				},
-				{
-					name: 'Producción de Té',
-					type: 'column',
-					data: Object.values(totalProduction).map((item) => item.tea_production),
-					tooltip: {
-						valueSuffix: ' toneladas'
-					}
-				},
-				{
-					name: 'Producción de Papas',
-					type: 'column',
-					data: Object.values(totalProduction).map((item) => item.potatoes_production),
-					tooltip: {
-						valueSuffix: ' toneladas'
-					}
-				},
-				{
 					name: 'Deficiencia Nutricional',
-					type: 'spline',
-					yAxis: 1,
-					data: Object.values(totalProduction).map((item) => item.nutricional_deficience),
+					type: 'column', // Cambiado el tipo de serie a column
+					data: Object.keys(chartData).map((year) => chartData[year].nutricional_deficiencie),
 					tooltip: {
-						valueSuffix: '%'
-					}
+						valueSuffix: ' muertes'
+					},
+					yAxis: 0 // Asignado el eje Y correspondiente
+				},
+				{
+					name: 'Producción Total',
+					type: 'spline', // Cambiado el tipo de serie a spline
+					data: Object.keys(chartData).map((year) => chartData[year].totalProduction),
+					tooltip: {
+						valueSuffix: ' toneladas'
+					},
+					yAxis: 1 // Asignado el eje Y correspondiente
 				}
 			]
 		});
-	}
-
-	// Llama a la función para crear la gráfica después de cargar los datos
-	async function loadChartData() {
-		await loadData();
-		const totalProduction = calculateTotalProduction(data_integracion);
-		//createChart(totalProduction);
 	}
 </script>
 
@@ -223,7 +207,7 @@
 </svelte:head>
 
 <main>
-	<h3>Gráfico de Producción y Deficiencia Nutricional por País</h3>
+	<h3>Gráfico de Producción Total y Deficiencia Nutricional por Año en Eswatini</h3>
 	<div id="container" style="width: 100%; height: 400px;"></div>
 	{#if data_integracion.length == 0}
 		<Button on:click={loadCause} color="warning">Cargar datos</Button>
