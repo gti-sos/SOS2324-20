@@ -27,6 +27,8 @@
 	"dependencies": {
 		"@sveltestrap/sveltestrap": "^6.2.7",
 		"axios": "^1.6.8",
-		"buffer": "^6.0.3"
+		"buffer": "^6.0.3",
+		"frappe-charts": "^1.6.2",
+		"svelte-frappe-charts": "^1.10.0"
 	}
 }
