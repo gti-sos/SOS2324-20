@@ -10,11 +10,12 @@
 	let message = 'No hay datos para mostrar.';
 	let result = '';
 
-	let API_cause_of_death = 'https://sos2324-21.ew.r.appspot.com/api/v2/cause-of-deaths';
+	let API_cause_of_death = '/api/proxy/?url=https://sos2324-21.ew.r.appspot.com/api/v2/cause-of-deaths';
 
 	let API = '/api/v3/food-production';
 	if (dev) {
 		API = 'http://localhost:10000' + API;
+	API_cause_of_death = "http://localhost:10000" + API_cause_of_death;
 	}
 
 	//let API = 'http://localhost:10000/api/v3/food-production/proxy_FSP/?url=https://sos2324-21.ew.r.appspot.com/api/v2/cause-of-deaths';

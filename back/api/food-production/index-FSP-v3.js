@@ -3,10 +3,10 @@ import csv from "csv-parser";
 
 import bodyParser from "body-parser";
 import fs from "fs";
-import path from "path";
+import request from "request";
 
 const API_BASE = "/api/v3/food-production";
-var path_FSP = "/api/proxy_FSP";
+var path_FSP = "/api/proxy";
 
 var initialData = [];
 
@@ -102,11 +102,11 @@ function validarDatos(req, res, next) {
 function API_FSP_V3(app, dbFood) {
   app.use(bodyParser.json());
 
-  app.use(path_FSP, (req, res) => {
-    var url = req.url.replace("/?url=", "");
-    console.log("piped: " + req.url);
+  app.use(path_FSP, function (req, res) {
+    var url = req.url.replace('/?url=', '');
+    console.log('piped: ' + req.url);
     req.pipe(request(url)).pipe(res);
-  });
+});
 
   readCSVFile("back/csvS/world-food-production.csv")
     .then(() => {})
