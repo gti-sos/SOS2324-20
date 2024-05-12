@@ -291,6 +291,8 @@
 
 <div class="header">
 	<button class="load-data" on:click={loadinitial}>Cargar datos iniciales</button>
+	<button class="load-data" onclick="window.location.href = '/life-expectancy/graphAFO'">Ir a la página de gráficos</button>
+	<button class="load-data" onclick="window.location.href = '/life-expectancy/frappeGraph'">Ir a la página del gráfico FrappeChart </button>
 	{#if !show_search}
 		<button class="search" on:click={searchLF}>Realizar buscar</button>
 	{/if}
