@@ -27,83 +27,47 @@
         try {
             const data = await fetchData();
 
-            const root = am5.Root.new('chartdiv');
+            // Ordenar los datos de mayor a menor según el valor de "highway_mpg"
+            const sortedData = data.sort((a, b) => a.highway_mpg - b.highway_mpg);
 
-            root.setThemes([am5themes_Animated.new(root)]);
+            // Obtener los nombres de los modelos y los valores de highway_mpg
+            const modelNames = sortedData.map(car => car.model);
+            const highwayMPG = sortedData.map(car => car.highway_mpg);
 
-            const chart = root.container.children.push(
-                am5xy.XYChart.new(root, {
-                    panX: true,
-                    panY: true,
-                    wheelY: "zoomXY",
-                    pinchZoomX: true,
-                    pinchZoomY: true
-                })
-            );
-
-            chart.get('colors').set('step', 2);
-
-            let xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
-                renderer: am5xy.AxisRendererX.new(root, { minGridDistance: 50 }),
-                tooltip: am5.Tooltip.new(root, {})
-            }));
-
-            let yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-                renderer: am5xy.AxisRendererY.new(root, {}),
-                tooltip: am5.Tooltip.new(root, {})
-            }));
-
-            let series = chart.series.push(am5xy.LineSeries.new(root, {
-                calculateAggregates: true,
-                xAxis: xAxis,
-                yAxis: yAxis,
-                valueYField: 'city_mpg',
-                valueXField: 'highway_mpg',
-                valueField: 'combination_mpg',
-                tooltip: am5.Tooltip.new(root, {
-                    labelText: 'Modelo: {model}, MPG en ciudad: {city_mpg}, MPG en carretera: {highway_mpg}, MPG combinado: {combination_mpg}'
-                })
-            }));
-
-            let circleTemplate = am5.Template.new({});
-            series.bullets.push(function() {
-                let graphics = am5.Circle.new(root, {
-                    fill: series.get('fill'),
-                }, circleTemplate);
-                return am5.Bullet.new(root, {
-                    sprite: graphics
-                });
+            // Configuración de la gráfica de Highcharts con 3D
+            Highcharts.chart('chartdiv', {
+                chart: {
+                    type: 'pyramid',
+                    options3d: {
+                        enabled: true,
+                        alpha: 10,
+                        depth: 50,
+                        viewDistance: 50
+                    }
+                },
+                title: {
+                    text: 'Gráfica que indica el consumo de gasolina en autopista de los modelos de Mercedes Benz del año 2001'
+                },
+                plotOptions: {
+                    series: {
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b> ({point.y:,.0f})',
+                            allowOverlap: true,
+                            x: 10,
+                            y: -5
+                        },
+                        width: '60%',
+                        height: '80%',
+                        center: ['50%', '45%']
+                    }
+                },
+                series: [{
+                    name: 'Highway MPG',
+                    data: modelNames.map((name, index) => [name, highwayMPG[index]])
+                }]
             });
 
-            series.set('heatRules', [{
-                target: circleTemplate,
-                min: 3,
-                max: 35,
-                dataField: 'value',
-                key: 'radius'
-            }]);
-
-            series.data.setAll(data);
-
-            series.strokes.template.set('strokeOpacity', 0);
-
-            chart.set('cursor', am5xy.XYCursor.new(root, {
-                xAxis: xAxis,
-                yAxis: yAxis,
-                snapToSeries: [series]
-            }));
-
-            chart.set('scrollbarX', am5.Scrollbar.new(root, {
-                orientation: 'horizontal'
-            }));
-
-            chart.set('scrollbarY', am5.Scrollbar.new(root, {
-                orientation: 'vertical'
-            }));
-
-            series.appear(1000);
-
-            chart.appear(1000, 100);
         } catch (error) {
             console.error('Error fetching car data:', error);
         }
@@ -111,9 +75,12 @@
 </script>
 
 <svelte:head>
-    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
-    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script> <!-- Añadir Highcharts 3D -->
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/modules/funnel.js"></script> <!-- Agregar el módulo de pirámide (funnel) -->
 </svelte:head>
 
 <div id="chartdiv"></div>

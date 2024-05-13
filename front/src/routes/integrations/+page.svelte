@@ -11,6 +11,9 @@
 				<li class="li_mod">
 					<a href="/food-production/TwitterApi">Twitter</a> : Comparación de seguidores en Twitter mediante una gráfica de barras.
 				</li>
+				<li class="li_mod">
+					<a href="/food-production/cars">Coches</a> : Gráfica de tipo pirámide que compara el consumo en autopista de los modelos de mercedes-benz fabricados en el año 2001.
+				</li>
 			</ul>
 		</li>
 	</ul>
