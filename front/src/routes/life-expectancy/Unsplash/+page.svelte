@@ -5,7 +5,7 @@
 	let message = 'Espera, se estan cargando los datos...';
 	let result;
 
-	let API = '/api/v2/life-expectancy/?limit=10&offset=0';
+	let API = '/api/v2/life-expectancy/?limit=5&offset=0';
 	if (dev) {
 		API = 'http://localhost:10000' + API;
 	}
