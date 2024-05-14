@@ -6,13 +6,25 @@
 			<ul>
 				<li class="li_mod">
 					<a href="/food-production/Spotify">Spotify</a> : Uso textual a través de OAUTH de la API de
-					Spotify. Selecciona la playlist que desees de entre todas tus playlist y se mostrará una lista con todas las canciones de la playlist elegida.
+					Spotify. Selecciona la playlist que desees de entre todas tus playlist y se mostrará una lista
+					con todas las canciones de la playlist elegida.
 				</li>
 				<li class="li_mod">
-					<a href="/food-production/TwitterApi">Twitter</a> : Comparación de seguidores en Twitter mediante una gráfica de barras.
+					<a href="/food-production/TwitterApi">Twitter</a> : Comparación de seguidores en Twitter mediante
+					una gráfica de barras.
 				</li>
 				<li class="li_mod">
-					<a href="/food-production/cars">Coches</a> : Gráfica de tipo pirámide que compara el consumo en autopista de los modelos de mercedes-benz fabricados en el año 2001.
+					<a href="/food-production/cars">Coches</a> : Gráfica de tipo pirámide que compara el consumo
+					en autopista de los modelos de mercedes-benz fabricados en el año 2001.
+				</li>
+			</ul>
+		</li>
+		<li>
+			<h2>Alejandro</h2>
+			<ul>
+				<li class="li_mod">
+					<a href="/life-expectancy/Pokemon">Pokemon</a> : Muestra una lista de los pokemons que
+					representan a cada país en un año determinado.
 				</li>
 			</ul>
 		</li>
@@ -24,7 +36,8 @@
 			<h2>Francisco</h2>
 			<ul>
 				<li class="li_mod">
-					<a href="/food-production/IntegrationProxy">Grafo Integrado mediante proxy</a> - Grafo de los datos de mi api integrados junto a los datos de la api "Cause_of_deaths" del grupo 21 de SOS 
+					<a href="/food-production/IntegrationProxy">Grafo Integrado mediante proxy</a> - Grafo de los
+					datos de mi api integrados junto a los datos de la api "Cause_of_deaths" del grupo 21 de SOS
 					y accedidos mediante un proxy.
 				</li>
 			</ul>

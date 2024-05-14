@@ -6,10 +6,11 @@
   "scripts": {
     "start": "node index",
     "install:frontend": "cd front && npm install && npm run build && cd ..",
-    "test": "npm run test-life-expectancy && npm run test-life-expectancy-v2 && npm run test-food-production && npm run test-food-production-v2 && npm run test-food-production-v3 && npm run test-phamaceutical-drugs-spending  && npm run test-phamaceutical-drugs-spending-v2 && npm run test-e2e",
+    "test": "npm run test-life-expectancy && npm run test-life-expectancy-v2 && npm run test-life-expectancy-v3 && npm run test-food-production && npm run test-food-production-v2 && npm run test-food-production-v3 && npm run test-phamaceutical-drugs-spending  && npm run test-phamaceutical-drugs-spending-v2 && npm run test-e2e",
     "test-e2e": "npx playwright test",
     "test-life-expectancy": "newman run ./back/tests/api-life-expectation/api-life-expectation-test.json -e ./back/tests/api-life-expectation/environment/local.json",
     "test-life-expectancy-v2": "newman run ./back/tests/api-life-expectation/api-life-expectation-test-v2.json -e ./back/tests/api-life-expectation/environment/local.json",
+    "test-life-expectancy-v3": "newman run ./back/tests/api-life-expectation/api-life-expectation-test-v3.json -e ./back/tests/api-life-expectation/environment/local.json",
     "test-food-production": "newman run ./back/tests/api-food-production/api-food-production-test.json -e ./back/tests/api-food-production/environment/local.json",
     "test-food-production-v2": "newman run ./back/tests/api-food-production/api-food-production-test-v2.json -e ./back/tests/api-food-production/environment/local.json",
     "test-food-production-v3": "newman run ./back/tests/api-food-production/api-food-production-test-v3.json -e ./back/tests/api-food-production/environment/local.json",
