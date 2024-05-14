@@ -30,6 +30,10 @@
 				<li class="li_mod">
 					<a href="/life-expectancy/QR"> QR</a> : Muestra un código QR para acceder a la información de cada recurso.
 				</li>
+
+				<li>
+					<a href="/life-expectancy/Unsplash">Unsplash</a> : Muestra una imágen del país representativa. La idea era incluirla la página de detalle. (Proximamente)
+				</li>
 			</ul>
 		</li>
 	</ul>
