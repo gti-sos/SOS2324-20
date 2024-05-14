@@ -8,7 +8,7 @@
     let result = '';
 
     let pokemonAPI = '/api/proxy/?url=https://pokeapi.co/api/v2/pokemon/';
-    let API = '/api/v2/life-expectancy/?limit=1000000&offset=0';
+    let API = '/api/v2/life-expectancy/?limit=25&offset=0';
     if (dev) {
         API = 'http://localhost:10000' + API;
         pokemonAPI = 'http://localhost:10000' + pokemonAPI;
