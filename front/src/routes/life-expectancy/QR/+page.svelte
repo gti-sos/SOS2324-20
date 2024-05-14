@@ -2,12 +2,12 @@
 	import { onMount } from 'svelte';
 	import { dev } from '$app/environment';
 
-    let qrAPI= "http://api.qrserver.com/v1/create-qr-code/?data=https://sos2324-20-415018.ew.r.appspot.com/life-expectancy/";
+    let qrAPI= "https://api.qrserver.com/v1/create-qr-code/?data=https://sos2324-20-415018.ew.r.appspot.com/life-expectancy/";
 	//Muestra si está en desarrollo
 	let API = '/api/v2/life-expectancy';
 	if (dev) {
 		API = 'http://localhost:10000/api/v2/life-expectancy';
-        qrAPI= "http://api.qrserver.com/v1/create-qr-code/?data=http://localhost:10000/life-expectancy/";
+        qrAPI= "https://api.qrserver.com/v1/create-qr-code/?data=http://localhost:10000/life-expectancy/";
 	}
     let url= "https://sos2324-20-415018.ew.r.appspot.com/";
 
