@@ -26,6 +26,10 @@
 					<a href="/life-expectancy/Pokemon">Pokemon</a> : Muestra una lista de los pokemons que
 					representan a cada país en un año determinado.
 				</li>
+
+				<li class="li_mod">
+					<a href="/life-expectancy/QR"> QR</a> : Muestra un código QR para acceder a la información de cada recurso.
+				</li>
 			</ul>
 		</li>
 	</ul>
