@@ -23,16 +23,29 @@
 			<h2>Alejandro</h2>
 			<ul>
 				<li class="li_mod">
-					<a href="/life-expectancy/Pokemon">Pokemon</a> : Muestra una lista de los pokemons que
-					representan a cada país en un año determinado.
+					<a href="/life-expectancy/Pokemon">Pokemon</a> : Muestra una lista de los pokemons que representan
+					a cada país en un año determinado.
 				</li>
 
 				<li class="li_mod">
-					<a href="/life-expectancy/QR"> QR</a> : Muestra un código QR para acceder a la información de cada recurso.
+					<a href="/life-expectancy/QR"> QR</a> : Muestra un código QR para acceder a la información
+					de cada recurso.
 				</li>
 
 				<li>
-					<a href="/life-expectancy/Unsplash">Unsplash</a> : Muestra una imágen del país representativa. La idea era incluirla la página de detalle. (Proximamente)
+					<a href="/life-expectancy/Unsplash">Unsplash</a> : Muestra una imágen del país representativa.
+					La idea era incluirla la página de detalle. (Proximamente)
+				</li>
+			</ul>
+		</li>
+		<li>
+			<h2>Rufino</h2>
+			<ul>
+				<li class="li_mod">
+					<a href="/pharmaceutical-drugs-spending/Imdb">Imdb</a> : Mostrará una grafica con las 100 mejores peliculas en relacion con su año y su rating.
+				</li>
+				<li class="li_mod">
+					<a href="/pharmaceutical-drugs-spending/Taobao">Taobao</a> : Buscador segun imagen en el Taobao mostrando los productos que se le parecen junto a su url
 				</li>
 			</ul>
 		</li>
@@ -47,6 +60,14 @@
 					<a href="/food-production/IntegrationProxy">Grafo Integrado mediante proxy</a> - Grafo de los
 					datos de mi api integrados junto a los datos de la api "Cause_of_deaths" del grupo 21 de SOS
 					y accedidos mediante un proxy.
+				</li>
+			</ul>
+		</li>
+		<li>
+			<h2>Rufino</h2>
+			<ul>
+				<li class="li_mod">
+					<a href="/pharmaceutical-drugs-spending/Tts">Text-to-Speech</a> - Genera un archivo de audio por cada una de las entradas de mi api.
 				</li>
 			</ul>
 		</li>
