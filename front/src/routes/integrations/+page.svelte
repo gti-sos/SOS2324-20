@@ -47,6 +47,9 @@
 				<li class="li_mod">
 					<a href="/pharmaceutical-drugs-spending/Taobao">Taobao</a> : Buscador segun imagen en el Taobao mostrando los productos que se le parecen junto a su url
 				</li>
+				<li class="li_mod">
+					<a href="/pharmaceutical-drugs-spending/Liga">Liga</a> : Api de transfermakt que monta un grafico de area en funcion del valor de mercado y la edad
+				</li>
 			</ul>
 		</li>
 	</ul>
@@ -68,6 +71,9 @@
 			<ul>
 				<li class="li_mod">
 					<a href="/pharmaceutical-drugs-spending/Tts">Text-to-Speech</a> - Genera un archivo de audio por cada una de las entradas de mi api.
+				</li>
+				<li class="li_mod">
+					<a href="/pharmaceutical-drugs-spending/Captcha">Captcha</a> - Genera un captcha antes de entrar a la api local.
 				</li>
 			</ul>
 		</li>

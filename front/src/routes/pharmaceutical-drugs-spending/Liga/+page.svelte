@@ -110,7 +110,7 @@
 			],
 			tooltip: {
 				headerFormat: '<b>{point.key}</b><br>',
-				pointFormat: '{point.x} cm, {point.y} kg'
+				pointFormat: '{point.x} años, {point.y} euros'
 			},
 			responsive: {
 				rules: [
