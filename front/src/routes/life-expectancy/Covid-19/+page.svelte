@@ -87,8 +87,10 @@
 	<script src="https://code.highcharts.com/highcharts.js"></script>
 </svelte:head>
 
-<h4>Life Expectancy</h4>
+<h1> Comparativa casos de Covid-19 respesto a la poblacion del pais en miles de unidades</h1>
 <div id="container"></div>
+
+<h5> Listado de datos para los que apenas pueden apreciase en la gráfica</h5>
 <div>
 	{#each data as item}
 		<ul>
