@@ -33,8 +33,13 @@
 				</li>
 
 				<li>
-					<a href="/life-expectancy/Unsplash">Unsplash</a> : Muestra una imágen del país representativa.
-					La idea era incluirla la página de detalle. (Proximamente)
+					<a href="/life-expectancy/Unsplash">Unsplash</a> : Muestra una imágen del país representativa, asi sea un paisaje o una ciudad.
+					
+				</li>
+
+				<li>
+					<a href="/life-expectancy/Covid-19"> Covid-19</a> : Muestra un grafico comparativo entre los casos de covid-19 
+					y la población de cada país.
 				</li>
 			</ul>
 		</li>

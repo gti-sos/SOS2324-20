@@ -1,7 +1,4 @@
 <svelte:head>
-	<!-- <script src="
-    https://cdn.jsdelivr.net/npm/smoothie@1.36.1/smoothie.min.js
-    "></script> -->
 	<script src="https://code.highcharts.com/highcharts.js"></script>
 </svelte:head>
 
