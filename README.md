@@ -12,6 +12,8 @@
   
   - V2: [https://sos2324-20-415018.ew.r.appspot.com/api/v2/life-expectancy/docs] ( developed by Alejandro Fernández Orozco)
 
+  - V3: [https://sos2324-20-415018.ew.r.appspot.com/api/v3/life-expectancy/docs] ( developed by Alejandro Fernández Orozco)
+
   - V1: [https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/docs] (developed by Francisco Sáez Pérez)
 
   - V2: [https://sos2324-20-415018.ew.r.appspot.com/api/v2/food-production/docs] ( developed by Francisco Sáez Pérez)

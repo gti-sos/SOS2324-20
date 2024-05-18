@@ -19,6 +19,7 @@
     <ul>
       <li><a href="https://sos2324-20-415018.ew.r.appspot.com/api/v1/life-expectancy">V1</a> : <a href="https://sos2324-20-415018.ew.r.appspot.com/api/v1/life-expectancy/docs">https://sos2324-20-415018.ew.r.appspot.com/api/v1/life-expectancy/docs</a> developed by Alejandro Fernández Orozco</li>
       <li> <a href="https://sos2324-20-415018.ew.r.appspot.com/api/v2/life-expectancy">V2</a> : <a href="https://sos2324-20-415018.ew.r.appspot.com/api/v2/life-expectancy/docs"> https://sos2324-20-415018.ew.r.appspot.com/api/v2/life-expectancy/docs</a> developed by Alejandro Fernández Orozco</li>
+      <li> <a href="https://sos2324-20-415018.ew.r.appspot.com/api/v3/life-expectancy">V3</a> : <a href="https://sos2324-20-415018.ew.r.appspot.com/api/v3/life-expectancy/docs"> https://sos2324-20-415018.ew.r.appspot.com/api/v3/life-expectancy/docs</a></li>
       <li>V1:<a href="https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/docs">https://sos2324-20-415018.ew.r.appspot.com/api/v1/food-production/docs</a> developed by Francisco Sáez Pérez</li>
       <li>V2:<a href="https://sos2324-20-415018.ew.r.appspot.com/api/v2/food-production/docs">https://sos2324-20-415018.ew.r.appspot.com/api/v2/food-production/docs</a> developed by Francisco Sáez Pérez</li>
       <li>V3:<a href="https://sos2324-20-415018.ew.r.appspot.com/api/v3/food-production/docs">https://sos2324-20-415018.ew.r.appspot.com/api/V3/food-production/docs</a> developed by Francisco Sáez Pérez</li>
