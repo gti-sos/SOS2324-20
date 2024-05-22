@@ -1,269 +1,205 @@
 <script>
 	// @ts-nocheck
 	import { onMount } from 'svelte';
-	import { Button, Table, Form, FormGroup, Label, Input } from '@sveltestrap/sveltestrap';
-	import { Buffer } from 'buffer';
+	import { Button, Form, FormGroup, Label, Input } from '@sveltestrap/sveltestrap';
 
-	var client_id_spotify = '';
-	var client_secret_spotify = '';
-	var access_token_spotify = null;
-	var refresh_token_spotify = null;
+	let spotifyClientId = '';
+	let spotifyClientSecret = '';
+	let spotifyAccessToken = null;
+	let spotifyRefreshToken = null;
 
-	const AUTHORIZE = 'https://accounts.spotify.com/authorize';
-	const TOKEN = 'https://accounts.spotify.com/api/token';
-	const PLAYLISTS = 'https://api.spotify.com/v1/me/playlists';
+	const SPOTIFY_AUTHORIZE_URL = 'https://accounts.spotify.com/authorize';
+	const SPOTIFY_TOKEN_URL = 'https://accounts.spotify.com/api/token';
+	const SPOTIFY_PLAYLISTS_URL = 'https://api.spotify.com/v1/me/playlists';
 
-	//let redirect_uri = 'https://sos2324-20-415018.ew.r.appspot.com/food-production/Spotify';
-	let redirect_uri = 'http://localhost:5173/food-production/Spotify';
+	let appRedirectUri = 'http://localhost:5173/food-production/Spotify';
 
-	let playlists = [];
-	let show_token_section = false;
-	let show_playlists_section = false;
+	let userPlaylists = [];
+	let displayTokenSection = false;
+	let displayPlaylistsSection = false;
 	let selectedPlaylistId = null;
-	let songs = [];
+	let playlistSongs = [];
 
 	onMount(async () => {
-		onPageLoad();
+		initializePage();
 	});
 
-	async function onPageLoad() {
-		client_id_spotify = localStorage.getItem('client_id_spotify');
-		client_secret_spotify = localStorage.getItem('client_secret_spotify');
+	async function initializePage() {
+		spotifyClientId = localStorage.getItem('spotifyClientId');
+		spotifyClientSecret = localStorage.getItem('spotifyClientSecret');
 		if (window.location.search.length > 0) {
 			handleRedirect();
 		} else {
-			access_token_spotify = localStorage.getItem('access_token_spotify');
-			if (access_token_spotify == null) {
-				show_token_section = true;
+			spotifyAccessToken = localStorage.getItem('spotifyAccessToken');
+			if (spotifyAccessToken == null) {
+				displayTokenSection = true;
 			} else {
-				show_token_section = false;
-				show_playlists_section = true;
-				refreshPlaylists();
+				displayTokenSection = false;
+				displayPlaylistsSection = true;
+				updatePlaylists();
 			}
 		}
 	}
+
 	async function handleRedirect() {
-		let code = await getCode();
-		fetchAccessToken(code);
-		window.history.pushState('', '', redirect_uri); // remove param from url
+		const code = await fetchAuthCode();
+		fetchSpotifyAccessToken(code);
+		window.history.pushState('', '', appRedirectUri);
 	}
-	async function getCode() {
-		let code = null;
+
+	async function fetchAuthCode() {
 		const queryString = window.location.search;
 		if (queryString.length > 0) {
 			const urlParams = new URLSearchParams(queryString);
-			code = urlParams.get('code');
+			return urlParams.get('code');
 		}
-		return code;
-	}
-	async function fetchAccessToken(code) {
-		let body = 'grant_type=authorization_code';
-		body += '&code=' + code;
-		body += '&redirect_uri=' + encodeURI(redirect_uri);
-		body += '&client_id=' + client_id_spotify;
-		body += '&client_secret=' + client_secret_spotify;
-		callAuthorizationApi(body);
+		return null;
 	}
 
-	async function callAuthorizationApi(body) {
-		fetch(TOKEN, {
+	async function fetchSpotifyAccessToken(code) {
+		const requestBody = `grant_type=authorization_code&code=${code}&redirect_uri=${encodeURI(appRedirectUri)}&client_id=${spotifyClientId}&client_secret=${spotifyClientSecret}`;
+		callSpotifyApiForToken(requestBody);
+	}
+
+	async function callSpotifyApiForToken(requestBody) {
+		const response = await fetch(SPOTIFY_TOKEN_URL, {
 			method: 'POST',
-			body: body,
+			body: requestBody,
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
-				Authorization:
-					'Basic ' +
-					new Buffer.from(client_id_spotify + ':' + client_secret_spotify).toString('base64')
+				Authorization: 'Basic ' + btoa(`${spotifyClientId}:${spotifyClientSecret}`)
 			}
-		})
-			.then((response) => {
-				handleAuthorizationResponse(response);
-			})
-			.catch((error) => {
-				console.error('There was a problem with the fetch operation:', error);
-			});
+		});
+		handleSpotifyTokenResponse(response);
 	}
-	async function handleAuthorizationResponse(data) {
-		const status = await data.status;
-		if (status == 200) {
-			const data_res = await data.json();
-			if (data_res.access_token != undefined) {
-				access_token_spotify = data_res.access_token;
-				localStorage.setItem('access_token_spotify', access_token_spotify);
+
+	async function handleSpotifyTokenResponse(response) {
+		if (response.status === 200) {
+			const data = await response.json();
+			spotifyAccessToken = data.access_token;
+			localStorage.setItem('spotifyAccessToken', spotifyAccessToken);
+			if (data.refresh_token) {
+				spotifyRefreshToken = data.refresh_token;
+				localStorage.setItem('spotifyRefreshToken', spotifyRefreshToken);
 			}
-			if (data_res.refresh_token != undefined) {
-				refresh_token_spotify = data_res.refresh_token;
-				localStorage.setItem('refresh_token_spotify', refresh_token_spotify);
-			}
-			onPageLoad();
+			initializePage();
 		} else {
-			console.log(status);
+			console.error(response.status);
 		}
 	}
 
-	async function callApi(method, url, body) {
-		const res = await fetch(url, {
-			method: method,
+	async function callSpotifyApi(method, url, body = null) {
+		const response = await fetch(url, {
+			method,
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + access_token_spotify
+				Authorization: `Bearer ${spotifyAccessToken}`
 			},
-			body: body
+			body
 		});
-		const status = await res.status;
-		if (status == 200) {
-			const data = await res.json();
-			playlists = [];
-			data.items.forEach((item) => addPlaylist(item));
-		} else if (status === 401) {
-			refreshAccessToken();
+		if (response.status === 200) {
+			const data = await response.json();
+			userPlaylists = data.items.map((item) => ({
+				id: item.id,
+				name: item.name,
+				tracks: item.tracks?.total || 0,
+				imageUrl: item.images[0]?.url
+			}));
+		} else if (response.status === 401) {
+			refreshSpotifyAccessToken();
 		} else {
-			console.log(status);
-		}
-	}
-	async function addPlaylist(item) {
-		console.log(item);
-		const tracksTotal = item.tracks ? item.tracks.total : 0; // Verificar si tracks está definido
-		playlists.push({
-			id: item.id,
-			name: item.name,
-			tracks: tracksTotal,
-			url_image: item.images[0].url
-		});
-	}
-
-	async function refreshAccessToken() {
-		refresh_token_spotify = localStorage.getItem('refresh_token_spotify');
-		let body = 'grant_type=refresh_token';
-		body += '&refresh_token=' + refresh_token_spotify;
-		body += '&client_id=' + client_id_spotify;
-		callAuthorizationApi(body);
-	}
-	async function refreshPlaylists() {
-		callApi('GET', PLAYLISTS, null);
-	}
-	async function requestAuthorization() {
-		localStorage.setItem('client_id_spotify', client_id_spotify);
-		localStorage.setItem('client_secret_spotify', client_secret_spotify); // In a real app you should not expose your client_secret to the user
-		let url = AUTHORIZE;
-		url += '?client_id=' + client_id_spotify;
-		url += '&response_type=code';
-		url += '&redirect_uri=' + encodeURI(redirect_uri);
-		url += '&show_dialog=true';
-		url += '&scope=playlist-read-private';
-		window.location.href = url; // Show Spotify's authorization screen
-	}
-	async function revokeAcces() {
-		localStorage.removeItem('client_id_spotify');
-		localStorage.removeItem('client_secret_spotify');
-		localStorage.removeItem('access_token_spotify');
-		localStorage.removeItem('refresh_token_spotify');
-		show_token_section = true;
-		show_playlists_section = false;
-		client_id_spotify = '';
-		client_secret_spotify = '';
-		access_token_spotify = null;
-		refresh_token_spotify = null;
-	}
-	async function callApi2(method, url, body) {
-		try {
-			const res = await fetch(url, {
-				method: method,
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: 'Bearer ' + access_token_spotify
-				},
-				body: body
-			});
-			if (!res.ok) {
-				throw new Error('La respuesta de la API no fue exitosa. Código de estado: ' + res.status);
-			}
-			return res; // Devuelve la respuesta para ser procesada posteriormente
-		} catch (error) {
-			console.error('Hubo un error al llamar a la API:', error);
-			throw error; // Reenvía el error para que pueda ser manejado por el bloque catch externo
+			console.error(response.status);
 		}
 	}
 
-	async function refreshSongs() {
-		if (!selectedPlaylistId) return; // Si no hay una playlist seleccionada, no hagas nada
+	async function refreshSpotifyAccessToken() {
+		const requestBody = `grant_type=refresh_token&refresh_token=${spotifyRefreshToken}&client_id=${spotifyClientId}`;
+		callSpotifyApiForToken(requestBody);
+	}
+
+	async function updatePlaylists() {
+		callSpotifyApi('GET', SPOTIFY_PLAYLISTS_URL);
+	}
+
+	async function requestSpotifyAuthorization() {
+		localStorage.setItem('spotifyClientId', spotifyClientId);
+		localStorage.setItem('spotifyClientSecret', spotifyClientSecret);
+		const url = `${SPOTIFY_AUTHORIZE_URL}?client_id=${spotifyClientId}&response_type=code&redirect_uri=${encodeURI(appRedirectUri)}&show_dialog=true&scope=playlist-read-private`;
+		window.location.href = url;
+	}
+
+	async function updatePlaylistSongs() {
+		if (!selectedPlaylistId) return;
 		const url = `https://api.spotify.com/v1/playlists/${selectedPlaylistId}/tracks`;
-		callApi2('GET', url, null)
-			.then(async (data) => {
-				const response = await data.json();
-				if (response.items) {
-					// Limpiar la lista de canciones
-					songs = [];
-					// Iterar sobre cada elemento (canción) recibido
-					response.items.forEach((item) => {
-						// Obtener el nombre de la canción y agregarlo a la lista de canciones
-						const songName = item.track.name;
-						songs.push({ name: songName });
-					});
-				} else {
-					console.error('No se recibieron canciones de la playlist.');
-				}
-			})
-			.catch((error) => {
-				console.error('Hubo un error al obtener las canciones:', error);
-			});
+		const response = await fetch(url, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${spotifyAccessToken}`
+			}
+		});
+		if (response.ok) {
+			const data = await response.json();
+			playlistSongs = data.items.map((item) => ({ name: item.track.name }));
+		} else {
+			console.error('Error fetching songs:', response.status);
+		}
 	}
 </script>
 
 <main>
-	<div class="container" style="margin-top: 1%;">
-		{#if show_token_section == true}
-			<div class="row" style="margin-bottom: 1%;">
-				<h2>Listar tus playlist de spotify usando OAUTH2.0</h2>
+	<div class="container mt-4">
+		{#if displayTokenSection}
+			<div class="row mb-3">
+				<h2>Listar tus playlists de Spotify usando OAUTH2.0</h2>
 				<p>
 					Para poder usar esta funcionalidad, tienes que ir a la página de desarrolladores de
-					spotify: <a href="https://developer.spotify.com/dashboard/applications"
+					Spotify:
+					<a href="https://developer.spotify.com/dashboard/applications" target="_blank"
 						>https://developer.spotify.com/dashboard/applications</a
-					>, Tienes que crear una APP para obtener el Client Id y Secret y añadir la URL
-					<strong>https://sos2324-20-415018.ew.r.appspot.com/food-production/Spotify</strong> en el campo
-					"Redirect URIs".
+					>. Tienes que crear una APP para obtener el Client Id y Secret y añadir la URL
+					<strong>{appRedirectUri}</strong> en el campo "Redirect URIs".
 				</p>
 			</div>
 			<Form class="mb-3">
 				<FormGroup class="mb-3">
 					<Label for="clientId">Client Id</Label>
-					<Input type="textarea" name="text" id="clientId" bind:value={client_id_spotify} />
+					<Input type="textarea" id="clientId" bind:value={spotifyClientId} />
 				</FormGroup>
 				<FormGroup class="mb-3">
 					<Label for="clientSecret">Client Secret</Label>
-					<Input type="textarea" name="text" id="clientSecret" bind:value={client_secret_spotify} />
+					<Input type="textarea" id="clientSecret" bind:value={spotifyClientSecret} />
 				</FormGroup>
 				<FormGroup>
-					<Button color="primary" on:click={requestAuthorization}>Pedir autorización</Button>
+					<Button color="primary" on:click={requestSpotifyAuthorization}>Pedir autorización</Button>
 				</FormGroup>
 			</Form>
 		{/if}
-		{#if show_playlists_section == true}
-			<div class="row">
+		{#if displayPlaylistsSection}
+			<div class="row mb-3">
 				<div class="col-md-6">
 					<Form class="mb-3">
 						<FormGroup>
-							<Label for="playlistSelect">Selecciona una Playlist</Label>
+							<Label for="playlistSelect">Selecciona una de tus Playlists</Label>
 							<Input
 								type="select"
 								id="playlistSelect"
 								bind:value={selectedPlaylistId}
-								on:change={refreshSongs}
+								on:change={updatePlaylistSongs}
 							>
 								<option value="">Selecciona una Playlist</option>
-								{#each playlists as playlist}
-									<option value={playlist.id}>{playlist.name}</option>
+								{#each userPlaylists as playlist}
+									<option value={playlist.id}>{playlist.name} ({playlist.tracks} canciones)</option>
 								{/each}
 							</Input>
 						</FormGroup>
 					</Form>
 				</div>
 			</div>
-			<!-- Agregar una lista para mostrar las canciones -->
 			<div class="row">
 				<div class="col-md-6">
 					<ul>
-						{#each songs as song}
+						{#each playlistSongs as song}
 							<li>{song.name}</li>
 						{/each}
 					</ul>
@@ -274,15 +210,56 @@
 </main>
 
 <style>
-	th {
-		background-color: #1e90ff;
-		color: white;
-		font-weight: bold;
-		display: flex;
+	html,
+	body {
+		font-family: Arial, sans-serif;
+		background-color: #f5f5f5;
+		color: #333;
+		margin: 0;
+		padding: 0;
 	}
-	img {
-		width: 50px;
-		height: 50px;
-		border-radius: 25%;
+
+	h2 {
+		color: #333;
+	}
+
+	a {
+		color: #007bff;
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+
+	.container {
+		background: #fff;
+		border-radius: 8px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		padding: 20px;
+		margin-top: 20px;
+	}
+
+	.row {
+		margin-bottom: 1rem;
+	}
+
+	ul {
+		list-style-type: none;
+		padding: 5px 0; /* Agregamos un relleno interno al ul */
+		margin: 0; /* Eliminamos el margen exterior */
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: column;
+	}
+
+	li {
+		background: #1a1a1a;
+		color: #4caf50;
+		margin-bottom: 5px; /* Mantenemos el margen inferior */
+		border-radius: 4px;
+		width: auto;
+		
+		padding: 5px; /* Eliminamos el relleno y agregamos un relleno uniforme alrededor del texto */
 	}
 </style>
