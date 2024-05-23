@@ -26,13 +26,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v2/life-expectancy",
+					"raw": "{{SERVER}}/api/v3/life-expectancy",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"life-expectancy"
 					]
 				}
@@ -59,13 +59,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v2/life-expectancy/loadCSVData",
+					"raw": "{{SERVER}}/api/v3/life-expectancy/loadCSVData",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"life-expectancy",
 						"loadCSVData"
 					]
@@ -93,13 +93,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v2/life-expectancy/loadCSVData",
+					"raw": "{{SERVER}}/api/v3/life-expectancy/loadCSVData",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"life-expectancy",
 						"loadCSVData"
 					]
@@ -127,13 +127,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v2/life-expectancy",
+					"raw": "{{SERVER}}/api/v3/life-expectancy",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"life-expectancy"
 					]
 				}
@@ -169,13 +169,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{SERVER}}/api/v2/life-expectancy/",
+					"raw": "{{SERVER}}/api/v3/life-expectancy/",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"life-expectancy",
 						""
 					]
@@ -203,13 +203,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v2/life-expectancy/",
+					"raw": "{{SERVER}}/api/v3/life-expectancy/",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"life-expectancy",
 						""
 					]
@@ -246,13 +246,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{SERVER}}/api/v2/life-expectancy",
+					"raw": "{{SERVER}}/api/v3/life-expectancy",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"life-expectancy"
 					]
 				}
@@ -279,13 +279,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v2/life-expectancy/loadCSVData",
+					"raw": "{{SERVER}}/api/v3/life-expectancy/loadCSVData",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"life-expectancy",
 						"loadCSVData"
 					]
@@ -313,13 +313,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v2/life-expectancy/?country=Albania",
+					"raw": "{{SERVER}}/api/v3/life-expectancy/?country=Albania",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"life-expectancy",
 						""
 					],
@@ -353,13 +353,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v2/life-expectancy/?country=Albania&year=2002",
+					"raw": "{{SERVER}}/api/v3/life-expectancy/?country=Albania&year=2002",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"life-expectancy",
 						""
 					],
@@ -397,13 +397,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v2/life-expectancy/Albania/2002",
+					"raw": "{{SERVER}}/api/v3/life-expectancy/Albania/2002",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"life-expectancy",
 						"Albania",
 						"2002"
@@ -432,13 +432,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v2/life-expectancy/murcia",
+					"raw": "{{SERVER}}/api/v3/life-expectancy/murcia",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"life-expectancy",
 						"murcia"
 					]
@@ -475,13 +475,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{SERVER}}/api/v2/life-expectancy/country/albania",
+					"raw": "{{SERVER}}/api/v3/life-expectancy/country/albania",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"life-expectancy",
 						"country",
 						"albania"
@@ -519,13 +519,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{SERVER}}/api/v2/life-expectancy/country/Albania/2000",
+					"raw": "{{SERVER}}/api/v3/life-expectancy/country/Albania/2000",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"life-expectancy",
 						"country",
 						"Albania",
@@ -564,13 +564,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{SERVER}}/api/v2/life-expectancy/country/Albania/2000",
+					"raw": "{{SERVER}}/api/v3/life-expectancy/country/Albania/2000",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"life-expectancy",
 						"country",
 						"Albania",
@@ -600,13 +600,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v2/life-expectancy/country/Albania",
+					"raw": "{{SERVER}}/api/v3/life-expectancy/country/Albania",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"life-expectancy",
 						"country",
 						"Albania"
@@ -635,13 +635,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v2/life-expectancy/country/Bahrain/2010",
+					"raw": "{{SERVER}}/api/v3/life-expectancy/country/Bahrain/2010",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"life-expectancy",
 						"country",
 						"Bahrain",
@@ -671,13 +671,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{SERVER}}/api/v2/life-expectancy/",
+					"raw": "{{SERVER}}/api/v3/life-expectancy/",
 					"host": [
 						"{{SERVER}}"
 					],
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"life-expectancy",
 						""
 					]

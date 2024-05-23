@@ -2,7 +2,7 @@ import bodyParser from "body-parser";
 import fs from "fs";
 import csv from "csv-parser";
 
-const API_BASE = "/api/v2/life-expectancy";
+const API_BASE = "/api/v3/life-expectancy";
 var path_AFO = "/api/proxy";
 
 var initialData = [];
