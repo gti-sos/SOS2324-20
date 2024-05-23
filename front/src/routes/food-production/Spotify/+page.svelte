@@ -12,7 +12,7 @@
 	const SPOTIFY_TOKEN_URL = 'https://accounts.spotify.com/api/token';
 	const SPOTIFY_PLAYLISTS_URL = 'https://api.spotify.com/v1/me/playlists';
 
-	let appRedirectUri = 'http://localhost:5173/food-production/Spotify';
+	let appRedirectUri = 'https://sos2324-20-415018.ew.r.appspot.com/food-production/Spotify';
 
 	let userPlaylists = [];
 	let displayTokenSection = false;
@@ -263,3 +263,4 @@
 		padding: 5px; /* Eliminamos el relleno y agregamos un relleno uniforme alrededor del texto */
 	}
 </style>
+
