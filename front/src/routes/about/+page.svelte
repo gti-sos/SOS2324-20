@@ -1,20 +1,33 @@
 <script>
 	// Define el ID del video de YouTube que quieres insertar
 	const videoIdRMP = 'tffcv_NmcCM'; // Reemplaza esto con el ID del video de YouTube que quieras insertar
-    const videoId= 'dQw4w9WgXcQ'
+	const videoId = 'dQw4w9WgXcQ';
+	const videoIdAFO = 'uZF-GIi78oY';
 </script>
 
 <main>
 	<h1>Rufino Moreno Pachecho</h1>
 	<div class="video-container">
 		<iframe
-            title="Video integraciones y usos RMP"
+			title="Video integraciones y usos RMP"
 			width="560"
 			height="315"
 			src={`https://www.youtube.com/embed/${videoIdRMP}`}
 			frameborder="0"
 			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 			allowfullscreen
+		></iframe>
+	</div>
+
+	<h1>Alejandro Fernández Orozco</h1>
+	<div class="video-container">
+		<iframe
+			src={`https://www.youtube.com/embed/${videoIdAFO}`}
+			width="560"
+			height="315"
+			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+			allowfullscreen
+			frameborder="0"
 		></iframe>
 	</div>
 </main>

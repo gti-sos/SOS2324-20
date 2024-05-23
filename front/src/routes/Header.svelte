@@ -4,7 +4,7 @@
 	<a href="/life-expectancy">life-expectancy</a>
 	<a href="/pharmaceutical-drugs-spending">pharmaceutical-drugs-spending</a>
 	<a href="/integrations">Integraciones y usos</a>
-	<a href="/about">About</a>
+	<a href="/about">Sobre Nosotros</a>
 </nav>
 
 <style>
