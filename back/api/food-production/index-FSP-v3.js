@@ -40,7 +40,7 @@ function parseardato(dato) {
       key === "meat_chicken_production" ||
       key === "bananas_production"
     ) {
-      dato[key] = parseInt(dato[key]);
+      dato[key] = parseFloat(dato[key]);
     } else if (key === "Entity") {
       dato[key] = String(dato[key]);
     }
@@ -63,6 +63,7 @@ function validarDatos(req, res, next) {
     bananas_production: "number",
   };
 
+  //console.log("JSON: ", json);
   const receivedKeys = Object.keys(json);
   const expectedKeys = Object.keys(esquema);
   const missingKeys = expectedKeys.filter((key) => !receivedKeys.includes(key));
@@ -156,14 +157,14 @@ function API_FSP_V3(app, dbFood) {
           query[key] = parseInt(query[key]);
         } else if (
           key === "rice_production" ||
-          key === "tomatoes_production" ||
+          key === 'tomatoes_production' ||
           key === "tea_production" ||
           key === "potatoes_production" ||
           key === "cocoa_beans_production" ||
           key === "meat_chicken_production" ||
           key === "bananas_production"
         ) {
-          query[key] = parseInt(query[key]);
+          query[key] = parseFloat(query[key]);
         } else if (key === "Entity") {
           query[key] = String(query[key]);
         } else if (key === "limit" || key === "offset") {

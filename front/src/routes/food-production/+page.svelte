@@ -332,22 +332,42 @@
 			{#if foodProduction.length == 0}
 				<p>No hay datos</p>
 			{/if}
-			{#each foodProduction as f}
+			{#if !Array.isArray(foodProduction)}
 				<ul class="list-item">
-					<a href="/food-production/{f.Entity}/{f.Year}">{f.Entity} - {f.Year} &nbsp</a>
+					<a href="/food-production/{foodProduction.Entity}/{foodProduction.Year}">{foodProduction.Entity} - {foodProduction.Year} &nbsp</a>
 					<div class="buttons">
 						<button
 							class="edit-button"
-							onclick="window.location.href = '/food-production/{f.Entity}/{f.Year}/edit'"
+							onclick="window.location.href = '/food-production/{foodProduction.Entity}/{foodProduction.Year}/edit'"
 						>
 							Editar
 						</button>
-						<button class="delete-button2" on:click={() => deleteFood(f.Entity, f.Year)}
+						<button class="delete-button2" on:click={() => deleteFood(foodProduction.Entity, foodProduction.Year)}
 							>Borrar</button
 						>
 					</div>
 				</ul>
-			{/each}
+			{/if}
+			{#if Array.isArray(foodProduction)}
+				{#each foodProduction as f}
+					<ul class="list-item">
+						<a class="enlace" href="/food-production/{f.Entity}/{f.Year}"
+							>{f.Entity} - {f.Year} &nbsp</a
+						>
+						<div class="buttons">
+							<button
+								class="edit-button"
+								onclick="window.location.href = '/food-production/{f.Entity}/{f.Year}/edit'"
+							>
+								Editar
+							</button>
+							<button class="delete-button2" on:click={() => deleteFood(f.Entity, f.Year)}
+								>Borrar</button
+							>
+						</div>
+					</ul>
+				{/each}
+			{/if}
 		</ul>
 		<div class="botonera">
 			{#if pagina != 1}

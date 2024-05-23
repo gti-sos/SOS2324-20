@@ -37,6 +37,7 @@
 			}
 			if (response.status === 200) {
 				let data = await response.json();
+				console.log("DATA", data);
 				editedFoodProduction = { ...editedFoodProduction, ...data };
 			} else {
 				errorMsg = 'Error loading data';
@@ -47,7 +48,9 @@
 	}
 
 	async function editFoodProduction() {
+
 		try {
+			console.log(editedFoodProduction);
 			let response = await fetch(`${API}/country/${country}/${year}`, {
 				method: 'PUT',
 				headers: {
