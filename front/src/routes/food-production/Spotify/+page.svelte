@@ -263,3 +263,4 @@
 		padding: 5px; /* Eliminamos el relleno y agregamos un relleno uniforme alrededor del texto */
 	}
 </style>
+
