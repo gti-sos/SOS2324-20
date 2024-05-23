@@ -329,6 +329,9 @@
 		</div>
 
 		<ul class="ul-container">
+			{#if foodProduction.length == 0}
+				<p>No hay datos</p>
+			{/if}
 			{#each foodProduction as f}
 				<ul class="list-item">
 					<a href="/food-production/{f.Entity}/{f.Year}">{f.Entity} - {f.Year} &nbsp</a>
