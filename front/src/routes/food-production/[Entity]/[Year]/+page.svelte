@@ -54,6 +54,7 @@
 {#if selectedFoodProduction === null}
 	<h1>{errorMsg}</h1>
 {/if}
+{#if selectedFoodProduction !== null}
 <div class="container">
 	<div class="column">
 		<h1>Producción de alimentos de {country} en {year}</h1>
@@ -101,7 +102,7 @@
 	<button class="edit-button" onclick="window.location.href = '/food-production/{country}/{year}/edit'">Editar</button>
 	<button class="back-button" onclick="window.location.href = '/food-production'"> Volver atrás</button>
 </div>
-
+{/if}
 <style>
 	.container {
 		display: flex;

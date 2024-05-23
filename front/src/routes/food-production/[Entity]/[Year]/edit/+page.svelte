@@ -8,9 +8,9 @@
 
 	let errorMsg = '';
 
-	let API = '/api/v2/food-production';
+	let API = '/api/v3/food-production';
 	if (dev) {
-		API = 'http://localhost:10000/api/v2/food-production';
+		API = 'http://localhost:10000/api/v3/food-production';
 	}
 
 	let editedFoodProduction = {
