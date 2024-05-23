@@ -3,6 +3,7 @@
 	const videoIdRMP = 'tffcv_NmcCM'; // Reemplaza esto con el ID del video de YouTube que quieras insertar
 	const videoId = 'dQw4w9WgXcQ';
 	const videoIdAFO = 'uZF-GIi78oY';
+	const videoIdFSP = 'YojxkhqNzd0';
 </script>
 
 <main>
@@ -28,6 +29,19 @@
 			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 			allowfullscreen
 			frameborder="0"
+		></iframe>
+
+	</div>
+	<h1>Francisco Sáez Pérez</h1>
+	<div class="video-container">
+		<iframe
+			title="Video integraciones y usos FSP"
+			width="560"
+			height="315"
+			src={`https://www.youtube.com/embed/${videoIdFSP}`}
+			frameborder="0"
+			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+			allowfullscreen
 		></iframe>
 	</div>
 </main>
