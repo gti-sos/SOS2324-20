@@ -281,6 +281,7 @@
 
 <div class="header">
 	<button class="load-data" on:click={loadinitial}>Cargar datos iniciales</button>
+	<button class="load-data" onclick="window.location.href = '/food-production/graphFSP'">Página de gráficos con Highcharts y AmCharts</button>
 	{#if !show_search}
 		<button class="search" on:click={searchALL}>Realizar buscar</button>
 	{/if}
